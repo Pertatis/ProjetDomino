@@ -1,0 +1,78 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Scenes/Domino/DominoPaletteBleu.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Domino/DominoPaletteRouge.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Test2.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/Domino/DominoPaletteVert.tscn" type="PackedScene" id=4]
+[ext_resource path="res://icon.png" type="Texture" id=5]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 40, 70 )
+
+[node name="Background" type="ColorRect"]
+margin_top = 1.0
+margin_right = 1409.0
+margin_bottom = 922.0
+color = Color( 0.65098, 0.337255, 0.913725, 1 )
+
+[node name="Panel2" type="ColorRect" parent="."]
+margin_left = 212.0
+margin_top = 317.0
+margin_right = 815.0
+margin_bottom = 429.0
+rect_pivot_offset = Vector2( 172, 41 )
+
+[node name="Panel5" type="ColorRect" parent="."]
+margin_left = 1194.0
+margin_top = 342.0
+margin_right = 1366.0
+margin_bottom = 877.0
+rect_pivot_offset = Vector2( 68, 439 )
+
+[node name="Panel4" type="ColorRect" parent="."]
+margin_left = 835.0
+margin_top = 34.0
+margin_right = 1007.0
+margin_bottom = 569.0
+rect_pivot_offset = Vector2( 68, 439 )
+
+[node name="Panel3" type="ColorRect" parent="."]
+margin_left = 25.0
+margin_top = 32.0
+margin_right = 197.0
+margin_bottom = 567.0
+rect_pivot_offset = Vector2( 172, 41 )
+
+[node name="Panel" type="ColorRect" parent="."]
+margin_left = 215.0
+margin_top = 164.0
+margin_right = 815.0
+margin_bottom = 273.0
+rect_pivot_offset = Vector2( 172, 41 )
+script = ExtResource( 3 )
+
+[node name="Position2D" type="Position2D" parent="Panel"]
+position = Vector2( 41, 55 )
+
+[node name="DominoPaletteBleu" parent="." instance=ExtResource( 1 )]
+visible = false
+position = Vector2( 108, 131 )
+
+[node name="DominoPaletteRouge" parent="." instance=ExtResource( 2 )]
+position = Vector2( 108, 296 )
+
+[node name="DominoPaletteVert" parent="." instance=ExtResource( 4 )]
+position = Vector2( 108, 473 )
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 108, 128 )
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="Area2D"]
+position = Vector2( 108, 128 )
+scale = Vector2( 1.25, 2.188 )
+texture = ExtResource( 5 )
+
+[connection signal="input_event" from="Area2D" to="Panel" method="_on_Area2D_input_event"]
