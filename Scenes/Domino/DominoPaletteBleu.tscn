@@ -8,6 +8,7 @@ extents = Vector2( 40, 70 )
 
 [node name="Node2D" type="Node2D"]
 position = Vector2( 4, 1 )
+scale = Vector2( 0.8, 0.8 )
 script = ExtResource( 2 )
 
 [node name="Icon" type="Sprite" parent="."]

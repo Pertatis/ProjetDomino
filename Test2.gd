@@ -2,7 +2,7 @@ extends Node2D
 
 
 var domino_scene:PackedScene = preload("res://Scenes/Domino/DominoPalette.tscn")
-var domino_blue:PackedScene = preload("res://Scenes/Domino/DominoPaletteBleu.tscn")
+var domino_blue:PackedScene = preload("res://DominoJeuBleu.tscn")
 var domino_red:PackedScene = preload("res://Scenes/Domino/DominoPaletteRouge.tscn")
 var domino_green:PackedScene = preload("res://Scenes/Domino/DominoPaletteVert.tscn")
 
@@ -38,4 +38,8 @@ func _process(_delta):
 
 
 func _on_DominoPaletteBleu_click_domino_bleu():
-	print("haw zeb")
+	var inst = domino_blue.instance()
+	if $Back/Panel.get_child_count() - 1 < 12 :
+		inst.position = $Back/Panel/Position2D.position + (Vector2.RIGHT * 45 * ($Back/Panel.get_child_count() - 1))
+		$Back/Panel.add_child(inst)
+	
