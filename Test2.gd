@@ -5,6 +5,7 @@ var domino_scene:PackedScene = preload("res://Scenes/Domino/DominoPalette.tscn")
 var domino_blue:PackedScene = preload("res://DominoJeuBleu.tscn")
 var domino_red:PackedScene = preload("res://Scenes/Domino/DominoPaletteRouge.tscn")
 var domino_green:PackedScene = preload("res://Scenes/Domino/DominoPaletteVert.tscn")
+var pinkfloyd:PackedScene = preload("res://Scenes/Domino/DominoPaletteRose.tscn")
 
 
 func _ready():
@@ -38,8 +39,29 @@ func _process(_delta):
 
 
 func _on_DominoPaletteBleu_click_domino_bleu():
-	var inst = domino_blue.instance()
+	var instance_bleu = domino_blue.instance()
 	if $Back/Panel.get_child_count() - 1 < 12 :
-		inst.position = $Back/Panel/Position2D.position + (Vector2.RIGHT * 45 * ($Back/Panel.get_child_count() - 1))
-		$Back/Panel.add_child(inst)
+		instance_bleu.position = $Back/Panel/Position2D.position + (Vector2.RIGHT * 45 * ($Back/Panel.get_child_count() - 1))
+		$Back/Panel.add_child(instance_bleu)
 	
+
+
+func _on_DominoPaletteVert_click_domino_vert():
+	var instance_vert = domino_green.instance()
+	if $Back/Panel.get_child_count() - 1 < 12 :
+		instance_vert.position = $Back/Panel/Position2D.position + (Vector2.RIGHT * 45 * ($Back/Panel.get_child_count() - 1))
+		$Back/Panel.add_child(instance_vert)
+
+
+func _on_DominoPaletteRouge_click_domino_rouge():
+	var instance_rouge = domino_red.instance()
+	if $Back/Panel.get_child_count() - 1 < 12 :
+		instance_rouge.position = $Back/Panel/Position2D.position + (Vector2.RIGHT * 45 * ($Back/Panel.get_child_count() - 1))
+		$Back/Panel.add_child(instance_rouge)
+
+
+func _on_DominoPaletteRose_click_domino_rose():
+	var instance_rose = pinkfloyd.instance()
+	if $Back/Panel.get_child_count() - 1 < 12 :
+		instance_rose.position = $Back/Panel/Position2D.position + (Vector2.RIGHT * 45 * ($Back/Panel.get_child_count() - 1))
+		$Back/Panel.add_child(instance_rose)

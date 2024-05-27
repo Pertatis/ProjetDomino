@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scenes/Domino/DominoPaletteBleu.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Domino/DominoPaletteRouge.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Test2.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/Domino/DominoPaletteVert.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/Domino/DominoPaletteRose.tscn" type="PackedScene" id=5]
 
 [node name="Background" type="Node2D"]
 position = Vector2( 98, 114 )
@@ -53,12 +54,20 @@ position = Vector2( 41, 55 )
 
 [node name="DominoPaletteBleu" parent="Back" instance=ExtResource( 1 )]
 unique_name_in_owner = true
-position = Vector2( 3, 1 )
-
-[node name="DominoPaletteRouge" parent="Back" instance=ExtResource( 2 )]
-position = Vector2( 0, 165 )
+position = Vector2( 1, -29 )
 
 [node name="DominoPaletteVert" parent="Back" instance=ExtResource( 4 )]
-position = Vector2( 0, 342 )
+position = Vector2( 4, 106 )
+
+[node name="DominoPaletteRouge" parent="Back" instance=ExtResource( 2 )]
+position = Vector2( 4, 284 )
+scale = Vector2( 0.64, 0.64 )
+
+[node name="DominoPaletteRose" parent="Back" instance=ExtResource( 5 )]
+position = Vector2( 4, 379 )
+scale = Vector2( 0.512, 0.512 )
 
 [connection signal="click_domino_bleu" from="Back/DominoPaletteBleu" to="." method="_on_DominoPaletteBleu_click_domino_bleu"]
+[connection signal="click_domino_vert" from="Back/DominoPaletteVert" to="." method="_on_DominoPaletteVert_click_domino_vert"]
+[connection signal="click_domino_rouge" from="Back/DominoPaletteRouge" to="." method="_on_DominoPaletteRouge_click_domino_rouge"]
+[connection signal="click_domino_rose" from="Back/DominoPaletteRose" to="." method="_on_DominoPaletteRose_click_domino_rose"]
