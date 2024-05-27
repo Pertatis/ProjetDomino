@@ -6,14 +6,19 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 40, 70 )
 
-[node name="DominoPaletteBleu" type="Area2D"]
+[node name="Node2D" type="Node2D"]
+position = Vector2( 4, 1 )
 script = ExtResource( 2 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
-
 [node name="Icon" type="Sprite" parent="."]
+position = Vector2( -4, -1 )
 scale = Vector2( 1.25, 2.1875 )
 texture = ExtResource( 1 )
 
-[connection signal="input_event" from="." to="." method="_on_DominoPaletteBleu_input_event"]
+[node name="DominoPaletteBleu" type="Area2D" parent="."]
+position = Vector2( -4, -1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DominoPaletteBleu"]
+shape = SubResource( 1 )
+
+[connection signal="input_event" from="DominoPaletteBleu" to="." method="_on_DominoPaletteBleu_input_event"]
