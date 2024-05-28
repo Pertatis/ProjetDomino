@@ -23,9 +23,9 @@ func _process(_delta):
 func _on_DominoPaletteBleu_click_domino_bleu():
 	var instance_bleu = domino_blue.instance()
 	if base :
-		if $PanelFond/PanelBase.get_child_count() - 1 < max_nb_domino :
-			instance_bleu.position = $"%BasePoint".position + (Vector2.RIGHT * 45 * ($PanelFond/PanelBase.get_child_count() - 1))
-			$PanelFond/PanelBase.add_child(instance_bleu)
+		if $"%PanelBase".get_child_count() - 1 < max_nb_domino :
+			instance_bleu.position = $"%BasePoint".position + (Vector2.RIGHT * 45 * ($"%PanelBase".get_child_count() - 1))
+			$"%PanelBase".add_child(instance_bleu)
 	elif objectif :
 		if $"%PanelObjectif".get_child_count() - 1 < max_nb_domino :
 			instance_bleu.position = $"%ObjectifPoint".position + (Vector2.RIGHT * 45 * ($"%PanelObjectif".get_child_count() - 1))
@@ -33,27 +33,47 @@ func _on_DominoPaletteBleu_click_domino_bleu():
 
 func _on_DominoPaletteVert_click_domino_vert():
 	var instance_vert = domino_green.instance()
-	if $PanelFond/PanelBase.get_child_count() - 1 < max_nb_domino :
-		instance_vert.position = $"%BasePoint".position + (Vector2.RIGHT * 45 * ($PanelFond/PanelBase.get_child_count() - 1))
-		$PanelFond/PanelBase.add_child(instance_vert)
+	if base :
+		if $"%PanelBase".get_child_count() - 1 < max_nb_domino :
+			instance_vert.position = $"%BasePoint".position + (Vector2.RIGHT * 45 * ($"%PanelBase".get_child_count() - 1))
+			$"%PanelBase".add_child(instance_vert)
+	elif objectif :
+		if $"%PanelObjectif".get_child_count() - 1 < max_nb_domino :
+			instance_vert.position = $"%ObjectifPoint".position + (Vector2.RIGHT * 45 * ($"%PanelObjectif".get_child_count() - 1))
+			$"%PanelObjectif".add_child(instance_vert)
 
 func _on_DominoPaletteRouge_click_domino_rouge():
 	var instance_rouge = domino_red.instance()
-	if $PanelFond/PanelBase.get_child_count() - 1 < max_nb_domino :
-		instance_rouge.position = $"%BasePoint".position + (Vector2.RIGHT * 45 * ($PanelFond/PanelBase.get_child_count() - 1))
-		$PanelFond/PanelBase.add_child(instance_rouge)
+	if base :
+		if $"%PanelBase".get_child_count() - 1 < max_nb_domino :
+			instance_rouge.position = $"%BasePoint".position + (Vector2.RIGHT * 45 * ($"%PanelBase".get_child_count() - 1))
+			$"%PanelBase".add_child(instance_rouge)
+	elif objectif :
+		if $"%PanelObjectif".get_child_count() - 1 < max_nb_domino :
+			instance_rouge.position = $"%ObjectifPoint".position + (Vector2.RIGHT * 45 * ($"%PanelObjectif".get_child_count() - 1))
+			$"%PanelObjectif".add_child(instance_rouge)
 
 func _on_DominoPaletteRose_click_domino_rose():
 	var instance_rose = pinkfloyd.instance()
-	if $PanelFond/PanelBase.get_child_count() - 1 < max_nb_domino :
-		instance_rose.position = $"%BasePoint".position + (Vector2.RIGHT * 45 * ($PanelFond/PanelBase.get_child_count() - 1))
-		$PanelFond/PanelBase.add_child(instance_rose)
+	if base :
+		if $"%PanelBase".get_child_count() - 1 < max_nb_domino :
+			instance_rose.position = $"%BasePoint".position + (Vector2.RIGHT * 45 * ($"%PanelBase".get_child_count() - 1))
+			$"%PanelBase".add_child(instance_rose)
+	elif objectif :
+		if $"%PanelObjectif".get_child_count() - 1 < max_nb_domino :
+			instance_rose.position = $"%ObjectifPoint".position + (Vector2.RIGHT * 45 * ($"%PanelObjectif".get_child_count() - 1))
+			$"%PanelObjectif".add_child(instance_rose)
 
 func _on_DominoPaletteJaune_click_domino_jaune():
 	var instance_jaune = domino_yellow.instance()
-	if $PanelFond/PanelBase.get_child_count() - 1 < max_nb_domino :
-		instance_jaune.position = $"%BasePoint".position + (Vector2.RIGHT * 45 * ($PanelFond/PanelBase.get_child_count() - 1))
-		$PanelFond/PanelBase.add_child(instance_jaune)
+	if base :
+		if $"%PanelBase".get_child_count() - 1 < max_nb_domino :
+			instance_jaune.position = $"%BasePoint".position + (Vector2.RIGHT * 45 * ($"%PanelBase".get_child_count() - 1))
+			$"%PanelBase".add_child(instance_jaune)
+	elif objectif :
+		if $"%PanelObjectif".get_child_count() - 1 < max_nb_domino :
+			instance_jaune.position = $"%ObjectifPoint".position + (Vector2.RIGHT * 45 * ($"%PanelObjectif".get_child_count() - 1))
+			$"%PanelObjectif".add_child(instance_jaune)
 
 
 
