@@ -22,7 +22,6 @@ scale = Vector2( 0.8, 0.8 )
 script = SubResource( 2 )
 
 [node name="DominoPaletteRouge" type="Area2D" parent="."]
-scale = Vector2( 1, 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DominoPaletteRouge"]
 scale = Vector2( 0.2, 0.3 )
