@@ -7,6 +7,11 @@ var domino_green:PackedScene = preload("res://Scenes/Domino/DominoPalette/Domino
 var pinkfloyd:PackedScene = preload("res://Scenes/Domino/DominoPalette/DominoPaletteRose.tscn")
 var domino_yellow:PackedScene = preload("res://Scenes/Domino/DominoPalette/DominoPaletteJaune.tscn")
 
+var regle_inst:PackedScene = preload("res://Scenes/Règle.tscn")
+
+
+
+
 var base:bool = false
 var objectif:bool = false
 
@@ -87,7 +92,21 @@ func _on_PanelBase_gui_input(event):
 
 func _on_PanelObjectif_gui_input(event):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():
-		base = false
 		objectif = true
-		$"%PanelBase".color = Color.white
 		$"%PanelObjectif".color = Color.gainsboro
+		base = false
+		$"%PanelBase".color = Color.white
+
+
+func _on_Button_pressed():
+	var instance_regle = regle_inst.instance()
+	instance_regle.position = $"%ReglePoint".position + (Vector2.DOWN * 60 * ($"%PanelRegles".get_child_count() - 1))
+	instance_regle.connect("regle_activer",self,"regle_activer_handle")
+	$"%PanelRegles".add_child(instance_regle)
+
+func regle_activer_handle():
+	print('cc')
+	base = false
+	objectif = false
+	$"%PanelBase".color = Color.white
+	$"%PanelObjectif".color = Color.white
