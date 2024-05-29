@@ -8,22 +8,22 @@
 [ext_resource path="res://Scenes/Main.gd" type="Script" id=6]
 
 [node name="Fond" type="Node2D"]
-position = Vector2( 98, 114 )
 script = ExtResource( 6 )
 
 [node name="PanelCouleurFond" type="ColorRect" parent="."]
-margin_left = -98.0
-margin_top = -114.0
-margin_right = 926.0
-margin_bottom = 486.0
+margin_left = -1.0
+margin_top = 1.0
+margin_right = 1023.0
+margin_bottom = 601.0
 mouse_filter = 2
 color = Color( 0.698039, 0.854902, 1, 1 )
 
 [node name="PanelFond" type="ColorRect" parent="."]
+margin_left = 97.0
+margin_top = 115.0
+margin_right = 97.0
+margin_bottom = 115.0
 color = Color( 0, 0.345098, 0.996078, 1 )
-__meta__ = {
-"_edit_lock_": true
-}
 
 [node name="PanelObjectif" type="ColorRect" parent="PanelFond"]
 unique_name_in_owner = true

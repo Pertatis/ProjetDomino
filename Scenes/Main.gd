@@ -13,9 +13,8 @@ var objectif:bool = false
 
 const max_nb_domino = 13
 func _ready():
-#	var sig = $Back/DominoPaletteBleu
-#	sig.connect('click_domino_bleu',self,'_on_DominoPaletteBleu_click_domino_bleu')
-	pass
+	base = true
+	$"%PanelBase".color = Color.gainsboro
 
 func _process(_delta):
 	pass
