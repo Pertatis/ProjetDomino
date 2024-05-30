@@ -23,10 +23,8 @@ script = SubResource( 2 )
 
 [node name="DominoPaletteVert" type="Area2D" parent="."]
 position = Vector2( -4.76837e-07, -1.19209e-07 )
-scale = Vector2( 1, 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DominoPaletteVert"]
-scale = Vector2( 1, 1 )
 shape = SubResource( 1 )
 
 [node name="Icon" type="Sprite" parent="."]

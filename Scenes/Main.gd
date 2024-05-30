@@ -10,7 +10,7 @@ var domino_yellow:PackedScene = preload("res://Scenes/Domino/DominoPalette/Domin
 var regle_inst:PackedScene = preload("res://Scenes/Règle.tscn")
 
 signal base_activer(index_regle)
-
+var regle_select:int = -1
 var base:bool = false
 var objectif:bool = false
 
@@ -22,6 +22,11 @@ func _ready():
 	$"%PanelBase".color = Color.gainsboro
 
 func _process(_delta):
+#	var list = $"%PanelRegles".get_children()
+#	for element in list:
+#		if element is Position2D:
+#			continue
+#		print(element.regle)
 	pass
 
 func _on_DominoPaletteBleu_click_domino_bleu():
@@ -34,7 +39,6 @@ func _on_DominoPaletteBleu_click_domino_bleu():
 		if $"%PanelObjectif".get_child_count() - 1 < max_nb_domino :
 			instance_bleu.position = $"%ObjectifPoint".position + (Vector2.RIGHT * 45 * ($"%PanelObjectif".get_child_count() - 1))
 			$"%PanelObjectif".add_child(instance_bleu)
-
 func _on_DominoPaletteVert_click_domino_vert():
 	var instance_vert = domino_green.instance()
 	if base :
@@ -45,6 +49,8 @@ func _on_DominoPaletteVert_click_domino_vert():
 		if $"%PanelObjectif".get_child_count() - 1 < max_nb_domino :
 			instance_vert.position = $"%ObjectifPoint".position + (Vector2.RIGHT * 45 * ($"%PanelObjectif".get_child_count() - 1))
 			$"%PanelObjectif".add_child(instance_vert)
+	elif regle_select != -1:
+		ajouter_a_regle(instance_vert)
 
 func _on_DominoPaletteRouge_click_domino_rouge():
 	var instance_rouge = domino_red.instance()
@@ -88,6 +94,7 @@ func _on_PanelBase_gui_input(event):
 		objectif = false
 		$"%PanelBase".color = Color.gainsboro
 		$"%PanelObjectif".color = Color.white
+		regle_select = -1
 		emit_signal("base_activer",-1)
 
 
@@ -97,6 +104,8 @@ func _on_PanelObjectif_gui_input(event):
 		$"%PanelObjectif".color = Color.gainsboro
 		base = false
 		$"%PanelBase".color = Color.white
+		regle_select = -1
+		
 		emit_signal("base_activer",-1)
 
 func _on_Button_pressed():
@@ -107,6 +116,7 @@ func _on_Button_pressed():
 		$"%PanelRegles".add_child(instance_regle)
 
 func regle_activer_handle(index):
+	regle_select = index
 	base = false
 	objectif = false
 	$"%PanelBase".color = Color.white
@@ -125,13 +135,28 @@ func _on_Fond_base_activer(index_regle):
 			remove_focus_regle(child)
 			
 func remove_focus_regle(regle):
+	regle.regle = false
+	regle.droite = false
+	regle.gauche = false
+	
 	# Getting ColorRect 
 	var regle_children = regle.get_children()[0]
-	print(regle_children)
 	regle_children.color = Color.white
 	#Getting the children of ColorRect
 	regle_children = regle_children.get_children()
 	regle_children[1].color = Color.white
 	regle_children[3].color = Color.white
-	
-		
+
+func ajouter_a_regle(instance):
+	# regle contient le noeud de la scène (Node2D)
+	var regle = $"%PanelRegles".get_children()[regle_select]
+	print(regle)
+	#sous regle contient les enfants : AreaPrincipale, Gauche,Flèche,Droite
+	var sous_regle = regle.get_children()[0].get_children()
+	print(sous_regle)
+	if regle.droite :
+		instance.global_position = sous_regle[3].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[3].get_child_count() - 2))
+		instance.scale = Vector2(0.15,0.15)
+		sous_regle[3].add_child(instance)
+#	elif regle.gauche :
+#		print(sous_regle[1])
