@@ -6,9 +6,6 @@ var gauche:bool = false
 var droite:bool = false
 var regle: bool = false
 
-func _ready():
-	pass
-
 
 func _on_ColorRect_gui_input(event):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():
@@ -17,7 +14,7 @@ func _on_ColorRect_gui_input(event):
 		if not droite:
 			gauche = true
 			$"%Gauche".color = Color.gainsboro
-	emit_signal("regle_activer")
+		emit_signal("regle_activer")
 
 func _on_Gauche_gui_input(event):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():
@@ -25,7 +22,7 @@ func _on_Gauche_gui_input(event):
 		droite = false
 		$"%Gauche".color = Color.gainsboro
 		$"%Droite".color = Color.white
-	emit_signal("regle_activer")
+		emit_signal("regle_activer")
 
 func _on_Droite_gui_input(event):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():
@@ -33,4 +30,4 @@ func _on_Droite_gui_input(event):
 		droite = true
 		$"%Gauche".color = Color.white
 		$"%Droite".color = Color.gainsboro
-	emit_signal("regle_activer")
+		emit_signal("regle_activer")

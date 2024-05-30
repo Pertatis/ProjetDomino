@@ -10,13 +10,12 @@ var domino_yellow:PackedScene = preload("res://Scenes/Domino/DominoPalette/Domin
 var regle_inst:PackedScene = preload("res://Scenes/Règle.tscn")
 
 
-
-
 var base:bool = false
 var objectif:bool = false
 
 
 const max_nb_domino = 13
+const max_nb_regles = 8
 func _ready():
 	base = true
 	$"%PanelBase".color = Color.gainsboro
@@ -97,15 +96,14 @@ func _on_PanelObjectif_gui_input(event):
 		base = false
 		$"%PanelBase".color = Color.white
 
-
 func _on_Button_pressed():
-	var instance_regle = regle_inst.instance()
-	instance_regle.position = $"%ReglePoint".position + (Vector2.DOWN * 60 * ($"%PanelRegles".get_child_count() - 1))
-	instance_regle.connect("regle_activer",self,"regle_activer_handle")
-	$"%PanelRegles".add_child(instance_regle)
+	if $"%PanelRegles".get_child_count() -1 < max_nb_regles :
+		var instance_regle = regle_inst.instance()
+		instance_regle.position = $"%ReglePoint".position + (Vector2.DOWN * 60 * ($"%PanelRegles".get_child_count() - 1))
+		instance_regle.connect("regle_activer",self,"regle_activer_handle")
+		$"%PanelRegles".add_child(instance_regle)
 
 func regle_activer_handle():
-	print('cc')
 	base = false
 	objectif = false
 	$"%PanelBase".color = Color.white

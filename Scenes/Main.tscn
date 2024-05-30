@@ -106,3 +106,4 @@ margin_bottom = 586.0
 [connection signal="click_domino_jaune" from="PanelFond/PanelPalette/DominoPaletteJaune" to="." method="_on_DominoPaletteJaune_click_domino_jaune"]
 [connection signal="gui_input" from="PanelFond/PanelBase" to="." method="_on_PanelBase_gui_input"]
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
+[connection signal="toggled" from="Button" to="." method="_on_Button_toggled"]

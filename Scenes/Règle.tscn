@@ -28,7 +28,6 @@ mouse_filter = 1
 color = Color( 0.0666667, 0.137255, 0.921569, 1 )
 
 [node name="AreaPrincipale" type="Area2D" parent="ColorRect"]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ColorRect/AreaPrincipale"]
 position = Vector2( 105, 30 )
@@ -45,7 +44,6 @@ mouse_filter = 1
 theme = SubResource( 5 )
 
 [node name="AreaGauche" type="Area2D" parent="ColorRect/Gauche"]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ColorRect/Gauche/AreaGauche"]
 position = Vector2( 21.5, 10 )
@@ -72,7 +70,6 @@ mouse_filter = 1
 position = Vector2( 2, 10 )
 
 [node name="AreaDroite" type="Area2D" parent="ColorRect/Droite"]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ColorRect/Droite/AreaDroite"]
 position = Vector2( 21.5, 10 )
