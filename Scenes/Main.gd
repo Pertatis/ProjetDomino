@@ -9,6 +9,7 @@ var domino_yellow:PackedScene = preload("res://Scenes/Domino/DominoPalette/Domin
 
 var regle_inst:PackedScene = preload("res://Scenes/Règle.tscn")
 
+signal base_activer(index_regle)
 
 var base:bool = false
 var objectif:bool = false
@@ -87,6 +88,7 @@ func _on_PanelBase_gui_input(event):
 		objectif = false
 		$"%PanelBase".color = Color.gainsboro
 		$"%PanelObjectif".color = Color.white
+		emit_signal("base_activer",-1)
 
 
 func _on_PanelObjectif_gui_input(event):
@@ -95,6 +97,7 @@ func _on_PanelObjectif_gui_input(event):
 		$"%PanelObjectif".color = Color.gainsboro
 		base = false
 		$"%PanelBase".color = Color.white
+		emit_signal("base_activer",-1)
 
 func _on_Button_pressed():
 	if $"%PanelRegles".get_child_count() -1 < max_nb_regles :
@@ -103,8 +106,32 @@ func _on_Button_pressed():
 		instance_regle.connect("regle_activer",self,"regle_activer_handle")
 		$"%PanelRegles".add_child(instance_regle)
 
-func regle_activer_handle():
+func regle_activer_handle(index):
 	base = false
 	objectif = false
 	$"%PanelBase".color = Color.white
 	$"%PanelObjectif".color = Color.white
+	
+	_on_Fond_base_activer(index)
+	
+
+
+func _on_Fond_base_activer(index_regle):
+	var children = $"%PanelRegles".get_children()
+	for child in children:
+		if child is Position2D or (index_regle != -1 and child.get_index() == index_regle) :
+			continue
+		if child.name.find("Regle") >= 0:
+			remove_focus_regle(child)
+			
+func remove_focus_regle(regle):
+	# Getting ColorRect 
+	var regle_children = regle.get_children()[0]
+	print(regle_children)
+	regle_children.color = Color.white
+	#Getting the children of ColorRect
+	regle_children = regle_children.get_children()
+	regle_children[1].color = Color.white
+	regle_children[3].color = Color.white
+	
+		
