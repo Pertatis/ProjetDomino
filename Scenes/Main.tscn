@@ -91,11 +91,12 @@ mouse_filter = 1
 unique_name_in_owner = true
 position = Vector2( 35, 55 )
 
-[node name="Button" type="Button" parent="."]
+[node name="AjouterRegle" type="Button" parent="."]
 margin_left = 837.0
 margin_top = 541.0
 margin_right = 955.0
 margin_bottom = 586.0
+text = "Ajouter Règle"
 
 [connection signal="base_activer" from="." to="." method="_on_Fond_base_activer"]
 [connection signal="gui_input" from="PanelFond/PanelObjectif" to="." method="_on_PanelObjectif_gui_input"]
@@ -106,5 +107,5 @@ margin_bottom = 586.0
 [connection signal="click_domino_rose" from="PanelFond/PanelPalette/DominoPaletteRose" to="." method="_on_DominoPaletteRose_click_domino_rose"]
 [connection signal="click_domino_jaune" from="PanelFond/PanelPalette/DominoPaletteJaune" to="." method="_on_DominoPaletteJaune_click_domino_jaune"]
 [connection signal="gui_input" from="PanelFond/PanelBase" to="." method="_on_PanelBase_gui_input"]
-[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
-[connection signal="toggled" from="Button" to="." method="_on_Button_toggled"]
+[connection signal="pressed" from="AjouterRegle" to="." method="_on_Button_pressed"]
+[connection signal="toggled" from="AjouterRegle" to="." method="_on_Button_toggled"]

@@ -50,7 +50,7 @@ position = Vector2( 21.5, 10 )
 shape = SubResource( 2 )
 
 [node name="GauchePoint" type="Position2D" parent="ColorRect/Gauche"]
-position = Vector2( 2, 10 )
+position = Vector2( 6.5, 10 )
 
 [node name="Flèche" type="Sprite" parent="ColorRect"]
 position = Vector2( 105, 30 )
@@ -66,14 +66,14 @@ margin_bottom = 30.0
 rect_scale = Vector2( 2, 2 )
 mouse_filter = 1
 
-[node name="DroitePoint" type="Position2D" parent="ColorRect/Droite"]
-position = Vector2( 2, 10 )
-
 [node name="AreaDroite" type="Area2D" parent="ColorRect/Droite"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ColorRect/Droite/AreaDroite"]
 position = Vector2( 21.5, 10 )
 shape = SubResource( 3 )
+
+[node name="DroitePoint" type="Position2D" parent="ColorRect/Droite"]
+position = Vector2( 6.5, 10 )
 
 [connection signal="gui_input" from="ColorRect" to="." method="_on_ColorRect_gui_input"]
 [connection signal="gui_input" from="ColorRect/Gauche" to="." method="_on_Gauche_gui_input"]

@@ -1,6 +1,6 @@
 extends Node2D
 
-
+# --------- Scenes ---------
 var domino_blue:PackedScene = preload("res://Scenes/Domino/DominoPalette/DominoPaletteBleu.tscn")
 var domino_red:PackedScene = preload("res://Scenes/Domino/DominoPalette/DominoPaletteRouge.tscn")
 var domino_green:PackedScene = preload("res://Scenes/Domino/DominoPalette/DominoPaletteVert.tscn")
@@ -9,26 +9,27 @@ var domino_yellow:PackedScene = preload("res://Scenes/Domino/DominoPalette/Domin
 
 var regle_inst:PackedScene = preload("res://Scenes/Règle.tscn")
 
+# --------- Signals ---------
 signal base_activer(index_regle)
+
+# --------- Constants ---------
+const max_nb_domino = 13
+const max_nb_regles = 8
+const max_nb_domino_par_cote_regle = 4
+
+# --------- Variables ---------
 var regle_select:int = -1
 var base:bool = false
 var objectif:bool = false
 
-
-const max_nb_domino = 13
-const max_nb_regles = 8
 func _ready():
 	base = true
 	$"%PanelBase".color = Color.gainsboro
 
 func _process(_delta):
-#	var list = $"%PanelRegles".get_children()
-#	for element in list:
-#		if element is Position2D:
-#			continue
-#		print(element.regle)
 	pass
 
+# --------- Signal handlers palette ---------
 func _on_DominoPaletteBleu_click_domino_bleu():
 	var instance_bleu = domino_blue.instance()
 	if base :
@@ -39,6 +40,22 @@ func _on_DominoPaletteBleu_click_domino_bleu():
 		if $"%PanelObjectif".get_child_count() - 1 < max_nb_domino :
 			instance_bleu.position = $"%ObjectifPoint".position + (Vector2.RIGHT * 45 * ($"%PanelObjectif".get_child_count() - 1))
 			$"%PanelObjectif".add_child(instance_bleu)
+	elif regle_select != -1:
+		ajouter_a_regle(instance_bleu)
+
+func _on_DominoPaletteRouge_click_domino_rouge():
+	var instance_rouge = domino_red.instance()
+	if base :
+		if $"%PanelBase".get_child_count() - 1 < max_nb_domino :
+			instance_rouge.position = $"%BasePoint".position + (Vector2.RIGHT * 45 * ($"%PanelBase".get_child_count() - 1))
+			$"%PanelBase".add_child(instance_rouge)
+	elif objectif :
+		if $"%PanelObjectif".get_child_count() - 1 < max_nb_domino :
+			instance_rouge.position = $"%ObjectifPoint".position + (Vector2.RIGHT * 45 * ($"%PanelObjectif".get_child_count() - 1))
+			$"%PanelObjectif".add_child(instance_rouge)
+	elif regle_select != -1:
+		ajouter_a_regle(instance_rouge)
+
 func _on_DominoPaletteVert_click_domino_vert():
 	var instance_vert = domino_green.instance()
 	if base :
@@ -52,16 +69,18 @@ func _on_DominoPaletteVert_click_domino_vert():
 	elif regle_select != -1:
 		ajouter_a_regle(instance_vert)
 
-func _on_DominoPaletteRouge_click_domino_rouge():
-	var instance_rouge = domino_red.instance()
+func _on_DominoPaletteJaune_click_domino_jaune():
+	var instance_jaune = domino_yellow.instance()
 	if base :
 		if $"%PanelBase".get_child_count() - 1 < max_nb_domino :
-			instance_rouge.position = $"%BasePoint".position + (Vector2.RIGHT * 45 * ($"%PanelBase".get_child_count() - 1))
-			$"%PanelBase".add_child(instance_rouge)
+			instance_jaune.position = $"%BasePoint".position + (Vector2.RIGHT * 45 * ($"%PanelBase".get_child_count() - 1))
+			$"%PanelBase".add_child(instance_jaune)
 	elif objectif :
 		if $"%PanelObjectif".get_child_count() - 1 < max_nb_domino :
-			instance_rouge.position = $"%ObjectifPoint".position + (Vector2.RIGHT * 45 * ($"%PanelObjectif".get_child_count() - 1))
-			$"%PanelObjectif".add_child(instance_rouge)
+			instance_jaune.position = $"%ObjectifPoint".position + (Vector2.RIGHT * 45 * ($"%PanelObjectif".get_child_count() - 1))
+			$"%PanelObjectif".add_child(instance_jaune)
+	elif regle_select != -1:
+		ajouter_a_regle(instance_jaune)
 
 func _on_DominoPaletteRose_click_domino_rose():
 	var instance_rose = pinkfloyd.instance()
@@ -73,21 +92,10 @@ func _on_DominoPaletteRose_click_domino_rose():
 		if $"%PanelObjectif".get_child_count() - 1 < max_nb_domino :
 			instance_rose.position = $"%ObjectifPoint".position + (Vector2.RIGHT * 45 * ($"%PanelObjectif".get_child_count() - 1))
 			$"%PanelObjectif".add_child(instance_rose)
+	elif regle_select != -1:
+		ajouter_a_regle(instance_rose)
 
-func _on_DominoPaletteJaune_click_domino_jaune():
-	var instance_jaune = domino_yellow.instance()
-	if base :
-		if $"%PanelBase".get_child_count() - 1 < max_nb_domino :
-			instance_jaune.position = $"%BasePoint".position + (Vector2.RIGHT * 45 * ($"%PanelBase".get_child_count() - 1))
-			$"%PanelBase".add_child(instance_jaune)
-	elif objectif :
-		if $"%PanelObjectif".get_child_count() - 1 < max_nb_domino :
-			instance_jaune.position = $"%ObjectifPoint".position + (Vector2.RIGHT * 45 * ($"%PanelObjectif".get_child_count() - 1))
-			$"%PanelObjectif".add_child(instance_jaune)
-
-
-
-
+# --------- Signal handler base slection ---------
 func _on_PanelBase_gui_input(event):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():
 		base = true
@@ -97,7 +105,7 @@ func _on_PanelBase_gui_input(event):
 		regle_select = -1
 		emit_signal("base_activer",-1)
 
-
+# --------- Signal handler objective selection ---------
 func _on_PanelObjectif_gui_input(event):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():
 		objectif = true
@@ -105,9 +113,9 @@ func _on_PanelObjectif_gui_input(event):
 		base = false
 		$"%PanelBase".color = Color.white
 		regle_select = -1
-		
 		emit_signal("base_activer",-1)
 
+# --------- Signal handler add rule button ---------
 func _on_Button_pressed():
 	if $"%PanelRegles".get_child_count() -1 < max_nb_regles :
 		var instance_regle = regle_inst.instance()
@@ -115,6 +123,16 @@ func _on_Button_pressed():
 		instance_regle.connect("regle_activer",self,"regle_activer_handle")
 		$"%PanelRegles".add_child(instance_regle)
 
+# --------- Signal handlers remove rule focus ---------
+func _on_Fond_base_activer(index_regle):
+	var children = $"%PanelRegles".get_children()
+	for child in children:
+		if child is Position2D or (index_regle != -1 and child.get_index() == index_regle) :
+			continue
+		if child.name.find("Regle") >= 0:
+			remove_focus_regle(child)
+
+# --------- Helper functions ---------
 func regle_activer_handle(index):
 	regle_select = index
 	base = false
@@ -123,17 +141,7 @@ func regle_activer_handle(index):
 	$"%PanelObjectif".color = Color.white
 	
 	_on_Fond_base_activer(index)
-	
 
-
-func _on_Fond_base_activer(index_regle):
-	var children = $"%PanelRegles".get_children()
-	for child in children:
-		if child is Position2D or (index_regle != -1 and child.get_index() == index_regle) :
-			continue
-		if child.name.find("Regle") >= 0:
-			remove_focus_regle(child)
-			
 func remove_focus_regle(regle):
 	regle.regle = false
 	regle.droite = false
@@ -150,13 +158,17 @@ func remove_focus_regle(regle):
 func ajouter_a_regle(instance):
 	# regle contient le noeud de la scène (Node2D)
 	var regle = $"%PanelRegles".get_children()[regle_select]
-	print(regle)
+#	print(regle)
 	#sous regle contient les enfants : AreaPrincipale, Gauche,Flèche,Droite
 	var sous_regle = regle.get_children()[0].get_children()
-	print(sous_regle)
-	if regle.droite :
-		instance.global_position = sous_regle[3].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[3].get_child_count() - 2))
-		instance.scale = Vector2(0.15,0.15)
-		sous_regle[3].add_child(instance)
-#	elif regle.gauche :
-#		print(sous_regle[1])
+#	print(sous_regle)
+	if regle.droite:
+		if sous_regle[3].get_child_count() - 2 < max_nb_domino_par_cote_regle :
+			instance.position = sous_regle[3].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[3].get_child_count() - 2))
+			instance.scale = Vector2(0.15,0.15)
+			sous_regle[3].add_child(instance)
+	elif regle.gauche:
+		if sous_regle[1].get_child_count() - 2 < max_nb_domino_par_cote_regle :
+			instance.position = sous_regle[1].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[1].get_child_count() - 2))
+			instance.scale = Vector2(0.15,0.15)
+			sous_regle[1].add_child(instance)
