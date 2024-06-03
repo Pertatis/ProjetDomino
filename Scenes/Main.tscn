@@ -168,7 +168,6 @@ icon_align = 1
 [connection signal="base_activer" from="." to="." method="_on_Fond_base_activer"]
 [connection signal="gui_input" from="PanelFond/PanelObjectif" to="." method="_on_PanelObjectif_gui_input"]
 [connection signal="click_domino_bleu" from="PanelFond/PanelPalette/DominoPaletteBleu" to="." method="_on_DominoPaletteBleu_click_domino_bleu"]
-[connection signal="supp_domino_bleu" from="PanelFond/PanelPalette/DominoPaletteBleu" to="." method="_on_DominoPaletteBleu_supp_domino_bleu"]
 [connection signal="click_domino_vert" from="PanelFond/PanelPalette/DominoPaletteVert" to="." method="_on_DominoPaletteVert_click_domino_vert"]
 [connection signal="click_domino_rouge" from="PanelFond/PanelPalette/DominoPaletteRouge" to="." method="_on_DominoPaletteRouge_click_domino_rouge"]
 [connection signal="click_domino_rose" from="PanelFond/PanelPalette/DominoPaletteRose" to="." method="_on_DominoPaletteRose_click_domino_rose"]
