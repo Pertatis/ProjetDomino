@@ -172,3 +172,6 @@ func ajouter_a_regle(instance):
 			instance.position = sous_regle[1].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[1].get_child_count() - 2))
 			instance.scale = Vector2(0.15,0.15)
 			sous_regle[1].add_child(instance)
+
+func _on_BJouer_pressed():
+	get_tree().change_scene("res://Scenes/Resolution.tscn")

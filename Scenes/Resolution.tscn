@@ -1,0 +1,14 @@
+[gd_scene format=2]
+
+[node name="Resolution" type="Node2D"]
+
+[node name="Control" type="ColorRect" parent="."]
+margin_right = 1022.0
+margin_bottom = 599.0
+color = Color( 0.0901961, 0.466667, 1, 1 )
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+margin_left = 30.0
+margin_top = 70.0
+margin_right = 172.0
+margin_bottom = 406.0
