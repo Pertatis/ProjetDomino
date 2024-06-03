@@ -1,7 +1,7 @@
 extends Node2D
 
 signal click_domino_bleu
-signal supp_domino(id)
+signal supp_domino(id,parent)
 
 
 func _on_DominoPaletteBleu_input_event(_viewport, event, _shape_idx):

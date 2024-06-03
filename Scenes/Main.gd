@@ -188,4 +188,5 @@ func _propagate_event(event,node):
 			child.input(event)
 
 func supp_domino_handle(id,parent):
-	print(id,parent)
+	var child_to_remove = parent.get_child(id)
+	parent.remove_child(child_to_remove)
