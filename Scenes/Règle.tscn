@@ -25,7 +25,6 @@ unique_name_in_owner = true
 margin_right = 210.0
 margin_bottom = 60.0
 mouse_filter = 1
-color = Color( 0.0666667, 0.137255, 0.921569, 1 )
 
 [node name="AreaPrincipale" type="Area2D" parent="ColorRect"]
 
