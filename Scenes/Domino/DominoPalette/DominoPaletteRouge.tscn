@@ -1,17 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Graphics/Domino.png" type="Texture" id=1]
-
-[sub_resource type="GDScript" id=2]
-script/source = "extends Node2D
-
-signal click_domino_rouge
-
-
-func _on_DominoPaletteRouge_input_event(_viewport, event, _shape_idx):
-	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():
-		emit_signal(\"click_domino_rouge\")
-"
+[ext_resource path="res://Scenes/Domino/DominoPalette/DominoPaletteRouge.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 131.25, 129.167 )
@@ -19,7 +9,7 @@ extents = Vector2( 131.25, 129.167 )
 [node name="Node2D" type="Node2D"]
 position = Vector2( 2.38419e-07, 0 )
 scale = Vector2( 0.8, 0.8 )
-script = SubResource( 2 )
+script = ExtResource( 2 )
 
 [node name="DominoPaletteRouge" type="Area2D" parent="."]
 
