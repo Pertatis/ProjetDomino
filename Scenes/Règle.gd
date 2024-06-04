@@ -1,6 +1,10 @@
 extends Node2D
 
 signal regle_activer(index)
+signal regle_supprimer(index)
+
+var cote_droit:Array
+var cote_gauche:Array
 
 var gauche:bool = false
 var droite:bool = false
@@ -33,3 +37,8 @@ func _on_Droite_gui_input(event):
 		$"%Gauche".color = Color.white
 		$"%Droite".color = Color.gainsboro
 		emit_signal("regle_activer",get_index())
+
+
+func _on_Button_pressed():
+	emit_signal("regle_supprimer",get_index())
+	print(cote_gauche+cote_droit)
