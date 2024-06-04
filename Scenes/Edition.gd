@@ -225,8 +225,19 @@ func regle_supprimer_handle(index):
 
 
 func _on_BSauvegarder_pressed():
-	print("Base:",base_dominos)
-	print("Objectif",objectif_dominos)
+	var temp:Array
+	var regles:Array = []
+	var save = {}
+	save["Base"] = base_dominos
+	save["Obj"] = objectif_dominos
 	for child in $"%PanelRegles".get_children():
+	
 		if not (child is Position2D):
-			print("Regle: Gauche",child.cote_gauche," <-> Droit",child.cote_droit)
+			temp = []
+			temp.append(child.cote_gauche)
+			temp.append(child.cote_droit)
+			regles.append(temp)
+	
+	save["Reg"] = regles
+	print(save["Reg"][0])
+	print(save["Reg"][1])	
