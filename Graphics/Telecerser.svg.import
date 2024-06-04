@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/upload-svgrepo-com.svg-abacd607968690bd4f4e7ed2709c89fe.stex"
+path="res://.import/Telecerser.svg-780dbd91fbecf0a37528f5e3915b33d9.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Graphics/upload-svgrepo-com.svg"
-dest_files=[ "res://.import/upload-svgrepo-com.svg-abacd607968690bd4f4e7ed2709c89fe.stex" ]
+source_file="res://Graphics/Telecerser.svg"
+dest_files=[ "res://.import/Telecerser.svg-780dbd91fbecf0a37528f5e3915b33d9.stex" ]
 
 [params]
 

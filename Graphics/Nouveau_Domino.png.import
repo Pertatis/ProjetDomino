@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/plus-svgrepo-com2.svg-09452c51950e0028d5a65abb98445583.stex"
+path="res://.import/Nouveau_Domino.png-ae6610ac0ec53d053439c51465fde5fa.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://plus-svgrepo-com2.svg"
-dest_files=[ "res://.import/plus-svgrepo-com2.svg-09452c51950e0028d5a65abb98445583.stex" ]
+source_file="res://Graphics/Nouveau_Domino.png"
+dest_files=[ "res://.import/Nouveau_Domino.png-ae6610ac0ec53d053439c51465fde5fa.stex" ]
 
 [params]
 

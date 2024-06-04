@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/play-circle-svgrepo-com.svg-b88f062dfa4bbba00151b2a24540189b.stex"
+path="res://.import/Jouer.svg-3a9988e51347761cfcef62121310d37b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Graphics/play-circle-svgrepo-com.svg"
-dest_files=[ "res://.import/play-circle-svgrepo-com.svg-b88f062dfa4bbba00151b2a24540189b.stex" ]
+source_file="res://Graphics/Jouer.svg"
+dest_files=[ "res://.import/Jouer.svg-3a9988e51347761cfcef62121310d37b.stex" ]
 
 [params]
 

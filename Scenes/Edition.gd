@@ -123,6 +123,7 @@ func _on_PanelObjectif_gui_input(event):
 		emit_signal("base_activer",-1)
 	if event is InputEventMouseButton and event.button_index == BUTTON_RIGHT and event.is_pressed():
 		_propagate_event(event,$"%PanelObjectif")
+
 # --------- Signal handler add rule button ---------
 func _on_Button_pressed():
 	if $"%PanelRegles".get_child_count() -1 < max_nb_regles :
@@ -188,10 +189,13 @@ func _on_BJouer_pressed():
 func _propagate_event(event,node):
 	var mouse_pos = get_local_mouse_position()
 	for child in node.get_children():
-		print(child)
+#		print(child)
 		if not (child is Position2D) and child.get_rect().has_point(mouse_pos):
 			child.input(event)
+			break
 
 func supp_domino_handle(id,parent):
 	var child_to_remove = parent.get_child(id)
 	parent.remove_child(child_to_remove)
+	for i in range(id, parent.get_child_count()):
+		parent.get_child(i).position.x -= 45

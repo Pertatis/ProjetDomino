@@ -5,7 +5,6 @@ signal supp_domino_bleu(id,parent)
 
 
 func _on_DominoPaletteBleu_input_event(_viewport, event, _shape_idx):
-	
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():
 		emit_signal("click_domino_bleu")
 	if event is InputEventMouseButton and event.button_index == BUTTON_RIGHT and event.is_pressed():
@@ -20,4 +19,8 @@ func get_rect():
 	var size = Vector2()
 	if sprite.texture:
 		size = sprite.texture.get_size() * sprite.scale
-	return Rect2(global_position - size / 2, size)
+		print("original size : ", sprite.texture.get_size())
+		print("height : ", sprite.texture.get_height())
+		print("width : ", sprite.texture.get_width())
+		print("size after scale : ", size)
+		return Rect2(global_position - size / 2, size)
