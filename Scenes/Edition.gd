@@ -172,7 +172,7 @@ func _on_BSauvegarder_pressed():
 			temp.append(child.cote_droit)
 			regles.append(temp)
 	save["Reg"] = regles
-	print(save)
+	Global.levels_created.append(save)
 
 # --------- Signal handler delete domino ---------
 func supp_domino_handle(id,parent):
@@ -237,3 +237,7 @@ func _propagate_event(event,node):
 		if not (child is Position2D) and child.get_rect().has_point(mouse_pos):
 			child.input(event)
 			break
+
+
+func _on_BCharger_pressed():
+	print(Global.levels_created[0])

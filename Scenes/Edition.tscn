@@ -176,4 +176,5 @@ icon_align = 1
 [connection signal="pressed" from="AjouterRegle" to="." method="_on_Button_pressed"]
 [connection signal="toggled" from="AjouterRegle" to="." method="_on_Button_toggled"]
 [connection signal="pressed" from="BSauvegarder" to="." method="_on_BSauvegarder_pressed"]
+[connection signal="pressed" from="BCharger" to="." method="_on_BCharger_pressed"]
 [connection signal="pressed" from="BJouer" to="." method="_on_BJouer_pressed"]
