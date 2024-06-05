@@ -19,7 +19,10 @@ shape = SubResource( 1 )
 
 [node name="Icon" type="Sprite" parent="."]
 modulate = Color( 1, 0.00392157, 0.00392157, 1 )
-scale = Vector2( 0.2, 0.3 )
+rotation = -1.5708
+scale = Vector2( 0.150971, 0.153929 )
 texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( -0.479301, 85.6372, 513.096, 340.697 )
 
 [connection signal="input_event" from="DominoPaletteRouge" to="." method="_on_DominoPaletteRouge_input_event"]

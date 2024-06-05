@@ -16,6 +16,7 @@ signal base_activer(index_regle)
 const max_nb_domino = 13
 const max_nb_regles = 8
 const max_nb_domino_par_cote_regle = 4
+const distance_domino = 47
 
 # --------- Variables ---------
 var regle_select:int = -1
@@ -25,13 +26,10 @@ var objectif:bool = false
 var base_dominos:Array
 var objectif_dominos:Array
 
-
+# --------- Select base ---------
 func _ready():
 	base = true
 	$"%PanelBase".color = Color.gainsboro
-
-func _process(_delta):
-	pass
 
 # --------- Signal handlers palette ---------
 func _on_DominoPaletteBleu_click_domino_bleu():
@@ -39,12 +37,12 @@ func _on_DominoPaletteBleu_click_domino_bleu():
 	instance_bleu.connect("supp_domino_bleu",self,"supp_domino_handle")
 	if base :
 		if $"%PanelBase".get_child_count() - 1 < max_nb_domino :
-			instance_bleu.position = $"%BasePoint".position + (Vector2.RIGHT * 45 * ($"%PanelBase".get_child_count() - 1))
+			instance_bleu.position = $"%BasePoint".position + (Vector2.RIGHT * distance_domino * ($"%PanelBase".get_child_count() - 1))
 			$"%PanelBase".add_child(instance_bleu)
 			base_dominos.append(Global.get_color(instance_bleu.filename))
 	elif objectif :
 		if $"%PanelObjectif".get_child_count() - 1 < max_nb_domino :
-			instance_bleu.position = $"%ObjectifPoint".position + (Vector2.RIGHT * 45 * ($"%PanelObjectif".get_child_count() - 1))
+			instance_bleu.position = $"%ObjectifPoint".position + (Vector2.RIGHT * distance_domino * ($"%PanelObjectif".get_child_count() - 1))
 			$"%PanelObjectif".add_child(instance_bleu)
 			objectif_dominos.append(Global.get_color(instance_bleu.filename))
 	elif regle_select != -1:
@@ -55,12 +53,12 @@ func _on_DominoPaletteRouge_click_domino_rouge():
 	instance_rouge.connect("supp_domino_rouge",self,"supp_domino_handle")
 	if base :
 		if $"%PanelBase".get_child_count() - 1 < max_nb_domino :
-			instance_rouge.position = $"%BasePoint".position + (Vector2.RIGHT * 45 * ($"%PanelBase".get_child_count() - 1))
+			instance_rouge.position = $"%BasePoint".position + (Vector2.RIGHT * distance_domino * ($"%PanelBase".get_child_count() - 1))
 			$"%PanelBase".add_child(instance_rouge)
 			base_dominos.append(Global.get_color(instance_rouge.filename))
 	elif objectif :
 		if $"%PanelObjectif".get_child_count() - 1 < max_nb_domino :
-			instance_rouge.position = $"%ObjectifPoint".position + (Vector2.RIGHT * 45 * ($"%PanelObjectif".get_child_count() - 1))
+			instance_rouge.position = $"%ObjectifPoint".position + (Vector2.RIGHT * distance_domino * ($"%PanelObjectif".get_child_count() - 1))
 			$"%PanelObjectif".add_child(instance_rouge)
 			objectif_dominos.append(Global.get_color(instance_rouge.filename))
 	elif regle_select != -1:
@@ -71,12 +69,12 @@ func _on_DominoPaletteVert_click_domino_vert():
 	instance_vert.connect("supp_domino_vert",self,"supp_domino_handle")
 	if base :
 		if $"%PanelBase".get_child_count() - 1 < max_nb_domino :
-			instance_vert.position = $"%BasePoint".position + (Vector2.RIGHT * 45 * ($"%PanelBase".get_child_count() - 1))
+			instance_vert.position = $"%BasePoint".position + (Vector2.RIGHT * distance_domino * ($"%PanelBase".get_child_count() - 1))
 			$"%PanelBase".add_child(instance_vert)
 			base_dominos.append(Global.get_color(instance_vert.filename))
 	elif objectif :
 		if $"%PanelObjectif".get_child_count() - 1 < max_nb_domino :
-			instance_vert.position = $"%ObjectifPoint".position + (Vector2.RIGHT * 45 * ($"%PanelObjectif".get_child_count() - 1))
+			instance_vert.position = $"%ObjectifPoint".position + (Vector2.RIGHT * distance_domino * ($"%PanelObjectif".get_child_count() - 1))
 			$"%PanelObjectif".add_child(instance_vert)
 			objectif_dominos.append(Global.get_color(instance_vert.filename))
 	elif regle_select != -1:
@@ -87,12 +85,12 @@ func _on_DominoPaletteJaune_click_domino_jaune():
 	instance_jaune.connect("supp_domino_jaune",self,"supp_domino_handle")	
 	if base :
 		if $"%PanelBase".get_child_count() - 1 < max_nb_domino :
-			instance_jaune.position = $"%BasePoint".position + (Vector2.RIGHT * 45 * ($"%PanelBase".get_child_count() - 1))
+			instance_jaune.position = $"%BasePoint".position + (Vector2.RIGHT * distance_domino * ($"%PanelBase".get_child_count() - 1))
 			$"%PanelBase".add_child(instance_jaune)
 			base_dominos.append(Global.get_color(instance_jaune.filename))
 	elif objectif :
 		if $"%PanelObjectif".get_child_count() - 1 < max_nb_domino :
-			instance_jaune.position = $"%ObjectifPoint".position + (Vector2.RIGHT * 45 * ($"%PanelObjectif".get_child_count() - 1))
+			instance_jaune.position = $"%ObjectifPoint".position + (Vector2.RIGHT * distance_domino * ($"%PanelObjectif".get_child_count() - 1))
 			$"%PanelObjectif".add_child(instance_jaune)
 			objectif_dominos.append(Global.get_color(instance_jaune.filename))
 	elif regle_select != -1:
@@ -103,12 +101,12 @@ func _on_DominoPaletteRose_click_domino_rose():
 	instance_rose.connect("supp_domino_rose",self,"supp_domino_handle")
 	if base :
 		if $"%PanelBase".get_child_count() - 1 < max_nb_domino :
-			instance_rose.position = $"%BasePoint".position + (Vector2.RIGHT * 45 * ($"%PanelBase".get_child_count() - 1))
+			instance_rose.position = $"%BasePoint".position + (Vector2.RIGHT * distance_domino * ($"%PanelBase".get_child_count() - 1))
 			$"%PanelBase".add_child(instance_rose)
 			base_dominos.append(Global.get_color(instance_rose.filename))
 	elif objectif :
 		if $"%PanelObjectif".get_child_count() - 1 < max_nb_domino :
-			instance_rose.position = $"%ObjectifPoint".position + (Vector2.RIGHT * 45 * ($"%PanelObjectif".get_child_count() - 1))
+			instance_rose.position = $"%ObjectifPoint".position + (Vector2.RIGHT * distance_domino * ($"%PanelObjectif".get_child_count() - 1))
 			$"%PanelObjectif".add_child(instance_rose)
 			objectif_dominos.append(Global.get_color(instance_rose.filename))
 	elif regle_select != -1:
@@ -156,6 +154,39 @@ func _on_Fond_base_activer(index_regle):
 		if child.name.find("Regle") >= 0:
 			remove_focus_regle(child)
 
+# --------- Signal handler play level ---------
+func _on_BJouer_pressed():
+	get_tree().change_scene("res://Scenes/Resolution.tscn")
+
+# --------- Signal handler save level ---------
+func _on_BSauvegarder_pressed():
+	var temp:Array
+	var regles:Array = []
+	var save = {}
+	save["Base"] = base_dominos
+	save["Obj"] = objectif_dominos
+	for child in $"%PanelRegles".get_children():
+		if not (child is Position2D):
+			temp = []
+			temp.append(child.cote_gauche)
+			temp.append(child.cote_droit)
+			regles.append(temp)
+	save["Reg"] = regles
+	print(save)
+
+# --------- Signal handler delete domino ---------
+func supp_domino_handle(id,parent):
+	var child_to_remove = parent.get_child(id)
+	parent.remove_child(child_to_remove)
+	for i in range(id, parent.get_child_count()):
+		parent.get_child(i).position.x -= distance_domino
+
+# --------- Signal handler delete rule ---------
+func regle_supprimer_handle(index):
+	$"%PanelRegles".remove_child($"%PanelRegles".get_child(index))
+	for i in range(index, $"%PanelRegles".get_child_count()):
+		$"%PanelRegles".get_child(i).position.y -= 60
+
 # --------- Helper functions ---------
 func regle_activer_handle(index):
 	regle_select = index
@@ -199,10 +230,6 @@ func ajouter_a_regle(instance):
 			sous_regle[1].add_child(instance)
 			regle.cote_gauche.append(Global.get_color(instance.filename))
 
-func _on_BJouer_pressed():
-	get_tree().change_scene("res://Scenes/Resolution.tscn")
-
-# pour propager le signal aux dominos
 func _propagate_event(event,node):
 	var mouse_pos = get_local_mouse_position()
 	for child in node.get_children():
@@ -210,34 +237,3 @@ func _propagate_event(event,node):
 		if not (child is Position2D) and child.get_rect().has_point(mouse_pos):
 			child.input(event)
 			break
-
-func supp_domino_handle(id,parent):
-	var child_to_remove = parent.get_child(id)
-	parent.remove_child(child_to_remove)
-	for i in range(id, parent.get_child_count()):
-		parent.get_child(i).position.x -= 45
-		
-func regle_supprimer_handle(index):
-	$"%PanelRegles".remove_child($"%PanelRegles".get_child(index))
-	for i in range(index, $"%PanelRegles".get_child_count()):
-		$"%PanelRegles".get_child(i).position.y -= 60
-	
-
-
-func _on_BSauvegarder_pressed():
-	var temp:Array
-	var regles:Array = []
-	var save = {}
-	save["Base"] = base_dominos
-	save["Obj"] = objectif_dominos
-	for child in $"%PanelRegles".get_children():
-	
-		if not (child is Position2D):
-			temp = []
-			temp.append(child.cote_gauche)
-			temp.append(child.cote_droit)
-			regles.append(temp)
-	
-	save["Reg"] = regles
-	print(save["Reg"][0])
-	print(save["Reg"][1])	

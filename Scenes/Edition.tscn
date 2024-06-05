@@ -9,7 +9,7 @@
 [ext_resource path="res://Scenes/Edition.gd" type="Script" id=7]
 [ext_resource path="res://Graphics/Jouer.svg" type="Texture" id=8]
 [ext_resource path="res://Graphics/Enregistrer.svg" type="Texture" id=9]
-[ext_resource path="res://Graphics/Telecerser.svg" type="Texture" id=10]
+[ext_resource path="res://Graphics/Televerser.svg" type="Texture" id=10]
 [ext_resource path="res://Graphics/Plus.svg" type="Texture" id=11]
 
 [sub_resource type="StyleBoxFlat" id=3]
@@ -55,16 +55,16 @@ color = Color( 0, 0.345098, 0.996078, 1 )
 
 [node name="PanelObjectif" type="ColorRect" parent="PanelFond"]
 unique_name_in_owner = true
-margin_left = 54.0
+margin_left = 50.0
 margin_top = 185.0
-margin_right = 675.0
+margin_right = 672.0
 margin_bottom = 297.0
 rect_pivot_offset = Vector2( 172, 41 )
 mouse_filter = 1
 
 [node name="ObjectifPoint" type="Position2D" parent="PanelFond/PanelObjectif"]
 unique_name_in_owner = true
-position = Vector2( 35, 55 )
+position = Vector2( 30, 55 )
 
 [node name="PanelRegles" type="ColorRect" parent="PanelFond"]
 unique_name_in_owner = true
@@ -108,16 +108,16 @@ scale = Vector2( 1, 1 )
 
 [node name="PanelBase" type="ColorRect" parent="PanelFond"]
 unique_name_in_owner = true
-margin_left = 54.0
+margin_left = 50.0
 margin_top = 33.0
-margin_right = 678.0
+margin_right = 675.0
 margin_bottom = 142.0
 rect_pivot_offset = Vector2( 172, 41 )
 mouse_filter = 1
 
 [node name="BasePoint" type="Position2D" parent="PanelFond/PanelBase"]
 unique_name_in_owner = true
-position = Vector2( 35, 55 )
+position = Vector2( 30, 55 )
 
 [node name="AjouterRegle" type="Button" parent="."]
 margin_left = 863.0

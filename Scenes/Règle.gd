@@ -1,8 +1,11 @@
 extends Node2D
 
+# --------- Signals ---------
 signal regle_activer(index)
 signal regle_supprimer(index)
 
+
+# --------- Variables ---------
 var cote_droit:Array
 var cote_gauche:Array
 
@@ -10,9 +13,8 @@ var gauche:bool = false
 var droite:bool = false
 var regle: bool = false
 
-func _ready():
-	pass
 
+# --------- Signal handlers regle ---------
 func _on_ColorRect_gui_input(event):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():
 		regle = true
@@ -38,7 +40,5 @@ func _on_Droite_gui_input(event):
 		$"%Droite".color = Color.gainsboro
 		emit_signal("regle_activer",get_index())
 
-
 func _on_Button_pressed():
 	emit_signal("regle_supprimer",get_index())
-	print(cote_gauche+cote_droit)

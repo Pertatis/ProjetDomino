@@ -96,7 +96,7 @@ shape = SubResource( 3 )
 [node name="DroitePoint" type="Position2D" parent="ColorRect/Droite"]
 position = Vector2( 6.5, 10 )
 
-[node name="Button" type="Button" parent="."]
+[node name="SupprimerRegle" type="Button" parent="."]
 margin_left = 98.0
 margin_top = 2.0
 margin_right = 112.0
@@ -113,4 +113,4 @@ __meta__ = {
 [connection signal="gui_input" from="ColorRect" to="." method="_on_ColorRect_gui_input"]
 [connection signal="gui_input" from="ColorRect/Gauche" to="." method="_on_Gauche_gui_input"]
 [connection signal="gui_input" from="ColorRect/Droite" to="." method="_on_Droite_gui_input"]
-[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="SupprimerRegle" to="." method="_on_Button_pressed"]

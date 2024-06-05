@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Graphics/Nouveau_Domino.png" type="Texture" id=1]
+[ext_resource path="res://Graphics/Domino.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Domino/DominoPalette/DominoPaletteBleu.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -25,7 +25,7 @@ shape = SubResource( 1 )
 modulate = Color( 0.160784, 0.235294, 0.882353, 1 )
 material = SubResource( 2 )
 rotation = -1.5708
-scale = Vector2( 0.15, 0.15 )
+scale = Vector2( 0.151, 0.154 )
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 0, 84.887, 513.118, 342.137 )
