@@ -177,22 +177,32 @@ func _on_BSauvegarder_pressed():
 	test = save
 	Global.levels_created.append(save)
 
+# charge un niveau depuis la variable test actuellement, doit charger depuis une save ou une 
 func _on_BCharger_pressed():
+	base_dominos = []
+	objectif_dominos = []
 	var instance
+	#Supprime les dominos existants
 	for child in $"%PanelBase".get_children():
 		if not (child is Position2D):
 			$"PanelFond/PanelBase".remove_child(child)
+	
+	for child in $"%PanelObjectif".get_children():
+		if not (child is Position2D):
+			$"%PanelObjectif".remove_child(child)
+	#Ajoute la base
 	for domino in test["Base"]:
 		instance = Global.get_domino(self,domino)
 		instance.position = $"%BasePoint".position + (Vector2.RIGHT * distance_domino * ($"%PanelBase".get_child_count() - 1))
 		$"%PanelBase".add_child(instance)
 		base_dominos.append(Global.get_color(instance.filename))
+	#Ajoute l'objectif
 	for domino in test["Obj"]:
 		instance = Global.get_domino(self,domino)
 		instance.position = $"%ObjectifPoint".position + (Vector2.RIGHT * distance_domino * ($"%PanelObjectif".get_child_count() - 1))
 		$"%PanelObjectif".add_child(instance)
 		objectif_dominos.append(Global.get_color(instance.filename))
-		
+#
 
 # --------- Signal handler delete domino ---------
 func supp_domino_handle(id,parent):
