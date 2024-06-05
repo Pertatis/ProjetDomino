@@ -22,6 +22,7 @@ const distance_domino = 47
 var regle_select:int = -1
 var base:bool = false
 var objectif:bool = false
+var test
 
 var base_dominos:Array
 var objectif_dominos:Array
@@ -172,7 +173,25 @@ func _on_BSauvegarder_pressed():
 			temp.append(child.cote_droit)
 			regles.append(temp)
 	save["Reg"] = regles
+	test = save
 	Global.levels_created.append(save)
+
+func _on_BCharger_pressed():
+	var instance
+	for child in $"%PanelBase".get_children():
+		if not (child is Position2D):
+			$"PanelFond/PanelBase".remove_child(child)
+	for domino in test["Base"]:
+		instance = Global.get_domino(self,domino)
+		instance.position = $"%BasePoint".position + (Vector2.RIGHT * distance_domino * ($"%PanelBase".get_child_count() - 1))
+		$"%PanelBase".add_child(instance)
+		base_dominos.append(Global.get_color(instance.filename))
+	for domino in test["Obj"]:
+		instance = Global.get_domino(self,domino)
+		instance.position = $"%ObjectifPoint".position + (Vector2.RIGHT * distance_domino * ($"%PanelObjectif".get_child_count() - 1))
+		$"%PanelObjectif".add_child(instance)
+		objectif_dominos.append(Global.get_color(instance.filename))
+		
 
 # --------- Signal handler delete domino ---------
 func supp_domino_handle(id,parent):
@@ -239,5 +258,3 @@ func _propagate_event(event,node):
 			break
 
 
-func _on_BCharger_pressed():
-	print(Global.levels_created[0])
