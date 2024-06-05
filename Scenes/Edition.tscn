@@ -39,9 +39,8 @@ script = ExtResource( 7 )
 
 [node name="PanelCouleurFond" type="ColorRect" parent="."]
 margin_left = -1.0
-margin_top = 1.0
 margin_right = 1023.0
-margin_bottom = 601.0
+margin_bottom = 600.0
 rect_pivot_offset = Vector2( 465, 503 )
 mouse_filter = 2
 color = Color( 0.698039, 0.854902, 1, 1 )

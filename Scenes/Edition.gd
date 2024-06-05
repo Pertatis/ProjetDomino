@@ -157,8 +157,9 @@ func _on_Fond_base_activer(index_regle):
 
 # --------- Signal handler play level ---------
 func _on_BJouer_pressed():
-	get_tree().change_scene("res://Scenes/Resolution.tscn")
-
+	var error = get_tree().change_scene("res://Scenes/Test.tscn")
+	if error != OK :
+			print("Failed to change scene", error)
 # --------- Signal handler save level ---------
 func _on_BSauvegarder_pressed():
 	var temp:Array
