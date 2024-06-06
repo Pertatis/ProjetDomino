@@ -10,6 +10,8 @@ var regle_inst:PackedScene = preload("res://Scenes/Règle.tscn")
 
 var levels_created:Array
 
+var current_level:Dictionary
+
 var level1:Dictionary
 
 func _ready():

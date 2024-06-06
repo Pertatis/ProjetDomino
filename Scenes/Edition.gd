@@ -31,6 +31,10 @@ var objectif_dominos:Array
 func _ready():
 	base = true
 	$"%PanelBase".color = Color.gainsboro
+	if not Global.current_level.empty():
+		# TEMPORAIRE NE DOIT PAS FAIRE CA
+		test = Global.current_level
+		_on_BCharger_pressed()
 
 # --------- Signal handlers palette ---------
 func _on_DominoPaletteBleu_click_domino_bleu():
@@ -176,13 +180,13 @@ func _on_BSauvegarder_pressed():
 			regles.append(temp)
 	save["Reg"] = regles.duplicate()
 	test = save.duplicate()
+	Global.current_level = save.duplicate()
 	Global.levels_created.append(save)
 
 # charge un niveau depuis la variable test actuellement, doit charger depuis une save ou une 
 func _on_BCharger_pressed():
 	var instance
 	supprimer_tout()
-	test = Global.level1
 	#Ajoute la base
 	for domino in test["Base"]:
 		instance = Global.get_domino(self,domino)
@@ -230,6 +234,11 @@ func _on_BCharger_pressed():
 func supp_domino_handle(id,parent):
 	var child_to_remove = parent.get_child(id)
 	parent.remove_child(child_to_remove)
+	print(parent.name)
+	if parent.name == 'PanelBase':
+		base_dominos.pop_at(id - 1)
+	if parent.name == 'PanelObjectif':
+		objectif_dominos.pop_at(id - 1)
 	for i in range(id, parent.get_child_count()):
 		parent.get_child(i).position.x -= distance_domino
 
