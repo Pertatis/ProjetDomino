@@ -22,13 +22,13 @@ func creer_niveau():
 	supprimer_tout()
 	#Ajoute la base
 	for domino in test["Base"]:
-		instance = Global.get_domino(null,domino)
+		instance = Global.get_domino(self,domino)
 		instance.position = $Background/Base/BasePoint.position + (Vector2.RIGHT * distance_domino * ($Background/Base.get_child_count() - 1))
 		$Background/Base.add_child(instance)
 
 	#Ajoute l'objectif
 	for domino in test["Obj"]:
-		instance = Global.get_domino(null,domino)
+		instance = Global.get_domino(self,domino)
 		instance.position = $Background/Objectif/ObjectifPoint.position + (Vector2.RIGHT * distance_domino * ($Background/Objectif.get_child_count() - 1))
 		$Background/Objectif.add_child(instance)
 	
@@ -44,13 +44,13 @@ func creer_niveau():
 		var sous_regle = instance_regle.get_children()[0].get_children()
 		#cote gauche
 		for domino in regle[0]:
-			instance = Global.get_domino(self,domino)
+			instance = Global.get_domino(null,domino)
 			instance.position = sous_regle[1].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[1].get_child_count() - 2))
 			instance.scale = Vector2(0.15,0.15)
 			sous_regle[1].add_child(instance)
 		#cote droit
 		for domino in regle[1]:
-			instance = Global.get_domino(self,domino)
+			instance = Global.get_domino(null,domino)
 			instance.position = sous_regle[3].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[3].get_child_count() - 2))
 			instance.scale = Vector2(0.15,0.15)
 			sous_regle[3].add_child(instance)
@@ -76,3 +76,7 @@ func _on_Editer_pressed():
 	var error = get_tree().change_scene("res://Scenes/Edition.tscn")
 	if error != OK :
 			print("Failed to change scene", error)
+
+
+func select_domino_handle(id):
+	print(id)

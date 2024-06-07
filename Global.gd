@@ -35,7 +35,10 @@ func get_domino(node,color):
 	if "B" in color:
 		var inst = domino_blue.instance()
 		if node != null:
-			inst.connect("supp_domino_bleu",node,"supp_domino_handle")
+			if node.name == "Fond":
+				inst.connect("supp_domino_bleu",node,"supp_domino_handle")
+			elif node.name == "Resolution" or node.name == "Test":
+				inst.connect("select_domino_bleu",node,"select_domino_handle")
 		return inst
 		
 	if "R" in color:
@@ -63,7 +66,7 @@ func get_domino(node,color):
 		return inst
 
 func make_level1():
-	var one = ['B','R','G','Y','P']
+	var one = ['B','B','B','B','B','B','R','G','Y','P']
 	var two = ['P','Y']
 	var regles:Array = []
 	var temp = []

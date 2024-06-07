@@ -211,7 +211,6 @@ func _on_BCharger_pressed():
 			instance.position = $"%BasePoint".position + (Vector2.RIGHT * distance_domino * ($"%PanelBase".get_child_count() - 1))
 			$"%PanelBase".add_child(instance)
 			base_dominos.append(Global.get_color(instance.filename))
-			print(base_dominos)
 
 		#Ajoute l'objectif
 		for domino in test["Obj"]:
@@ -231,17 +230,16 @@ func _on_BCharger_pressed():
 			instance_regle.connect("regle_supprimer",self,"regle_supprimer_handle")
 			#recupère les enfants de la scene pour avoir coté droit et gauche
 			var sous_regle = instance_regle.get_children()[0].get_children()
-			print(sous_regle)
 			#cote gauche
 			for domino in regle[0]:
-				instance = Global.get_domino(self,domino)
+				instance = Global.get_domino(null,domino)
 				instance.position = sous_regle[1].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[1].get_child_count() - 2))
 				instance.scale = Vector2(0.15,0.15)
 				sous_regle[1].add_child(instance)
 				instance_regle.cote_gauche.append(Global.get_color(instance.filename))
 			#cote droit
 			for domino in regle[1]:
-				instance = Global.get_domino(self,domino)
+				instance = Global.get_domino(null,domino)
 				instance.position = sous_regle[3].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[3].get_child_count() - 2))
 				instance.scale = Vector2(0.15,0.15)
 				sous_regle[3].add_child(instance)
@@ -252,7 +250,6 @@ func _on_BCharger_pressed():
 func supp_domino_handle(id,parent):
 	var child_to_remove = parent.get_child(id)
 	parent.remove_child(child_to_remove)
-	print(parent.name)
 	if parent.name == 'PanelBase':
 		base_dominos.pop_at(id - 1)
 	if parent.name == 'PanelObjectif':

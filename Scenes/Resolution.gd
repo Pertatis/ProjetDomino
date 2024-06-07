@@ -10,6 +10,7 @@ var objectif:Array
 var regles:Array
 var test
 
+var selected_dominos:Array
 
 func _ready():
 	test = Global.level1
@@ -23,13 +24,13 @@ func creer_niveau():
 	supprimer_tout()
 	#Ajoute la base
 	for domino in test["Base"]:
-		instance = Global.get_domino(null,domino)
+		instance = Global.get_domino(self,domino)
 		instance.position = $Background/Base/BasePoint.position + (Vector2.RIGHT * distance_domino * ($Background/Base.get_child_count() - 1))
 		$Background/Base.add_child(instance)
 
 	#Ajoute l'objectif
 	for domino in test["Obj"]:
-		instance = Global.get_domino(null,domino)
+		instance = Global.get_domino(self,domino)
 		instance.position = $Background/Objectif/ObjectifPoint.position + (Vector2.RIGHT * distance_domino * ($Background/Objectif.get_child_count() - 1))
 		$Background/Objectif.add_child(instance)
 	
@@ -46,13 +47,13 @@ func creer_niveau():
 		var sous_regle = instance_regle.get_children()[0].get_children()
 		#cote gauche
 		for domino in regle[0]:
-			instance = Global.get_domino(self,domino)
+			instance = Global.get_domino(null,domino)
 			instance.position = sous_regle[1].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[1].get_child_count() - 2))
 			instance.scale = Vector2(0.15,0.15)
 			sous_regle[1].add_child(instance)
 		#cote droit
 		for domino in regle[1]:
-			instance = Global.get_domino(self,domino)
+			instance = Global.get_domino(null,domino)
 			instance.position = sous_regle[3].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[3].get_child_count() - 2))
 			instance.scale = Vector2(0.15,0.15)
 			sous_regle[3].add_child(instance)
@@ -73,3 +74,22 @@ func supprimer_tout():
 	for child in $Background/PaletteRegles.get_children():
 		if not (child is Position2D):
 			$Background/PaletteRegles.remove_child(child)
+
+func select_domino_handle(id):
+	print(id)
+	if not selected_dominos.has(id):
+		selected_dominos.append(id)
+	else:
+		selected_dominos.erase(id)
+	
+	var all_dominos = $Background/Base.get_children()
+	
+	for element in all_dominos:
+		if not (element is Position2D):
+			if (element.get_index() in selected_dominos):
+				element.scale = Vector2(0.88,0.88)
+			else:
+				element.scale = Vector2(0.8,0.8)
+#	for element in selected_dominos:
+#		if not (all_dominos[element] is Position2D):
+#			all_dominos[element].scale = Vector2(0.88,0.88)
