@@ -40,5 +40,10 @@ func _on_Droite_gui_input(event):
 		$"%Droite".color = Color.gainsboro
 		emit_signal("regle_activer",get_index())
 
+func disconnect_signals():
+	$"%Gauche".disconnect("gui_input",self,"_on_Gauche_gui_input")
+	$"%Droite".disconnect("gui_input",self,"_on_Droite_gui_input")
+	$"%ColorRect".disconnect("gui_input",self,"_on_ColorRect_gui_input")
+
 func _on_Button_pressed():
 	emit_signal("regle_supprimer",get_index())

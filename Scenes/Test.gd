@@ -10,7 +10,6 @@ var objectif:Array
 var regles:Array
 var test
 
-
 func _ready():
 	test = Global.current_level
 	creer_niveau()
@@ -39,6 +38,7 @@ func creer_niveau():
 	for regle in test["Reg"]:
 		#Instancie la scène de la regle (signaux + position)
 		var instance_regle = regle_inst.instance()
+		instance_regle.disconnect_signals()
 		instance_regle.position = $Background/PaletteRegles/ReglePoint.position + (Vector2.DOWN * 60 * ($Background/PaletteRegles.get_child_count() - 1))
 		#recupère les enfants de la scene pour avoir coté droit et gauche
 		var sous_regle = instance_regle.get_children()[0].get_children()

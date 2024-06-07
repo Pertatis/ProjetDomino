@@ -72,9 +72,9 @@ func make_level1():
 	temp.append(Array(['B','R']))
 	
 	regles.append(temp)
-	level1["Base"]=one
-	level1["Obj"]=two
-	level1["Reg"]=regles
+	level1["Base"]=one.duplicate()
+	level1["Obj"]=two.duplicate()
+	level1["Reg"]=regles.duplicate()
 	
 	return level1
 	

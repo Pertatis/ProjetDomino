@@ -160,11 +160,29 @@ func _on_Fond_base_activer(index_regle):
 			remove_focus_regle(child)
 
 # --------- Signal handler play level ---------
+# met tous les dominos dans current_level et change de scene
 func _on_BJouer_pressed():
+	var temp
+	var regles = []
+	Global.current_level["Base"] = base_dominos.duplicate()
+	Global.current_level["Obj"] = objectif_dominos.duplicate()
+	for child in $"%PanelRegles".get_children():
+		if not (child is Position2D):
+			temp = []
+			temp.append(child.cote_gauche)
+			temp.append(child.cote_droit)
+			regles.append(temp)
+	if regles:
+		Global.current_level["Reg"] = regles.duplicate()
+	else:
+		Global.current_level["Reg"] = []
+		
+	
 	var error = get_tree().change_scene("res://Scenes/Test.tscn")
 	if error != OK :
 			print("Failed to change scene", error)
 # --------- Signal handler save level ---------
+# sauvegarde dans save, test, et rajoute au niveaux créés
 func _on_BSauvegarder_pressed():
 	test = {}
 	var temp:Array
@@ -180,56 +198,56 @@ func _on_BSauvegarder_pressed():
 			regles.append(temp)
 	save["Reg"] = regles.duplicate()
 	test = save.duplicate()
-	Global.current_level = save.duplicate()
 	Global.levels_created.append(save)
 
 # charge un niveau depuis la variable test actuellement, doit charger depuis une save ou une 
 func _on_BCharger_pressed():
-	var instance
-	supprimer_tout()
-	#Ajoute la base
-	for domino in test["Base"]:
-		instance = Global.get_domino(self,domino)
-		instance.position = $"%BasePoint".position + (Vector2.RIGHT * distance_domino * ($"%PanelBase".get_child_count() - 1))
-		$"%PanelBase".add_child(instance)
-		base_dominos.append(Global.get_color(instance.filename))
-		print(base_dominos)
-
-	#Ajoute l'objectif
-	for domino in test["Obj"]:
-		instance = Global.get_domino(self,domino)
-		instance.position = $"%ObjectifPoint".position + (Vector2.RIGHT * distance_domino * ($"%PanelObjectif".get_child_count() - 1))
-		$"%PanelObjectif".add_child(instance)
-		objectif_dominos.append(Global.get_color(instance.filename))
-	
-	#Ajoute les regles
-	
-	# Chaque regle
-	for regle in test["Reg"]:
-		#Instancie la scène de la regle (signaux + position)
-		var instance_regle = regle_inst.instance()
-		instance_regle.position = $"%ReglePoint".position + (Vector2.DOWN * 60 * ($"%PanelRegles".get_child_count() - 1))
-		instance_regle.connect("regle_activer",self,"regle_activer_handle")
-		instance_regle.connect("regle_supprimer",self,"regle_supprimer_handle")
-		#recupère les enfants de la scene pour avoir coté droit et gauche
-		var sous_regle = instance_regle.get_children()[0].get_children()
-		print(sous_regle)
-		#cote gauche
-		for domino in regle[0]:
+	if test != null:
+		var instance
+		supprimer_tout()
+		#Ajoute la base
+		for domino in test["Base"]:
 			instance = Global.get_domino(self,domino)
-			instance.position = sous_regle[1].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[1].get_child_count() - 2))
-			instance.scale = Vector2(0.15,0.15)
-			sous_regle[1].add_child(instance)
-			instance_regle.cote_gauche.append(Global.get_color(instance.filename))
-		#cote droit
-		for domino in regle[1]:
-			instance = Global.get_domino(self,domino)
-			instance.position = sous_regle[3].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[3].get_child_count() - 2))
-			instance.scale = Vector2(0.15,0.15)
-			sous_regle[3].add_child(instance)
-			instance_regle.cote_droit.append(Global.get_color(instance.filename))
+			instance.position = $"%BasePoint".position + (Vector2.RIGHT * distance_domino * ($"%PanelBase".get_child_count() - 1))
+			$"%PanelBase".add_child(instance)
+			base_dominos.append(Global.get_color(instance.filename))
+			print(base_dominos)
 
-		$"%PanelRegles".add_child(instance_regle)
+		#Ajoute l'objectif
+		for domino in test["Obj"]:
+			instance = Global.get_domino(self,domino)
+			instance.position = $"%ObjectifPoint".position + (Vector2.RIGHT * distance_domino * ($"%PanelObjectif".get_child_count() - 1))
+			$"%PanelObjectif".add_child(instance)
+			objectif_dominos.append(Global.get_color(instance.filename))
+		
+		#Ajoute les regles
+		
+		# Chaque regle
+		for regle in test["Reg"]:
+			#Instancie la scène de la regle (signaux + position)
+			var instance_regle = regle_inst.instance()
+			instance_regle.position = $"%ReglePoint".position + (Vector2.DOWN * 60 * ($"%PanelRegles".get_child_count() - 1))
+			instance_regle.connect("regle_activer",self,"regle_activer_handle")
+			instance_regle.connect("regle_supprimer",self,"regle_supprimer_handle")
+			#recupère les enfants de la scene pour avoir coté droit et gauche
+			var sous_regle = instance_regle.get_children()[0].get_children()
+			print(sous_regle)
+			#cote gauche
+			for domino in regle[0]:
+				instance = Global.get_domino(self,domino)
+				instance.position = sous_regle[1].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[1].get_child_count() - 2))
+				instance.scale = Vector2(0.15,0.15)
+				sous_regle[1].add_child(instance)
+				instance_regle.cote_gauche.append(Global.get_color(instance.filename))
+			#cote droit
+			for domino in regle[1]:
+				instance = Global.get_domino(self,domino)
+				instance.position = sous_regle[3].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[3].get_child_count() - 2))
+				instance.scale = Vector2(0.15,0.15)
+				sous_regle[3].add_child(instance)
+				instance_regle.cote_droit.append(Global.get_color(instance.filename))
+
+			$"%PanelRegles".add_child(instance_regle)
 # --------- Signal handler delete domino ---------
 func supp_domino_handle(id,parent):
 	var child_to_remove = parent.get_child(id)

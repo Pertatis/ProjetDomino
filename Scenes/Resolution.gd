@@ -12,13 +12,13 @@ var test
 
 
 func _ready():
-	test = Global.current_level
+	test = Global.level1
 	creer_niveau()
 
 func creer_niveau():
-	base = Global.current_level["Base"].duplicate()
-	objectif = Global.current_level["Obj"].duplicate()
-	regles = Global.current_level["Reg"].duplicate()
+	base = Global.level1["Base"].duplicate()
+	objectif = Global.level1["Obj"].duplicate()
+	regles = Global.level1["Reg"].duplicate()
 	var instance
 	supprimer_tout()
 	#Ajoute la base
@@ -39,6 +39,8 @@ func creer_niveau():
 	for regle in test["Reg"]:
 		#Instancie la scène de la regle (signaux + position)
 		var instance_regle = regle_inst.instance()
+		instance_regle.disconnect_signals()
+#		instance.disconnect("gui_input",instance,"_on_ColorRect_gui_input")
 		instance_regle.position = $Background/PaletteRegles/Position2D.position + (Vector2.DOWN * 60 * ($Background/PaletteRegles.get_child_count() - 1))
 		#recupère les enfants de la scene pour avoir coté droit et gauche
 		var sous_regle = instance_regle.get_children()[0].get_children()
@@ -54,7 +56,7 @@ func creer_niveau():
 			instance.position = sous_regle[3].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[3].get_child_count() - 2))
 			instance.scale = Vector2(0.15,0.15)
 			sous_regle[3].add_child(instance)
-
+		
 		$Background/PaletteRegles.add_child(instance_regle)
 		
 
