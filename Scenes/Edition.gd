@@ -146,6 +146,7 @@ func _on_Button_pressed():
 	if $"%PanelRegles".get_child_count() -1 < max_nb_regles :
 		var instance_regle = regle_inst.instance()
 		instance_regle.position = $"%ReglePoint".position + (Vector2.DOWN * 60 * ($"%PanelRegles".get_child_count() - 1))
+		instance_regle.get_children()[1].mouse_default_cursor_shape = 2
 		instance_regle.connect("regle_activer",self,"regle_activer_handle")
 		instance_regle.connect("regle_supprimer",self,"regle_supprimer_handle")
 		$"%PanelRegles".add_child(instance_regle)

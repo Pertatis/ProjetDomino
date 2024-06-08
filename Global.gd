@@ -78,13 +78,23 @@ func get_domino(node,color):
 		return inst
 
 func make_level1():
-	var one = ['B','B','B','B','B','B','R','G','Y','P']
+	var one = ['B','Y','R','P','G','B','R','G','Y','P']
 	var two = ['P','Y']
 	var regles:Array = []
 	var temp = []
 	
 	temp.append(Array(['R','B']))
 	temp.append(Array(['B','R']))
+	
+	regles.append(temp)
+	temp = []
+	temp.append(Array(['Y','R','P']))
+	temp.append(Array(['B','R']))
+	
+	regles.append(temp)
+	temp = []
+	temp.append(Array(['Y','P']))
+	temp.append(Array(['R','G']))
 	
 	regles.append(temp)
 	level1["Base"]=one.duplicate()

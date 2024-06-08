@@ -11,6 +11,7 @@ var regles:Array
 var test
 
 var selected_dominos:Array
+var selected_dominos_type:Array
 
 func _ready():
 	test = Global.level1
@@ -77,16 +78,55 @@ func supprimer_tout():
 
 func select_domino_handle(id):
 	print(id)
+	# si n'existe pas, le rajoute
 	if not selected_dominos.has(id):
 		selected_dominos.append(id)
+		selected_dominos.sort()
+		# rajoute tous les autres dominos si on sélectionne des dominos non contigues
+		for i in range(selected_dominos[0] + 1,selected_dominos[selected_dominos.size() - 1]):
+			if not selected_dominos.has(i):
+				selected_dominos.append(i)
 	else:
-		selected_dominos.erase(id)
+		if id == selected_dominos[0] or id == selected_dominos[selected_dominos.size() - 1]:
+			selected_dominos.erase(id)
+		else:
+			# supprimer de id -> fin
+			for i in range(id,selected_dominos[selected_dominos.size() - 1] + 1):
+				selected_dominos.erase(i)
 	
+	selected_dominos.sort()
+	print(selected_dominos)
+
+#
 	var all_dominos = $Background/Base.get_children()
-	
+	# Assigner la taille adéquate aux dominos
 	for element in all_dominos:
 		if not (element is Position2D):
 			if (element.get_index() in selected_dominos):
 				element.scale = Vector2(0.88,0.88)
 			else:
 				element.scale = Vector2(0.8,0.8)
+	get_dominos_color()
+	compare_regles()
+func get_dominos_color():
+	selected_dominos_type = []
+	var children = $Background/Base.get_children()
+	for element in selected_dominos:
+		selected_dominos_type.append(Global.get_color(children[element].filename))
+	
+func compare_regles():
+	for regle in regles:
+		if selected_dominos_type == regle[0] or selected_dominos_type == regle[1]:
+			light_up_regle(regles.find(regle))
+		else:
+			darken_regle(regles.find(regle))
+
+
+func light_up_regle(number):
+	var regle = $Background/PaletteRegles.get_children()[number + 1]
+	print(regle.get_children()[0].get_children())
+	regle.get_children()[0].color = Color.beige
+	
+func darken_regle(number):
+	var regle = $Background/PaletteRegles.get_children()[number + 1]
+	regle.get_children()[0].color = Color.white
