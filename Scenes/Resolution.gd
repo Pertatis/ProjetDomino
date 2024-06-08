@@ -42,7 +42,7 @@ func creer_niveau():
 		var instance_regle = regle_inst.instance()
 		instance_regle.disconnect_signals()
 #		instance.disconnect("gui_input",instance,"_on_ColorRect_gui_input")
-		instance_regle.position = $Background/PaletteRegles/Position2D.position + (Vector2.DOWN * 60 * ($Background/PaletteRegles.get_child_count() - 1))
+		instance_regle.position = $Background/PaletteRegles/ReglePoint.position + (Vector2.DOWN * 60 * ($Background/PaletteRegles.get_child_count() - 1))
 		#recupère les enfants de la scene pour avoir coté droit et gauche
 		var sous_regle = instance_regle.get_children()[0].get_children()
 		#cote gauche
@@ -90,6 +90,3 @@ func select_domino_handle(id):
 				element.scale = Vector2(0.88,0.88)
 			else:
 				element.scale = Vector2(0.8,0.8)
-#	for element in selected_dominos:
-#		if not (all_dominos[element] is Position2D):
-#			all_dominos[element].scale = Vector2(0.88,0.88)

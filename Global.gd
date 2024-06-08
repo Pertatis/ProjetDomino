@@ -44,25 +44,37 @@ func get_domino(node,color):
 	if "R" in color:
 		var inst = domino_red.instance()
 		if node != null:
-			inst.connect("supp_domino_rouge",node,"supp_domino_handle")
+			if node.name == "Fond":
+				inst.connect("supp_domino_rouge",node,"supp_domino_handle")
+			elif node.name == "Resolution" or node.name == "Test":
+				inst.connect("select_domino_rouge",node,"select_domino_handle")
 		return inst
 		
 	if "G" in color:
 		var inst =  domino_green.instance()
 		if node != null:
-			inst.connect("supp_domino_vert",node,"supp_domino_handle")
+			if node.name == "Fond":
+				inst.connect("supp_domino_vert",node,"supp_domino_handle")
+			elif node.name == "Resolution" or node.name == "Test":
+				inst.connect("select_domino_vert",node,"select_domino_handle")
 		return inst
 		
 	if "Y" in color:
 		var inst =  domino_yellow.instance()
 		if node != null:
-			inst.connect("supp_domino_jaune",node,"supp_domino_handle")
+			if node.name == "Fond":
+				inst.connect("supp_domino_jaune",node,"supp_domino_handle")
+			elif node.name == "Resolution" or node.name == "Test":
+				inst.connect("select_domino_jaune",node,"select_domino_handle")
 		return inst
 		
 	if "P" in color:
 		var inst = pinkfloyd.instance()
 		if node != null:
-			inst.connect("supp_domino_rose",node,"supp_domino_handle")
+			if node.name == "Fond":
+				inst.connect("supp_domino_rose",node,"supp_domino_handle")
+			elif node.name == "Resolution" or node.name == "Test":
+				inst.connect("select_domino_rose",node,"select_domino_handle")
 		return inst
 
 func make_level1():

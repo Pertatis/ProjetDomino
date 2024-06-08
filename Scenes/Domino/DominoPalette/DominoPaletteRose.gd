@@ -3,12 +3,13 @@ extends Node2D
 # --------- Signals ---------
 signal click_domino_rose
 signal supp_domino_rose(id,parent)
-
+signal select_domino_rose(id)
 
 # --------- Signal handlers ---------
 func _on_DominoPaletteRose_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():
 		emit_signal("click_domino_rose")
+		emit_signal("select_domino_rose",get_index())
 	if event is InputEventMouseButton and event.button_index == BUTTON_RIGHT and event.is_pressed():
 		emit_signal("supp_domino_rose",get_index(),get_parent())
 
