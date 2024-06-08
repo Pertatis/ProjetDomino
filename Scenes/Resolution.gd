@@ -42,6 +42,7 @@ func creer_niveau():
 		#Instancie la scène de la regle (signaux + position)
 		var instance_regle = regle_inst.instance()
 		instance_regle.disconnect_signals()
+		instance_regle.connect("regle_clicked",self,"click_on_regle")
 #		instance.disconnect("gui_input",instance,"_on_ColorRect_gui_input")
 		instance_regle.position = $Background/PaletteRegles/ReglePoint.position + (Vector2.DOWN * 60 * ($Background/PaletteRegles.get_child_count() - 1))
 		#recupère les enfants de la scene pour avoir coté droit et gauche
@@ -126,7 +127,15 @@ func light_up_regle(number):
 	var regle = $Background/PaletteRegles.get_children()[number + 1]
 	print(regle.get_children()[0].get_children())
 	regle.get_children()[0].color = Color.beige
+	regle.selected = true
 	
 func darken_regle(number):
 	var regle = $Background/PaletteRegles.get_children()[number + 1]
 	regle.get_children()[0].color = Color.white
+	regle.selected = false
+
+#recherche la regle, et vérifie si elle est selectionné (la base l'équivaut à la regle)-
+func click_on_regle(id):
+	var regle = $Background/PaletteRegles.get_children()[id]
+	if regle.selected:
+		print('cc')

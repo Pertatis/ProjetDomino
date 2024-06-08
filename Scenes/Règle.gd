@@ -3,11 +3,13 @@ extends Node2D
 # --------- Signals ---------
 signal regle_activer(index)
 signal regle_supprimer(index)
-
+signal regle_clicked(index)
 
 # --------- Variables ---------
 var cote_droit:Array
 var cote_gauche:Array
+
+var selected:bool = false
 
 var gauche:bool = false
 var droite:bool = false
@@ -47,3 +49,8 @@ func disconnect_signals():
 
 func _on_Button_pressed():
 	emit_signal("regle_supprimer",get_index())
+
+
+func _on_Click_ColorRect(event):
+	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():
+		emit_signal("regle_clicked",get_index())
