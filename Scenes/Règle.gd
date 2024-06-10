@@ -54,3 +54,7 @@ func _on_Button_pressed():
 func _on_Click_ColorRect(event):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():
 		emit_signal("regle_clicked",get_index())
+
+func activer_focus():
+	$"%ColorRect".color = Color.gainsboro
+	$"%Gauche".color = Color.gainsboro

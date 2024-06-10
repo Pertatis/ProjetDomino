@@ -149,6 +149,7 @@ func _on_Button_pressed():
 		instance_regle.get_children()[1].mouse_default_cursor_shape = 2
 		instance_regle.connect("regle_activer",self,"regle_activer_handle")
 		instance_regle.connect("regle_supprimer",self,"regle_supprimer_handle")
+		instance_regle.activer_focus()
 		$"%PanelRegles".add_child(instance_regle)
 
 # --------- Signal handlers remove rule focus ---------

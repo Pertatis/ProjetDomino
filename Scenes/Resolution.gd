@@ -16,6 +16,10 @@ var selected_dominos_type:Array
 func _ready():
 	test = Global.level2
 	creer_niveau()
+	var nikmok = [1,2,3,4,5]
+	print(nikmok)
+	nikmok.insert(1,99)
+	print(nikmok)
 
 func creer_niveau():
 	base = test["Base"].duplicate()
@@ -67,9 +71,9 @@ func creer_niveau():
 #				instance_regle.selected = true
 		$Background/PaletteRegles.add_child(instance_regle)
 #
-#	for regle in regles:
-#		if (regle[0] == [''] or regle[1] == ['']):
-#			light_up_regle(regles.find(regle))
+	for regle in regles:
+		if (regle[0] == [''] or regle[1] == ['']):
+			light_up_regle(regles.find(regle))
 
 
 func supprimer_tout():
@@ -124,8 +128,8 @@ func get_dominos_color():
 	
 func compare_regles():
 	for regle in regles:
-#		if selected_dominos_type == regle[0] or selected_dominos_type == regle[1] or (regle[0] == [''] or regle[1] == ['']):
-		if selected_dominos_type == regle[0] or selected_dominos_type == regle[1]:
+		if selected_dominos_type == regle[0] or selected_dominos_type == regle[1] or ((regle[0] == [''] or regle[1] == ['']) and selected_dominos.size() <= 1):
+#		if selected_dominos_type == regle[0] or selected_dominos_type == regle[1]:
 		
 			light_up_regle(regles.find(regle))
 		else:
@@ -149,31 +153,44 @@ func click_on_regle(id):
 	
 	if regle.selected:
 		# enlève ce que doit être changé
-		for i in selected_dominos.size():
-			base.remove(selected_dominos[0] - 1)
-		
-		#si le coté gauche est selectionné
-		if regle_actuelle[0] == selected_dominos_type:
-			var domino_inserer = regle_actuelle[1].duplicate()
-			domino_inserer.invert()
-			for element in domino_inserer:
-				base.insert(selected_dominos[0] - 1,element)
-		
-		#si le coté droit est selectionné
-		if regle_actuelle[1] == selected_dominos_type:
-			var domino_inserer = regle_actuelle[0].duplicate()
-			domino_inserer.invert()
-			for element in domino_inserer:
-				base.insert(selected_dominos[0] - 1,element)
-		
-#		#si on appuie sur une règle vide sans avoir selectionné quoique ce soit
-#		if selected_dominos.empty():
-#			if regle_actuelle[0] == ['']:
-#				base.append_array(regle_actuelle[1])
-#			elif regle_actuelle[1] == ['']:
-#				print(regle_actuelle[0])
-#				base.append_array(regle_actuelle[0])
-	
+		if (regle_actuelle[0] != [''] or regle_actuelle[1] != ['']) and (selected_dominos_type == regle_actuelle[0] or selected_dominos_type == regle_actuelle[1]):
+			for i in selected_dominos.size():
+				base.remove(selected_dominos[0] - 1)
+			
+			#si le coté gauche est selectionné
+			if regle_actuelle[0] == selected_dominos_type:
+				var domino_inserer = regle_actuelle[1].duplicate()
+				domino_inserer.invert()
+				for element in domino_inserer:
+					base.insert(selected_dominos[0] - 1,element)
+			
+			#si le coté droit est selectionné
+			if regle_actuelle[1] == selected_dominos_type:
+				var domino_inserer = regle_actuelle[0].duplicate()
+				domino_inserer.invert()
+				for element in domino_inserer:
+					base.insert(selected_dominos[0] - 1,element)
+		else:
+			if selected_dominos.size() <= 1:
+				var where_to_add
+				#si on appuie sur une règle vide sans avoir selectionné quoique ce soit
+				if selected_dominos.empty():
+					where_to_add = 0
+				# si il y a un seul selectionné seulement
+				else :
+					where_to_add = selected_dominos[0]
+				
+				if regle_actuelle[0] == ['']:
+					var domino_inserer = regle_actuelle[1].duplicate()
+					domino_inserer.invert()
+					for element in domino_inserer:
+						base.insert(where_to_add,element)
+					
+				elif regle_actuelle[1] == ['']:
+					var domino_inserer = regle_actuelle[0].duplicate()
+					domino_inserer.invert()
+					for element in domino_inserer:
+						base.insert(where_to_add,element)
 	# réinitialise la sélection
 	selected_dominos = []
 	selected_dominos_type = []
@@ -196,3 +213,5 @@ func click_on_regle(id):
 
 func _on_Reinitialiser_pressed():
 	creer_niveau()
+
+
