@@ -93,3 +93,5 @@ custom_styles/pressed = SubResource( 3 )
 custom_styles/normal = SubResource( 9 )
 icon = ExtResource( 3 )
 icon_align = 1
+
+[connection signal="pressed" from="Reinitialiser" to="." method="_on_Reinitialiser_pressed"]

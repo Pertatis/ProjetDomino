@@ -13,9 +13,11 @@ var levels_created:Array
 var current_level:Dictionary
 
 var level1:Dictionary
+var level2:Dictionary
 
 func _ready():
 	make_level1()
+	make_level2()
 
 func get_color(filename):
 	if "Bleu" in filename:
@@ -76,6 +78,7 @@ func get_domino(node,color):
 			elif node.name == "Resolution" or node.name == "Test":
 				inst.connect("select_domino_rose",node,"select_domino_handle")
 		return inst
+	return null
 
 func make_level1():
 	var one = ['B','Y','R','P','G','B','R','G','Y','P']
@@ -103,3 +106,45 @@ func make_level1():
 	
 	return level1
 	
+func make_level2():
+	var one = ['B','R','G','R','G','G','G','B','G']
+	var two = ['B','G']
+	var regles:Array = []
+	var temp = []
+	
+	temp.append(Array(['G','B','G']))
+	temp.append(Array(['B','G']))
+	regles.append(temp)
+	
+	temp = []
+	temp.append(Array(['G','R']))
+	temp.append(Array(['R','G']))
+	regles.append(temp)
+	
+	temp = []
+	temp.append(Array(['G','G']))
+	temp.append(Array(['G']))
+	regles.append(temp)
+	
+	temp = []
+	temp.append(Array(['R','R']))
+	temp.append(Array(['']))
+	regles.append(temp)
+	
+	temp = []
+	temp.append(Array(['B','B']))
+	temp.append(Array(['B']))
+	regles.append(temp)
+	
+	level2["Base"]=one.duplicate()
+	level2["Obj"]=two.duplicate()
+	level2["Reg"]=regles.duplicate()
+	
+	return level2
+	
+func remove_whitespace(arr):
+	var new_arr = []
+	for item in arr:
+		if item.strip_edges() != "":
+			new_arr.append(item)
+	return new_arr
