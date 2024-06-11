@@ -110,14 +110,7 @@ func select_domino_handle(id):
 	selected_dominos.sort()
 
 #
-	var all_dominos = $Background/Base.get_children()
-	# Assigner la taille adéquate aux dominos
-	for element in all_dominos:
-		if not (element is Position2D):
-			if (element.get_index() in selected_dominos):
-				element.scale = Vector2(0.88,0.88)
-			else:
-				element.scale = Vector2(0.8,0.8)
+	regler_taille_domino()
 	get_dominos_color()
 	compare_regles()
 func get_dominos_color():
@@ -150,68 +143,90 @@ func darken_regle(number):
 func click_on_regle(id):
 	var regle = $Background/PaletteRegles.get_children()[id]
 	var regle_actuelle = regles[id - 1]
+	var domino_inserer
+	var where_to_add = 0
 	
 	if regle.selected:
-		# enlève ce que doit être changé
-		if (regle_actuelle[0] != [''] or regle_actuelle[1] != ['']) and (selected_dominos_type == regle_actuelle[0] or selected_dominos_type == regle_actuelle[1]):
+		if (regle_actuelle[0] != [''] or regle_actuelle[1] != ['']) and \
+		 (selected_dominos_type == regle_actuelle[0] or selected_dominos_type == regle_actuelle[1]):
+			
+			#Verifie si le nombre de dominos maximum n'est pas dépassé
+			if not si_nombre_domino_max(regle_actuelle):
+				selected_dominos.clear()
+				selected_dominos_type.clear()
+				compare_regles()
+				regler_taille_domino()
+				return
+			# Remove selected dominos
 			for i in selected_dominos.size():
 				base.remove(selected_dominos[0] - 1)
 			
-			#si le coté gauche est selectionné
+			# Determine which side is selected and insert the other side
 			if regle_actuelle[0] == selected_dominos_type:
-				var domino_inserer = regle_actuelle[1].duplicate()
-				domino_inserer.invert()
-				for element in domino_inserer:
-					base.insert(selected_dominos[0] - 1,element)
+				domino_inserer = regle_actuelle[1].duplicate()
+			elif regle_actuelle[1] == selected_dominos_type:
+				domino_inserer = regle_actuelle[0].duplicate()
 			
-			#si le coté droit est selectionné
-			if regle_actuelle[1] == selected_dominos_type:
-				var domino_inserer = regle_actuelle[0].duplicate()
+			if domino_inserer:
 				domino_inserer.invert()
 				for element in domino_inserer:
-					base.insert(selected_dominos[0] - 1,element)
-		else:
-			if selected_dominos.size() <= 1:
-				var where_to_add
-				#si on appuie sur une règle vide sans avoir selectionné quoique ce soit
-				if selected_dominos.empty():
-					where_to_add = 0
-				# si il y a un seul selectionné seulement
-				else :
-					where_to_add = selected_dominos[0]
-				
-				if regle_actuelle[0] == ['']:
-					var domino_inserer = regle_actuelle[1].duplicate()
-					domino_inserer.invert()
-					for element in domino_inserer:
-						base.insert(where_to_add,element)
-					
-				elif regle_actuelle[1] == ['']:
-					var domino_inserer = regle_actuelle[0].duplicate()
-					domino_inserer.invert()
-					for element in domino_inserer:
-						base.insert(where_to_add,element)
-	# réinitialise la sélection
-	selected_dominos = []
-	selected_dominos_type = []
+					base.insert(selected_dominos[0] - 1, element)
+		
+		elif selected_dominos.size() <= 1:
+			# Determine where to add the new dominos
+			if not selected_dominos.empty():
+				where_to_add = selected_dominos[0]
+			
+			if regle_actuelle[0] == [''] and regle_actuelle[1].size() + base.size() <= 15:
+				domino_inserer = regle_actuelle[1].duplicate()
+			elif regle_actuelle[1] == [''] and regle_actuelle[0].size() + base.size() <= 15:
+				domino_inserer = regle_actuelle[0].duplicate()
+			
+			if domino_inserer:
+				domino_inserer.invert()
+				for element in domino_inserer:
+					base.insert(where_to_add, element)
+	
+	# Reset selection
+	selected_dominos.clear()
+	selected_dominos_type.clear()
 	
 	compare_regles()
 	
-	#Supprime la base
+	# Remove non-Position2D children from Base
 	for child in $Background/Base.get_children():
 		if not (child is Position2D):
 			$Background/Base.remove_child(child)
-	# dessine les dominos
+	
+	# Draw the dominos
 	var instance
 	for domino in base:
-		instance = Global.get_domino(self,domino)
-		if instance != null:
+		instance = Global.get_domino(self, domino)
+		if instance:
 			instance.position = $Background/Base/BasePoint.position + (Vector2.RIGHT * distance_domino * ($Background/Base.get_child_count() - 1))
 			$Background/Base.add_child(instance)
+	
 	base = Global.remove_whitespace(base)
 	print(base)
+
 
 func _on_Reinitialiser_pressed():
 	creer_niveau()
 
-
+func si_nombre_domino_max(regle):
+	var tmp
+	if regle[0] == selected_dominos_type:
+#		print(base.size() - regle[0].size() + regle[1].size())
+		return base.size() - regle[0].size() + regle[1].size() <= 15
+	else:
+		return (base.size() - regle[1].size() + regle[0].size() <= 15)
+		
+func regler_taille_domino():
+	var all_dominos = $Background/Base.get_children()
+	# Assigner la taille adéquate aux dominos
+	for element in all_dominos:
+		if not (element is Position2D):
+			if (element.get_index() in selected_dominos):
+				element.scale = Vector2(0.88,0.88)
+			else:
+				element.scale = Vector2(0.8,0.8)
