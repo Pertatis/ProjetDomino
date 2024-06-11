@@ -29,7 +29,6 @@ var objectif_dominos:Array
 
 # --------- Select base ---------
 func _ready():
-	print($"%BasePoint".global_position)
 	base = true
 	$"%PanelBase".color = Color.gainsboro
 	if not Global.current_level.empty():
@@ -281,7 +280,6 @@ func supp_domino_handle(id, parent):
 
 
 func regle_supp_domino_handle(index):
-#	print($"%PanelRegles".get_child(index))
 	_propagate_event_regle($"%PanelRegles".get_child(index))
 
 # --------- Signal handler delete rule ---------
@@ -316,10 +314,8 @@ func remove_focus_regle(regle):
 func ajouter_a_regle(instance):
 	# regle contient le noeud de la scène (Node2D)
 	var regle = $"%PanelRegles".get_children()[regle_select]
-#	print(regle)
 	#sous regle contient les enfants : AreaPrincipale, Gauche,Flèche,Droite
 	var sous_regle = regle.get_children()[0].get_children()
-#	print(sous_regle)
 	if regle.droite:
 		if sous_regle[3].get_child_count() - 2 < max_nb_domino_par_cote_regle :
 			instance.position = sous_regle[3].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[3].get_child_count() - 2))
@@ -336,7 +332,6 @@ func ajouter_a_regle(instance):
 func _propagate_event(event,node):
 	var mouse_pos = get_local_mouse_position()
 	for child in node.get_children():
-#		print(child)
 		if not (child is Position2D) and child.get_rect(null).has_point(mouse_pos):
 			if event != null:
 				child.input(event)
@@ -344,7 +339,6 @@ func _propagate_event(event,node):
 
 func _propagate_event_regle(node):
 	var mouse_pos = get_global_mouse_position()
-#	print(node.get_children()[0].get_children()[1].get_children())
 	var gauche = node.get_children()[0].get_children()[1].get_children()
 	var droite = node.get_children()[0].get_children()[3].get_children()
 	for element in gauche:

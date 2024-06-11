@@ -16,10 +16,6 @@ var selected_dominos_type:Array
 func _ready():
 	test = Global.level2
 	creer_niveau()
-	var nikmok = [1,2,3,4,5]
-	print(nikmok)
-	nikmok.insert(1,99)
-	print(nikmok)
 
 func creer_niveau():
 	base = test["Base"].duplicate()
@@ -58,8 +54,7 @@ func creer_niveau():
 				instance.position = sous_regle[1].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[1].get_child_count() - 2))
 				instance.scale = Vector2(0.15,0.15)
 				sous_regle[1].add_child(instance)
-#			else:
-#				instance_regle.selected = true
+
 		#cote droit
 		for domino in regle[1]:
 			instance = Global.get_domino(null,domino)
@@ -67,8 +62,7 @@ func creer_niveau():
 				instance.position = sous_regle[3].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[3].get_child_count() - 2))
 				instance.scale = Vector2(0.15,0.15)
 				sous_regle[3].add_child(instance)
-#			else:
-#				instance_regle.selected = true
+
 		$Background/PaletteRegles.add_child(instance_regle)
 #
 	for regle in regles:
@@ -122,8 +116,6 @@ func get_dominos_color():
 func compare_regles():
 	for regle in regles:
 		if selected_dominos_type == regle[0] or selected_dominos_type == regle[1] or ((regle[0] == [''] or regle[1] == ['']) and selected_dominos.size() <= 1):
-#		if selected_dominos_type == regle[0] or selected_dominos_type == regle[1]:
-		
 			light_up_regle(regles.find(regle))
 		else:
 			darken_regle(regles.find(regle))
@@ -171,6 +163,7 @@ func click_on_regle(id):
 				domino_inserer.invert()
 				for element in domino_inserer:
 					base.insert(selected_dominos[0] - 1, element)
+				add_element_to_history(base)
 		
 		elif selected_dominos.size() <= 1:
 			# Determine where to add the new dominos
@@ -186,6 +179,7 @@ func click_on_regle(id):
 				domino_inserer.invert()
 				for element in domino_inserer:
 					base.insert(where_to_add, element)
+				add_element_to_history(base)
 	
 	# Reset selection
 	selected_dominos.clear()
@@ -207,16 +201,23 @@ func click_on_regle(id):
 			$Background/Base.add_child(instance)
 	
 	base = Global.remove_whitespace(base)
-	print(base)
 
-
+func add_element_to_history(_array):
+	var instance_regle = regle_inst.instance()
+	instance_regle.position = $"%HistoriquePoint".position + (Vector2.DOWN * 60 * ($"%HistoriqueFond".get_child_count() - 1))
+	instance_regle.get_children()[1].mouse_default_cursor_shape = 2
+	instance_regle.activer_focus()
+	$"%HistoriqueFond".add_child(instance_regle)
+	# changement gui
+	$"%HistoriqueFond".rect_min_size += Vector2(0, 60)
+	yield(get_tree(), "idle_frame")
+	$"%ScrollContainer".scroll_vertical = $"%ScrollContainer".get_v_scrollbar().max_value
+	
 func _on_Reinitialiser_pressed():
 	creer_niveau()
 
 func si_nombre_domino_max(regle):
-	var tmp
 	if regle[0] == selected_dominos_type:
-#		print(base.size() - regle[0].size() + regle[1].size())
 		return base.size() - regle[0].size() + regle[1].size() <= 15
 	else:
 		return (base.size() - regle[1].size() + regle[0].size() <= 15)

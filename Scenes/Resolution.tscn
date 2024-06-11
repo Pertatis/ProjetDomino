@@ -68,8 +68,22 @@ margin_right = 760.0
 margin_bottom = 370.0
 custom_styles/panel = SubResource( 1 )
 
-[node name="HistoriquePoint" type="Position2D" parent="Background/Historique"]
-position = Vector2( 25, 25 )
+[node name="ScrollContainer" type="ScrollContainer" parent="Background/Historique"]
+unique_name_in_owner = true
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 725.0
+margin_bottom = 245.0
+rect_min_size = Vector2( 720, 240 )
+
+[node name="HistoriqueFond" type="ColorRect" parent="Background/Historique/ScrollContainer"]
+unique_name_in_owner = true
+margin_right = 720.0
+rect_min_size = Vector2( 720, 0 )
+
+[node name="HistoriquePoint" type="Position2D" parent="Background/Historique/ScrollContainer/HistoriqueFond"]
+unique_name_in_owner = true
+position = Vector2( 11, 2 )
 
 [node name="Objectif" type="Panel" parent="Background"]
 margin_left = 30.0
