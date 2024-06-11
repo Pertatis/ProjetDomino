@@ -4,7 +4,7 @@ extends Node2D
 signal regle_activer(index)
 signal regle_supprimer(index)
 signal regle_clicked(index)
-
+signal regle_supp_domino(index)
 # --------- Variables ---------
 var cote_droit:Array
 var cote_gauche:Array
@@ -33,6 +33,8 @@ func _on_Gauche_gui_input(event):
 		$"%Gauche".color = Color.gainsboro
 		$"%Droite".color = Color.white
 		emit_signal("regle_activer",get_index())
+	if event is InputEventMouseButton and event.button_index == BUTTON_RIGHT and event.is_pressed():
+		emit_signal("regle_supp_domino",get_index())
 
 func _on_Droite_gui_input(event):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():
@@ -41,6 +43,8 @@ func _on_Droite_gui_input(event):
 		$"%Gauche".color = Color.white
 		$"%Droite".color = Color.gainsboro
 		emit_signal("regle_activer",get_index())
+	if event is InputEventMouseButton and event.button_index == BUTTON_RIGHT and event.is_pressed():
+		emit_signal("regle_supp_domino",get_index())
 
 func disconnect_signals():
 	$"%Gauche".disconnect("gui_input",self,"_on_Gauche_gui_input")

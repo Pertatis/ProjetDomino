@@ -18,9 +18,11 @@ func _on_DominoPaletteVert_input_event(_viewport, event, _shape_idx):
 func input(event):
 	_on_DominoPaletteVert_input_event(null,event,null)
 
-func get_rect():
+func get_rect(where):
 	var sprite = get_children()[1]  # Adjust the path to your Sprite node
 	var size = Vector2()
 	if sprite.texture:
 		size = sprite.texture.get_size() * sprite.scale
+		if where != null:
+			size = size * 0.18
 	return Rect2(global_position - size / 2, size)

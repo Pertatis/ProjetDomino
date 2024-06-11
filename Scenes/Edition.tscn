@@ -57,6 +57,9 @@ corner_radius_bottom_left = 5
 
 [node name="Fond" type="Node2D"]
 script = ExtResource( 7 )
+__meta__ = {
+"_edit_horizontal_guides_": [  ]
+}
 
 [node name="PanelCouleurFond" type="ColorRect" parent="."]
 margin_left = -1.0
@@ -92,7 +95,6 @@ margin_left = 688.0
 margin_top = -81.0
 margin_right = 908.0
 margin_bottom = 410.0
-rect_pivot_offset = Vector2( 68, 439 )
 mouse_filter = 1
 
 [node name="ReglePoint" type="Position2D" parent="PanelFond/PanelRegles"]

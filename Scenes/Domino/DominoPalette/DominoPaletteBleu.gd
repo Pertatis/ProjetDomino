@@ -19,11 +19,13 @@ func _on_DominoPaletteBleu_input_event(_viewport, event, _shape_idx):
 func input(event):
 	_on_DominoPaletteBleu_input_event(null,event,null)
 
-func get_rect():
+func get_rect(where):
 	var sprite = get_children()[1]
 	var size = Vector2()
 	if sprite.texture:
 		size = sprite.texture.get_size() * sprite.scale
+		if where != null:
+			size = size * 0.18
 		# -------- TO FIX AND APPLY FOR ALL DOMINOS: Find the correct vector size --------
 #		print("original size : ", sprite.texture.get_size())
 #		print("height : ", sprite.texture.get_height())

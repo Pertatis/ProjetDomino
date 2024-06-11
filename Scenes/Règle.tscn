@@ -88,8 +88,8 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[connection signal="gui_input" from="ColorRect" to="." method="_on_Click_ColorRect"]
 [connection signal="gui_input" from="ColorRect" to="." method="_on_ColorRect_gui_input"]
+[connection signal="gui_input" from="ColorRect" to="." method="_on_Click_ColorRect"]
 [connection signal="gui_input" from="ColorRect/Gauche" to="." method="_on_Gauche_gui_input"]
 [connection signal="gui_input" from="ColorRect/Droite" to="." method="_on_Droite_gui_input"]
 [connection signal="pressed" from="SupprimerRegle" to="." method="_on_Button_pressed"]

@@ -29,6 +29,7 @@ var objectif_dominos:Array
 
 # --------- Select base ---------
 func _ready():
+	print($"%BasePoint".global_position)
 	base = true
 	$"%PanelBase".color = Color.gainsboro
 	if not Global.current_level.empty():
@@ -42,6 +43,7 @@ func _on_DominoPaletteBleu_click_domino_bleu():
 	instance_bleu.connect("supp_domino_bleu",self,"supp_domino_handle")
 	if base :
 		if $"%PanelBase".get_child_count() - 1 < max_nb_domino :
+#			instance_bleu.scale = Vector2(0.5 , 0.5)
 			instance_bleu.position = $"%BasePoint".position + (Vector2.RIGHT * distance_domino * ($"%PanelBase".get_child_count() - 1))
 			$"%PanelBase".add_child(instance_bleu)
 			base_dominos.append(Global.get_color(instance_bleu.filename))
@@ -87,7 +89,7 @@ func _on_DominoPaletteVert_click_domino_vert():
 
 func _on_DominoPaletteJaune_click_domino_jaune():
 	var instance_jaune = domino_yellow.instance()
-	instance_jaune.connect("supp_domino_jaune",self,"supp_domino_handle")	
+	instance_jaune.connect("supp_domino_jaune",self,"supp_domino_handle")
 	if base :
 		if $"%PanelBase".get_child_count() - 1 < max_nb_domino :
 			instance_jaune.position = $"%BasePoint".position + (Vector2.RIGHT * distance_domino * ($"%PanelBase".get_child_count() - 1))
@@ -149,6 +151,7 @@ func _on_Button_pressed():
 		instance_regle.get_children()[1].mouse_default_cursor_shape = 2
 		instance_regle.connect("regle_activer",self,"regle_activer_handle")
 		instance_regle.connect("regle_supprimer",self,"regle_supprimer_handle")
+		instance_regle.connect("regle_supp_domino",self,"regle_supp_domino_handle")
 		instance_regle.activer_focus()
 		$"%PanelRegles".add_child(instance_regle)
 
@@ -230,18 +233,19 @@ func _on_BCharger_pressed():
 			instance_regle.position = $"%ReglePoint".position + (Vector2.DOWN * 60 * ($"%PanelRegles".get_child_count() - 1))
 			instance_regle.connect("regle_activer",self,"regle_activer_handle")
 			instance_regle.connect("regle_supprimer",self,"regle_supprimer_handle")
+			instance_regle.connect("regle_supp_domino",self,"regle_supp_domino_handle")
 			#recupère les enfants de la scene pour avoir coté droit et gauche
 			var sous_regle = instance_regle.get_children()[0].get_children()
 			#cote gauche
 			for domino in regle[0]:
-				instance = Global.get_domino(null,domino)
+				instance = Global.get_domino(self,domino)
 				instance.position = sous_regle[1].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[1].get_child_count() - 2))
 				instance.scale = Vector2(0.15,0.15)
 				sous_regle[1].add_child(instance)
 				instance_regle.cote_gauche.append(Global.get_color(instance.filename))
 			#cote droit
 			for domino in regle[1]:
-				instance = Global.get_domino(null,domino)
+				instance = Global.get_domino(self,domino)
 				instance.position = sous_regle[3].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[3].get_child_count() - 2))
 				instance.scale = Vector2(0.15,0.15)
 				sous_regle[3].add_child(instance)
@@ -249,15 +253,36 @@ func _on_BCharger_pressed():
 
 			$"%PanelRegles".add_child(instance_regle)
 # --------- Signal handler delete domino ---------
-func supp_domino_handle(id,parent):
+func supp_domino_handle(id, parent):
 	var child_to_remove = parent.get_child(id)
 	parent.remove_child(child_to_remove)
-	if parent.name == 'PanelBase':
-		base_dominos.pop_at(id - 1)
-	if parent.name == 'PanelObjectif':
-		objectif_dominos.pop_at(id - 1)
-	for i in range(id, parent.get_child_count()):
-		parent.get_child(i).position.x -= distance_domino
+	var parent_name = parent.name
+	var list_to_pop
+	var adjust_distance
+
+	if parent_name == 'Gauche':
+		list_to_pop = parent.get_parent().get_parent().cote_gauche
+		adjust_distance = 10
+	elif parent_name == 'Droite':
+		list_to_pop = parent.get_parent().get_parent().cote_droit
+		adjust_distance = 10
+	elif parent_name == 'PanelBase':
+		list_to_pop = base_dominos
+		adjust_distance = distance_domino
+	elif parent_name == 'PanelObjectif':
+		list_to_pop = objectif_dominos
+		adjust_distance = distance_domino
+
+	if list_to_pop:
+		list_to_pop.pop_at(id - 2 if parent_name in ['Gauche', 'Droite'] else id - 1)
+		for i in range(id, parent.get_child_count()):
+			parent.get_child(i).position.x -= adjust_distance
+
+
+
+func regle_supp_domino_handle(index):
+#	print($"%PanelRegles".get_child(index))
+	_propagate_event_regle($"%PanelRegles".get_child(index))
 
 # --------- Signal handler delete rule ---------
 func regle_supprimer_handle(index):
@@ -312,8 +337,29 @@ func _propagate_event(event,node):
 	var mouse_pos = get_local_mouse_position()
 	for child in node.get_children():
 #		print(child)
-		if not (child is Position2D) and child.get_rect().has_point(mouse_pos):
-			child.input(event)
+		if not (child is Position2D) and child.get_rect(null).has_point(mouse_pos):
+			if event != null:
+				child.input(event)
+			break
+
+func _propagate_event_regle(node):
+	var mouse_pos = get_global_mouse_position()
+#	print(node.get_children()[0].get_children()[1].get_children())
+	var gauche = node.get_children()[0].get_children()[1].get_children()
+	var droite = node.get_children()[0].get_children()[3].get_children()
+	for element in gauche:
+		if not (element is Position2D or element is Area2D) and element.get_rect(1).has_point(mouse_pos):
+			var event = InputEventMouseButton.new()
+			event.button_index = BUTTON_RIGHT
+			event.pressed = true
+			element.input(event)
+			break
+	for element in droite:
+		if not (element is Position2D or element is Area2D) and element.get_rect(1).has_point(mouse_pos):
+			var event = InputEventMouseButton.new()
+			event.button_index = BUTTON_RIGHT
+			event.pressed = true
+			element.input(event)
 			break
 
 # Supprime tous les dominos
