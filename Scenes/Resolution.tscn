@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scenes/Resolution.gd" type="Script" id=1]
+[ext_resource path="res://Graphics/home.png" type="Texture" id=2]
 [ext_resource path="res://Graphics/Réinitialiser.svg" type="Texture" id=3]
 
 [sub_resource type="StyleBoxFlat" id=1]
@@ -16,6 +17,8 @@ corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
+shadow_color = Color( 0.0196078, 0.0313726, 0.184314, 1 )
+shadow_size = 2
 
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.0901961, 0.466667, 1, 1 )
@@ -25,7 +28,7 @@ corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
 [sub_resource type="StyleBoxFlat" id=9]
-bg_color = Color( 0.482353, 0.588235, 0.960784, 1 )
+bg_color = Color( 0.333333, 0.501961, 0.956863, 1 )
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
@@ -35,7 +38,7 @@ corner_radius_bottom_left = 5
 script = ExtResource( 1 )
 
 [node name="Background" type="ColorRect" parent="."]
-margin_right = 1027.0
+margin_right = 1024.0
 margin_bottom = 600.0
 mouse_filter = 2
 color = Color( 0.698039, 0.854902, 1, 1 )
@@ -95,7 +98,7 @@ custom_styles/panel = SubResource( 1 )
 [node name="ObjectifPoint" type="Position2D" parent="Background/Objectif"]
 position = Vector2( 35, 45 )
 
-[node name="Reinitialiser" type="Button" parent="."]
+[node name="Reinitialiser" type="Button" parent="Background"]
 margin_left = 345.0
 margin_top = 380.0
 margin_right = 446.0
@@ -108,4 +111,13 @@ custom_styles/normal = SubResource( 9 )
 icon = ExtResource( 3 )
 icon_align = 1
 
-[connection signal="pressed" from="Reinitialiser" to="." method="_on_Reinitialiser_pressed"]
+[node name="Menu" type="Button" parent="Background"]
+margin_left = 30.0
+margin_top = 400.0
+margin_right = 80.0
+margin_bottom = 450.0
+icon = ExtResource( 2 )
+icon_align = 1
+
+[connection signal="pressed" from="Background/Reinitialiser" to="." method="_on_Reinitialiser_pressed"]
+[connection signal="pressed" from="Background/Menu" to="." method="_on_Menu_pressed"]

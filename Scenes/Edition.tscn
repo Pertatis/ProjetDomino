@@ -1,10 +1,11 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Scenes/Domino/DominoPalette/DominoPaletteVert.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Domino/DominoPalette/DominoPaletteRouge.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Domino/DominoPalette/DominoPaletteJaune.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Domino/DominoPalette/DominoPaletteRose.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/Domino/DominoPalette/DominoPaletteBleu.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Graphics/home.png" type="Texture" id=6]
 [ext_resource path="res://Scenes/Edition.gd" type="Script" id=7]
 [ext_resource path="res://Graphics/Jouer.svg" type="Texture" id=8]
 [ext_resource path="res://Graphics/Enregistrer.svg" type="Texture" id=9]
@@ -18,6 +19,8 @@ corner_radius_top_left = 90
 corner_radius_top_right = 90
 corner_radius_bottom_right = 90
 corner_radius_bottom_left = 90
+shadow_color = Color( 0.0196078, 0.0313726, 0.184314, 1 )
+shadow_size = 2
 
 [sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 0.0901961, 0.466667, 1, 1 )
@@ -27,7 +30,7 @@ corner_radius_bottom_right = 90
 corner_radius_bottom_left = 90
 
 [sub_resource type="StyleBoxFlat" id=5]
-bg_color = Color( 0.482353, 0.588235, 0.960784, 1 )
+bg_color = Color( 0.333333, 0.501961, 0.956863, 1 )
 corner_radius_top_left = 90
 corner_radius_top_right = 90
 corner_radius_bottom_right = 90
@@ -39,6 +42,8 @@ corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
+shadow_color = Color( 0.0196078, 0.0313726, 0.184314, 1 )
+shadow_size = 2
 
 [sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0.0901961, 0.466667, 1, 1 )
@@ -49,7 +54,7 @@ corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
 [sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 0.482353, 0.588235, 0.960784, 1 )
+bg_color = Color( 0.333333, 0.501961, 0.956863, 1 )
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
@@ -103,29 +108,29 @@ position = Vector2( 5, 8 )
 
 [node name="PanelPalette" type="ColorRect" parent="PanelFond"]
 margin_left = -86.0
-margin_top = -80.0
-margin_right = 40.0
-margin_bottom = 455.0
+margin_top = -50.0
+margin_right = 24.0
+margin_bottom = 485.0
 mouse_filter = 2
 
 [node name="DominoPaletteBleu" parent="PanelFond/PanelPalette" instance=ExtResource( 5 )]
-position = Vector2( 62, 69 )
+position = Vector2( 55, 69 )
 scale = Vector2( 1, 1 )
 
 [node name="DominoPaletteVert" parent="PanelFond/PanelPalette" instance=ExtResource( 1 )]
-position = Vector2( 62, 269 )
+position = Vector2( 55, 269 )
 scale = Vector2( 1, 1 )
 
 [node name="DominoPaletteRouge" parent="PanelFond/PanelPalette" instance=ExtResource( 2 )]
-position = Vector2( 62, 169 )
+position = Vector2( 55, 169 )
 scale = Vector2( 1, 1 )
 
 [node name="DominoPaletteRose" parent="PanelFond/PanelPalette" instance=ExtResource( 4 )]
-position = Vector2( 62, 469 )
+position = Vector2( 55, 469 )
 scale = Vector2( 1, 1 )
 
 [node name="DominoPaletteJaune" parent="PanelFond/PanelPalette" instance=ExtResource( 3 )]
-position = Vector2( 62, 369 )
+position = Vector2( 55, 369 )
 scale = Vector2( 1, 1 )
 
 [node name="PanelBase" type="ColorRect" parent="PanelFond"]
@@ -193,6 +198,14 @@ custom_styles/normal = SubResource( 2 )
 icon = ExtResource( 8 )
 icon_align = 1
 
+[node name="Menu" type="Button" parent="."]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 60.0
+margin_bottom = 60.0
+icon = ExtResource( 6 )
+icon_align = 1
+
 [connection signal="base_activer" from="." to="." method="_on_Fond_base_activer"]
 [connection signal="gui_input" from="PanelFond/PanelObjectif" to="." method="_on_PanelObjectif_gui_input"]
 [connection signal="click_domino_bleu" from="PanelFond/PanelPalette/DominoPaletteBleu" to="." method="_on_DominoPaletteBleu_click_domino_bleu"]
@@ -206,3 +219,4 @@ icon_align = 1
 [connection signal="pressed" from="BSauvegarder" to="." method="_on_BSauvegarder_pressed"]
 [connection signal="pressed" from="BCharger" to="." method="_on_BCharger_pressed"]
 [connection signal="pressed" from="BJouer" to="." method="_on_BJouer_pressed"]
+[connection signal="pressed" from="Menu" to="." method="_on_Menu_pressed"]

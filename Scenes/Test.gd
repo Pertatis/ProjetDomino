@@ -80,3 +80,9 @@ func _on_Editer_pressed():
 
 func select_domino_handle(id):
 	print(id)
+
+
+func _on_Menu_pressed():
+	var error = get_tree().change_scene("res://Scenes/Menus/MainMenu.tscn")
+	if error != OK :
+			print("Failed to change scene", error)

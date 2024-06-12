@@ -373,3 +373,9 @@ func supprimer_tout():
 		if not (child is Position2D):
 			$"%PanelRegles".remove_child(child)
 
+
+
+func _on_Menu_pressed():
+	var error = get_tree().change_scene("res://Scenes/Menus/MainMenu.tscn")
+	if error != OK :
+			print("Failed to change scene", error)

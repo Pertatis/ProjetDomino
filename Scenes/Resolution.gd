@@ -68,6 +68,13 @@ func creer_niveau():
 	for regle in regles:
 		if (regle[0] == [''] or regle[1] == ['']):
 			light_up_regle(regles.find(regle))
+	
+	# supprimer l'historique
+	for child in $"%HistoriqueFond".get_children():
+		if not (child is Position2D):
+			child.queue_free()
+			$"%HistoriqueFond".rect_min_size -= Vector2(0, 60)
+
 
 
 func supprimer_tout():
@@ -107,6 +114,7 @@ func select_domino_handle(id):
 	regler_taille_domino()
 	get_dominos_color()
 	compare_regles()
+	
 func get_dominos_color():
 	selected_dominos_type = []
 	var children = $Background/Base.get_children()
@@ -231,3 +239,9 @@ func regler_taille_domino():
 				element.scale = Vector2(0.88,0.88)
 			else:
 				element.scale = Vector2(0.8,0.8)
+
+
+func _on_Menu_pressed():
+	var error = get_tree().change_scene("res://Scenes/Menus/MainMenu.tscn")
+	if error != OK :
+			print("Failed to change scene", error)
