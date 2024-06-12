@@ -2,6 +2,7 @@ extends Node2D
 
 var regle_inst:PackedScene = preload("res://Scenes/Règle.tscn")
 var numero_inst:PackedScene = preload("res://Scenes/Numero.tscn")
+var historique_inst:PackedScene = preload("res://Scenes/Historique.tscn")
 
 const distance_domino = 47
 
@@ -11,6 +12,8 @@ var objectif:Array
 var regles:Array
 var test
 var compteur_historique: int = 0
+
+var historique:Array
 
 var selected_dominos:Array
 var selected_dominos_type:Array
@@ -25,6 +28,7 @@ func creer_niveau():
 	regles = test["Reg"].duplicate()
 	var instance
 	supprimer_tout()
+	historique.clear()
 	compteur_historique = 0
 	#Ajoute la base
 	for domino in test["Base"]:
@@ -153,7 +157,7 @@ func click_on_regle(id):
 	var regle_actuelle = regles[id - 1]
 	var domino_inserer
 	var where_to_add = 0
-	
+	var before_removing_base = base.duplicate()
 	if regle.selected:
 		if (regle_actuelle[0] != [''] or regle_actuelle[1] != ['']) and \
 		 (selected_dominos_type == regle_actuelle[0] or selected_dominos_type == regle_actuelle[1]):
@@ -179,7 +183,7 @@ func click_on_regle(id):
 				domino_inserer.invert()
 				for element in domino_inserer:
 					base.insert(selected_dominos[0] - 1, element)
-				add_element_to_history(base)
+				add_element_to_history(before_removing_base.duplicate())
 		
 		elif selected_dominos.size() <= 1:
 			# Determine where to add the new dominos
@@ -195,7 +199,7 @@ func click_on_regle(id):
 				domino_inserer.invert()
 				for element in domino_inserer:
 					base.insert(where_to_add, element)
-				add_element_to_history(base)
+				add_element_to_history(before_removing_base.duplicate())
 	
 	# Reset selection
 	selected_dominos.clear()
@@ -218,29 +222,23 @@ func click_on_regle(id):
 	
 	base = Global.remove_whitespace(base)
 
-func add_element_to_history(_array):
+func add_element_to_history(array):
+	historique.append(Global.remove_whitespace(Array(array)))
 	compteur_historique += 1
-	var instance_regle = regle_inst.instance()
-	instance_regle.position = $"%HistoriquePoint".position + (Vector2.DOWN * 60 * ($"%HistoriqueFond".get_child_count() - 1)) + (Vector2.RIGHT * 60)
-	instance_regle.get_children()[1].mouse_default_cursor_shape = 2
-	instance_regle.activer_focus()
-	$"%HistoriqueFond".add_child(instance_regle)
 	
-	# --- TO FIX ---
-#	var instance_numero = numero_inst.instance()
-#	instance_numero.position = $"%HistoriquePoint".position + (Vector2.DOWN * 60 * ($"%HistoriqueFond".get_child_count() - 1))
-#	var button = instance_numero.get_node("Num")
-#	button.text = str(compteur_historique)
-#	print('the number is ', button.text)
-#	$"%HistoriqueFond".add_child(button)
-	# ---------------
+	var instance_hist = historique_inst.instance()
+	instance_hist.position = $"%HistoriquePoint".position + (Vector2.DOWN * 60 * ($"%HistoriqueFond".get_child_count() - 1))
+	
+	var label = instance_hist.get_children()[0].get_children()[0].get_children()[0]
+	label.text = str(compteur_historique)
+	
+	instance_hist.connect("ligne_historique_clicked",self,"ligne_historique_handle")
+	$"%HistoriqueFond".add_child(instance_hist)
 	
 	# changement gui
 	$"%HistoriqueFond".rect_min_size += Vector2(0, 60)
 	yield(get_tree(), "idle_frame")
 	$"%ScrollContainer".scroll_vertical = $"%ScrollContainer".get_v_scrollbar().max_value
-	print(compteur_historique)
-
 
 func _on_Reinitialiser_pressed():
 	creer_niveau()
@@ -265,3 +263,31 @@ func _on_Menu_pressed():
 	var error = get_tree().change_scene("res://Scenes/Menus/MainMenu.tscn")
 	if error != OK :
 			print("Failed to change scene", error)
+
+func ligne_historique_handle(index):
+	#recupère la ligne de l'historique cliquée
+	var ligne_historique = $"%HistoriqueFond".get_child(index)
+	var label_ligne = ligne_historique.get_children()[0].get_children()[0].get_children()[0]
+	#remettre le compteur à index - 1 
+	compteur_historique = index - 1
+	# mettre l'état courant à la ligne selectionné de l'historique
+	base = historique[int(label_ligne.text) - 1].duplicate()
+	base = Global.remove_whitespace(base)
+	var instance
+	#enlever les dominos
+	for child in $Background/Base.get_children():
+		if not (child is Position2D):
+			$Background/Base.remove_child(child)
+	#redessiner
+	for domino in base:
+		instance = Global.get_domino(self,domino)
+		instance.position = $Background/Base/BasePoint.position + (Vector2.RIGHT * distance_domino * ($Background/Base.get_child_count() - 1))
+		$Background/Base.add_child(instance)
+	
+	#supprimer les lignes de l'historique de l'interface
+	for _i in range(index,$"%HistoriqueFond".get_child_count()):
+		$"%HistoriqueFond".remove_child($"%HistoriqueFond".get_child(index))
+		$"%HistoriqueFond".rect_min_size -= Vector2(0, 60)
+	#supprimer les lignes de l'historique de la variable
+	for i in range(index - 1,historique.size()):
+		historique.remove(index - 1)
