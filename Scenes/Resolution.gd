@@ -1,6 +1,7 @@
 extends Node2D
 
 var regle_inst:PackedScene = preload("res://Scenes/Règle.tscn")
+var numero_inst:PackedScene = preload("res://Scenes/Numero.tscn")
 
 const distance_domino = 47
 
@@ -9,6 +10,7 @@ var base:Array
 var objectif:Array
 var regles:Array
 var test
+var compteur_historique: int = 0
 
 var selected_dominos:Array
 var selected_dominos_type:Array
@@ -23,6 +25,7 @@ func creer_niveau():
 	regles = test["Reg"].duplicate()
 	var instance
 	supprimer_tout()
+	compteur_historique = 0
 	#Ajoute la base
 	for domino in test["Base"]:
 		instance = Global.get_domino(self,domino)
@@ -41,6 +44,8 @@ func creer_niveau():
 	for regle in test["Reg"]:
 		#Instancie la scène de la regle (signaux + position)
 		var instance_regle = regle_inst.instance()
+		var button = instance_regle.get_node("SupprimerRegle")
+		button.queue_free()
 		instance_regle.disconnect_signals()
 		instance_regle.connect("regle_clicked",self,"click_on_regle")
 #		instance.disconnect("gui_input",instance,"_on_ColorRect_gui_input")
@@ -76,7 +81,6 @@ func creer_niveau():
 			$"%HistoriqueFond".rect_min_size -= Vector2(0, 60)
 
 
-
 func supprimer_tout():
 	#Supprime les dominos existants
 	for child in $Background/Base.get_children():
@@ -104,9 +108,14 @@ func select_domino_handle(id):
 		if id == selected_dominos[0] or id == selected_dominos[selected_dominos.size() - 1]:
 			selected_dominos.erase(id)
 		else:
+			# supprimer debut -> id
+			if (id - selected_dominos[0] <= int(selected_dominos.size() / 2) - 1):
+				for i in range(selected_dominos[0], id + 1):
+					selected_dominos.erase(i)
 			# supprimer de id -> fin
-			for i in range(id,selected_dominos[selected_dominos.size() - 1] + 1):
-				selected_dominos.erase(i)
+			else :
+				for i in range(id, selected_dominos[selected_dominos.size() - 1] + 1):
+					selected_dominos.erase(i)
 	
 	selected_dominos.sort()
 
@@ -114,20 +123,19 @@ func select_domino_handle(id):
 	regler_taille_domino()
 	get_dominos_color()
 	compare_regles()
-	
+
 func get_dominos_color():
 	selected_dominos_type = []
 	var children = $Background/Base.get_children()
 	for element in selected_dominos:
 		selected_dominos_type.append(Global.get_color(children[element].filename))
-	
+
 func compare_regles():
 	for regle in regles:
 		if selected_dominos_type == regle[0] or selected_dominos_type == regle[1] or ((regle[0] == [''] or regle[1] == ['']) and selected_dominos.size() <= 1):
 			light_up_regle(regles.find(regle))
 		else:
 			darken_regle(regles.find(regle))
-
 
 func light_up_regle(number):
 	var regle = $Background/PaletteRegles.get_children()[number + 1]
@@ -211,16 +219,29 @@ func click_on_regle(id):
 	base = Global.remove_whitespace(base)
 
 func add_element_to_history(_array):
+	compteur_historique += 1
 	var instance_regle = regle_inst.instance()
-	instance_regle.position = $"%HistoriquePoint".position + (Vector2.DOWN * 60 * ($"%HistoriqueFond".get_child_count() - 1))
+	instance_regle.position = $"%HistoriquePoint".position + (Vector2.DOWN * 60 * ($"%HistoriqueFond".get_child_count() - 1)) + (Vector2.RIGHT * 60)
 	instance_regle.get_children()[1].mouse_default_cursor_shape = 2
 	instance_regle.activer_focus()
 	$"%HistoriqueFond".add_child(instance_regle)
+	
+	# --- TO FIX ---
+#	var instance_numero = numero_inst.instance()
+#	instance_numero.position = $"%HistoriquePoint".position + (Vector2.DOWN * 60 * ($"%HistoriqueFond".get_child_count() - 1))
+#	var button = instance_numero.get_node("Num")
+#	button.text = str(compteur_historique)
+#	print('the number is ', button.text)
+#	$"%HistoriqueFond".add_child(button)
+	# ---------------
+	
 	# changement gui
 	$"%HistoriqueFond".rect_min_size += Vector2(0, 60)
 	yield(get_tree(), "idle_frame")
 	$"%ScrollContainer".scroll_vertical = $"%ScrollContainer".get_v_scrollbar().max_value
-	
+	print(compteur_historique)
+
+
 func _on_Reinitialiser_pressed():
 	creer_niveau()
 
@@ -239,7 +260,6 @@ func regler_taille_domino():
 				element.scale = Vector2(0.88,0.88)
 			else:
 				element.scale = Vector2(0.8,0.8)
-
 
 func _on_Menu_pressed():
 	var error = get_tree().change_scene("res://Scenes/Menus/MainMenu.tscn")

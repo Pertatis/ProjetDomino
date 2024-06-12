@@ -1,0 +1,7 @@
+[gd_scene format=2]
+
+[node name="Numero" type="Node2D"]
+
+[node name="Num" type="Button" parent="."]
+margin_right = 60.0
+margin_bottom = 60.0

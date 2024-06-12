@@ -151,8 +151,9 @@ func _on_Button_pressed():
 		instance_regle.connect("regle_activer",self,"regle_activer_handle")
 		instance_regle.connect("regle_supprimer",self,"regle_supprimer_handle")
 		instance_regle.connect("regle_supp_domino",self,"regle_supp_domino_handle")
-		instance_regle.activer_focus()
 		$"%PanelRegles".add_child(instance_regle)
+		regle_activer_handle($"%PanelRegles".get_child_count())
+		instance_regle.activer_focus()
 
 # --------- Signal handlers remove rule focus ---------
 func _on_Fond_base_activer(index_regle):
@@ -277,8 +278,6 @@ func supp_domino_handle(id, parent):
 		for i in range(id, parent.get_child_count()):
 			parent.get_child(i).position.x -= adjust_distance
 
-
-
 func regle_supp_domino_handle(index):
 	_propagate_event_regle($"%PanelRegles".get_child(index))
 
@@ -287,6 +286,7 @@ func regle_supprimer_handle(index):
 	$"%PanelRegles".remove_child($"%PanelRegles".get_child(index))
 	for i in range(index, $"%PanelRegles".get_child_count()):
 		$"%PanelRegles".get_child(i).position.y -= 60
+
 
 # --------- Helper functions ---------
 func regle_activer_handle(index):

@@ -86,7 +86,7 @@ rect_min_size = Vector2( 720, 0 )
 
 [node name="HistoriquePoint" type="Position2D" parent="Background/Historique/ScrollContainer/HistoriqueFond"]
 unique_name_in_owner = true
-position = Vector2( 11, 2 )
+position = Vector2( 10, 2 )
 
 [node name="Objectif" type="Panel" parent="Background"]
 margin_left = 30.0

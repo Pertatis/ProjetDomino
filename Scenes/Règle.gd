@@ -60,5 +60,10 @@ func _on_Click_ColorRect(event):
 		emit_signal("regle_clicked",get_index())
 
 func activer_focus():
-	$"%ColorRect".color = Color.gainsboro
+	regle = true
+	gauche = true
+	droite = false
 	$"%Gauche".color = Color.gainsboro
+	$"%Droite".color = Color.white
+	$"%ColorRect".color = Color.ghostwhite
+	emit_signal("regle_activer",get_index())
