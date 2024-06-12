@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Scenes/Historique.gd" type="Script" id=1]
+
+[sub_resource type="Theme" id=1]
 
 [node name="Historique" type="Node2D"]
 script = ExtResource( 1 )
@@ -14,10 +16,11 @@ mouse_default_cursor_shape = 2
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = 1.0
-margin_top = -25.0
+margin_top = -15.0
 margin_right = 28.0
-margin_bottom = 25.0
+margin_bottom = 15.0
 mouse_filter = 2
+theme = SubResource( 1 )
 color = Color( 0.0784314, 0.666667, 0.984314, 1 )
 
 [node name="Label" type="Label" parent="HistoriqueLigne/NombreDeCoups"]
@@ -39,9 +42,8 @@ margin_top = 10.0
 margin_right = 670.0
 margin_bottom = 50.0
 mouse_filter = 2
-color = Color( 1, 0.207843, 0.207843, 1 )
 
 [node name="HistoriqueDebutPoint" type="Position2D" parent="HistoriqueLigne/HistoriqueCercles"]
-position = Vector2( 10, 20 )
+position = Vector2( 20, 20 )
 
 [connection signal="gui_input" from="HistoriqueLigne" to="." method="_on_HistoriqueLigne_gui_input"]

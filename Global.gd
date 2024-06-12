@@ -80,6 +80,20 @@ func get_domino(node,color):
 		return inst
 	return null
 
+
+func get_rond_color(color):
+	if "B" in color:
+		return  Color( 0.160784, 0.235294, 0.882353, 1 )
+	if "R" in color:
+		return Color( 1, 0.00392157, 0.00392157, 1 )
+	if "G" in color:
+		return Color( 0.0705882, 0.823529, 0.0980392, 1 )
+	if "Y" in color:
+		return Color( 1, 0.780392, 0, 1 )
+	if "P" in color:
+		return Color( 1, 0.188235, 0.627451, 1 )
+		
+
 func make_level1():
 	var one = ['B','Y','R','P','G','B','R','G','Y','P']
 	var two = ['P','Y']

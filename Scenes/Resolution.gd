@@ -3,6 +3,7 @@ extends Node2D
 var regle_inst:PackedScene = preload("res://Scenes/Règle.tscn")
 var numero_inst:PackedScene = preload("res://Scenes/Numero.tscn")
 var historique_inst:PackedScene = preload("res://Scenes/Historique.tscn")
+var rond_historique:PackedScene = preload("res://Scenes/RondHistorique.tscn")
 
 const distance_domino = 47
 
@@ -227,6 +228,9 @@ func add_element_to_history(array):
 	compteur_historique += 1
 	
 	var instance_hist = historique_inst.instance()
+	
+	ajouter_rond_historique(array,instance_hist)
+	
 	instance_hist.position = $"%HistoriquePoint".position + (Vector2.DOWN * 60 * ($"%HistoriqueFond".get_child_count() - 1))
 	
 	var label = instance_hist.get_children()[0].get_children()[0].get_children()[0]
@@ -291,3 +295,14 @@ func ligne_historique_handle(index):
 	#supprimer les lignes de l'historique de la variable
 	for i in range(index - 1,historique.size()):
 		historique.remove(index - 1)
+		
+func ajouter_rond_historique(array,inst_historique):
+	var position2d = inst_historique.get_children()[0].get_children()[1].get_children()[0]
+	var instance_rond
+	for element in array:
+		print(position2d.get_parent())
+		instance_rond = rond_historique.instance()
+		instance_rond.modulate = Global.get_rond_color(element)
+		instance_rond.position = position2d.position + (Vector2.RIGHT * 35 * (position2d.get_parent().get_child_count() - 1))
+#		print(instance_rond.position)
+		position2d.get_parent().add_child(instance_rond)
