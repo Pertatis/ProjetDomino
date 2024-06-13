@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://round-svgrepo-com.svg" type="Texture" id=1]
+[ext_resource path="res://Graphics/cercle.svg" type="Texture" id=1]
 
 [node name="RondHistorique" type="Node2D"]
 

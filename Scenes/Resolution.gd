@@ -5,7 +5,8 @@ var numero_inst:PackedScene = preload("res://Scenes/Numero.tscn")
 var historique_inst:PackedScene = preload("res://Scenes/Historique.tscn")
 var rond_historique:PackedScene = preload("res://Scenes/RondHistorique.tscn")
 
-const distance_domino = 47
+const distance_domino = 50
+const max_nb_domino = 14
 
 
 var base:Array
@@ -35,6 +36,7 @@ func creer_niveau():
 	for domino in test["Base"]:
 		instance = Global.get_domino(self,domino)
 		instance.position = $Background/Base/BasePoint.position + (Vector2.RIGHT * distance_domino * ($Background/Base.get_child_count() - 1))
+		instance.scale = Vector2(0.7, 0.7)
 		$Background/Base.add_child(instance)
 
 	#Ajoute l'objectif
@@ -184,6 +186,7 @@ func click_on_regle(id):
 				domino_inserer.invert()
 				for element in domino_inserer:
 					base.insert(selected_dominos[0] - 1, element)
+					regler_taille_domino()
 				add_element_to_history(before_removing_base.duplicate())
 		
 		elif selected_dominos.size() <= 1:
@@ -191,15 +194,16 @@ func click_on_regle(id):
 			if not selected_dominos.empty():
 				where_to_add = selected_dominos[0]
 			
-			if regle_actuelle[0] == [''] and regle_actuelle[1].size() + base.size() <= 15:
+			if regle_actuelle[0] == [''] and regle_actuelle[1].size() + base.size() <= max_nb_domino:
 				domino_inserer = regle_actuelle[1].duplicate()
-			elif regle_actuelle[1] == [''] and regle_actuelle[0].size() + base.size() <= 15:
+			elif regle_actuelle[1] == [''] and regle_actuelle[0].size() + base.size() <= max_nb_domino:
 				domino_inserer = regle_actuelle[0].duplicate()
 			
 			if domino_inserer:
 				domino_inserer.invert()
 				for element in domino_inserer:
 					base.insert(where_to_add, element)
+					regler_taille_domino()
 				add_element_to_history(before_removing_base.duplicate())
 	
 	# Reset selection
@@ -219,6 +223,7 @@ func click_on_regle(id):
 		instance = Global.get_domino(self, domino)
 		if instance:
 			instance.position = $Background/Base/BasePoint.position + (Vector2.RIGHT * distance_domino * ($Background/Base.get_child_count() - 1))
+			instance.scale = Vector2(0.7, 0.7)
 			$Background/Base.add_child(instance)
 	
 	base = Global.remove_whitespace(base)
@@ -249,9 +254,9 @@ func _on_Reinitialiser_pressed():
 
 func si_nombre_domino_max(regle):
 	if regle[0] == selected_dominos_type:
-		return base.size() - regle[0].size() + regle[1].size() <= 15
+		return base.size() - regle[0].size() + regle[1].size() <= max_nb_domino
 	else:
-		return (base.size() - regle[1].size() + regle[0].size() <= 15)
+		return (base.size() - regle[1].size() + regle[0].size() <= max_nb_domino)
 		
 func regler_taille_domino():
 	var all_dominos = $Background/Base.get_children()
@@ -261,7 +266,7 @@ func regler_taille_domino():
 			if (element.get_index() in selected_dominos):
 				element.scale = Vector2(0.88,0.88)
 			else:
-				element.scale = Vector2(0.8,0.8)
+				element.scale = Vector2(0.7,0.7)
 
 func _on_Menu_pressed():
 	var error = get_tree().change_scene("res://Scenes/Menus/MainMenu.tscn")
@@ -286,6 +291,7 @@ func ligne_historique_handle(index):
 	for domino in base:
 		instance = Global.get_domino(self,domino)
 		instance.position = $Background/Base/BasePoint.position + (Vector2.RIGHT * distance_domino * ($Background/Base.get_child_count() - 1))
+		instance.scale = Vector2(0.7, 0.7)
 		$Background/Base.add_child(instance)
 	
 	#supprimer les lignes de l'historique de l'interface
