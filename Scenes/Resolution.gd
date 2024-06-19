@@ -25,6 +25,7 @@ func _ready():
 	creer_niveau()
 
 func creer_niveau():
+	print(test)
 	base = test["Base"].duplicate()
 	objectif = test["Obj"].duplicate()
 	regles = test["Reg"].duplicate()
