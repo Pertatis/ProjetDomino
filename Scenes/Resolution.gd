@@ -229,14 +229,18 @@ func click_on_regle(id):
 	base = Global.remove_whitespace(base)
 
 func add_element_to_history(array):
-	historique.append(Global.remove_whitespace(Array(array)))
+	historique.push_front(Global.remove_whitespace(Array(array)))
 	compteur_historique += 1
 	
 	var instance_hist = historique_inst.instance()
 	
 	ajouter_rond_historique(array,instance_hist)
 	
-	instance_hist.position = $"%HistoriquePoint".position + (Vector2.DOWN * 60 * ($"%HistoriqueFond".get_child_count() - 1))
+	for element in $"%HistoriqueFond".get_children():
+		if not (element is Position2D):
+			element.position += Vector2.DOWN * 60 
+	
+	instance_hist.position = $"%HistoriquePoint".position
 	
 	var label = instance_hist.get_children()[0].get_children()[0].get_children()[0]
 	label.text = str(compteur_historique)
@@ -246,8 +250,7 @@ func add_element_to_history(array):
 	
 	# changement gui
 	$"%HistoriqueFond".rect_min_size += Vector2(0, 60)
-	yield(get_tree(), "idle_frame")
-	$"%ScrollContainer".scroll_vertical = $"%ScrollContainer".get_v_scrollbar().max_value
+	
 
 func _on_Reinitialiser_pressed():
 	creer_niveau()
@@ -280,7 +283,7 @@ func ligne_historique_handle(index):
 	#remettre le compteur à index - 1 
 	compteur_historique = index - 1
 	# mettre l'état courant à la ligne selectionné de l'historique
-	base = historique[int(label_ligne.text) - 1].duplicate()
+	base = historique[historique.size() - index].duplicate()
 	base = Global.remove_whitespace(base)
 	var instance
 	#enlever les dominos
@@ -294,19 +297,51 @@ func ligne_historique_handle(index):
 		instance.scale = Vector2(0.7, 0.7)
 		$Background/Base.add_child(instance)
 	
-	#supprimer les lignes de l'historique de l'interface
-	for _i in range(index,$"%HistoriqueFond".get_child_count()):
-		$"%HistoriqueFond".remove_child($"%HistoriqueFond".get_child(index))
-		$"%HistoriqueFond".rect_min_size -= Vector2(0, 60)
+	#supprime l'historique 
+	for element in $"%HistoriqueFond".get_children():
+		if not (element is Position2D):
+			$"%HistoriqueFond".remove_child(element)
+	
+
 	#supprimer les lignes de l'historique de la variable
-	for i in range(index - 1,historique.size()):
-		historique.remove(index - 1)
+	for _i in range(historique.size() - index + 1):
+		historique.pop_front()
+		
+	$"%HistoriqueFond".rect_min_size = Vector2(720,0)
+	compteur_historique = 1
+	print('------------------')
+	print('------------------')
+	print('------------------')
+	
+	#redessiner tout l'historique
+	for element in historique:
+		print(element)
+		var instance_hist = historique_inst.instance()
+	
+		ajouter_rond_historique(element,instance_hist)
+		
+		for element_2 in $"%HistoriqueFond".get_children():
+			if not (element_2 is Position2D):
+				element_2.position += Vector2.DOWN * 60 
+	
+		instance_hist.position = $"%HistoriquePoint".position
+		
+		var label = instance_hist.get_children()[0].get_children()[0].get_children()[0]
+		label.text = str(compteur_historique)
+		
+		compteur_historique += 1
+		
+		instance_hist.connect("ligne_historique_clicked",self,"ligne_historique_handle")
+		$"%HistoriqueFond".add_child(instance_hist)
+		
+		$"%HistoriqueFond".rect_min_size += Vector2(0, 60)
+	
+	print(historique)
 		
 func ajouter_rond_historique(array,inst_historique):
 	var position2d = inst_historique.get_children()[0].get_children()[1].get_children()[0]
 	var instance_rond
 	for element in array:
-		print(position2d.get_parent())
 		instance_rond = rond_historique.instance()
 		instance_rond.modulate = Global.get_rond_color(element)
 		instance_rond.position = position2d.position + (Vector2.RIGHT * 35 * (position2d.get_parent().get_child_count() - 1))

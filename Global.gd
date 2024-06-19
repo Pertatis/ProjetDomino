@@ -95,8 +95,8 @@ func get_rond_color(color):
 		
 
 func make_level1():
-	var one = ['B','Y','R','P','G','B','R','G','Y','P']
-	var two = ['P','Y']
+	var one = ['B','R','R','Y','B','R','Y','Y','R']
+	var two = ['R','Y']
 	var regles:Array = []
 	var temp = []
 	
@@ -105,13 +105,13 @@ func make_level1():
 	
 	regles.append(temp)
 	temp = []
-	temp.append(Array(['Y','R','P']))
-	temp.append(Array(['B','R']))
+	temp.append(Array(['Y','R','Y']))
+	temp.append(Array(['Y','R']))
 	
 	regles.append(temp)
 	temp = []
-	temp.append(Array(['Y','P']))
-	temp.append(Array(['R','G']))
+	temp.append(Array(['Y','Y']))
+	temp.append(Array(['Y']))
 	
 	regles.append(temp)
 	level1["Base"]=one.duplicate()
