@@ -338,7 +338,7 @@ func ligne_historique_handle(index):
 		$"%HistoriqueFond".add_child(instance_hist)
 		
 		$"%HistoriqueFond".rect_min_size += Vector2(0, 60)
-	
+	compteur_historique -= 1
 	print(historique)
 		
 func ajouter_rond_historique(array,inst_historique):

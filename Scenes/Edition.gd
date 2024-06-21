@@ -173,6 +173,9 @@ func _on_BJouer_pressed():
 	Global.current_level["Obj"] = objectif_dominos.duplicate()
 	for child in $"%PanelRegles".get_children():
 		if not (child is Position2D):
+			if (child.cote_gauche.size() <= 1 and child.cote_droit.size() == 0) or \
+			(child.cote_droit.size() <= 1 and child.cote_gauche.size() == 0):
+				continue
 			temp = []
 			temp.append(child.cote_gauche)
 			temp.append(child.cote_droit)
