@@ -15,7 +15,7 @@ signal base_activer(index_regle)
 # --------- Constants ---------
 const max_nb_domino = 13
 const max_nb_regles = 8
-const max_nb_domino_par_cote_regle = 4
+const max_nb_domino_par_cote_regle = 7
 const distance_domino = 47
 
 # --------- Variables ---------
@@ -189,6 +189,7 @@ func _on_BJouer_pressed():
 	var error = get_tree().change_scene("res://Scenes/Test.tscn")
 	if error != OK :
 			print("Failed to change scene", error)
+
 # --------- Signal handler save level ---------
 # sauvegarde dans save, test, et rajoute au niveaux créés
 func _on_BSauvegarder_pressed():
@@ -255,6 +256,7 @@ func _on_BCharger_pressed():
 				instance_regle.cote_droit.append(Global.get_color(instance.filename))
 
 			$"%PanelRegles".add_child(instance_regle)
+
 # --------- Signal handler delete domino ---------
 func supp_domino_handle(id, parent):
 	var child_to_remove = parent.get_child(id)
@@ -289,7 +291,6 @@ func regle_supprimer_handle(index):
 	$"%PanelRegles".remove_child($"%PanelRegles".get_child(index))
 	for i in range(index, $"%PanelRegles".get_child_count()):
 		$"%PanelRegles".get_child(i).position.y -= 60
-
 
 # --------- Helper functions ---------
 func regle_activer_handle(index):
@@ -375,8 +376,6 @@ func supprimer_tout():
 	for child in $"%PanelRegles".get_children():
 		if not (child is Position2D):
 			$"%PanelRegles".remove_child(child)
-
-
 
 func _on_Menu_pressed():
 	var error = get_tree().change_scene("res://Scenes/Menus/MainMenu.tscn")

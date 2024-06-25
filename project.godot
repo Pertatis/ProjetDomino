@@ -21,6 +21,7 @@ Global="*res://Global.gd"
 
 [display]
 
+window/size/width=1100
 window/size/resizable=false
 
 [editor]
