@@ -9,7 +9,6 @@ extents = Vector2( 170, 256.25 )
 [sub_resource type="ShaderMaterial" id=2]
 
 [node name="Node2D" type="Node2D"]
-position = Vector2( 2.38419e-07, 5.96046e-08 )
 scale = Vector2( 0.8, 0.8 )
 script = ExtResource( 2 )
 

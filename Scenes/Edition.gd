@@ -15,7 +15,7 @@ signal base_activer(index_regle)
 # --------- Constants ---------
 const max_nb_domino = 13
 const max_nb_regles = 8
-const max_nb_domino_par_cote_regle = 4
+const max_nb_domino_par_cote_regle = 7
 const distance_domino = 47
 
 const MAX_SAVES = 10
@@ -195,6 +195,7 @@ func _on_BJouer_pressed():
 	var error = get_tree().change_scene("res://Scenes/Test.tscn")
 	if error != OK :
 			print("Failed to change scene", error)
+
 # --------- Signal handler save level ---------
 # sauvegarde dans save, test, et rajoute au niveaux créés
 func _on_BSauvegarder_pressed():
@@ -207,6 +208,52 @@ func _on_BCharger_pressed():
 	$LoadMenu.popup_centered()
 	
 	
+	if test != null:
+		var instance
+		supprimer_tout()
+		#Ajoute la base
+		for domino in test["Base"]:
+			instance = Global.get_domino(self,domino)
+			instance.position = $"%BasePoint".position + (Vector2.RIGHT * distance_domino * ($"%PanelBase".get_child_count() - 1))
+			$"%PanelBase".add_child(instance)
+			base_dominos.append(Global.get_color(instance.filename))
+
+		#Ajoute l'objectif
+		for domino in test["Obj"]:
+			instance = Global.get_domino(self,domino)
+			instance.position = $"%ObjectifPoint".position + (Vector2.RIGHT * distance_domino * ($"%PanelObjectif".get_child_count() - 1))
+			$"%PanelObjectif".add_child(instance)
+			objectif_dominos.append(Global.get_color(instance.filename))
+		
+		#Ajoute les regles
+		
+		# Chaque regle
+		for regle in test["Reg"]:
+			#Instancie la scène de la regle (signaux + position)
+			var instance_regle = regle_inst.instance()
+			instance_regle.position = $"%ReglePoint".position + (Vector2.DOWN * 60 * ($"%PanelRegles".get_child_count() - 1))
+			instance_regle.connect("regle_activer",self,"regle_activer_handle")
+			instance_regle.connect("regle_supprimer",self,"regle_supprimer_handle")
+			instance_regle.connect("regle_supp_domino",self,"regle_supp_domino_handle")
+			#recupère les enfants de la scene pour avoir coté droit et gauche
+			var sous_regle = instance_regle.get_children()[0].get_children()
+			#cote gauche
+			for domino in regle[0]:
+				instance = Global.get_domino(self,domino)
+				instance.position = sous_regle[1].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[1].get_child_count() - 2))
+				instance.scale = Vector2(0.15,0.15)
+				sous_regle[1].add_child(instance)
+				instance_regle.cote_gauche.append(Global.get_color(instance.filename))
+			#cote droit
+			for domino in regle[1]:
+				instance = Global.get_domino(self,domino)
+				instance.position = sous_regle[3].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[3].get_child_count() - 2))
+				instance.scale = Vector2(0.15,0.15)
+				sous_regle[3].add_child(instance)
+				instance_regle.cote_droit.append(Global.get_color(instance.filename))
+
+			$"%PanelRegles".add_child(instance_regle)
+
 # --------- Signal handler delete domino ---------
 func supp_domino_handle(id, parent):
 	var child_to_remove = parent.get_child(id)
@@ -229,9 +276,14 @@ func supp_domino_handle(id, parent):
 		adjust_distance = distance_domino
 
 	if list_to_pop:
-		list_to_pop.pop_at(id - 2 if parent_name in ['Gauche', 'Droite'] else id - 1)
-		for i in range(id, parent.get_child_count()):
-			parent.get_child(i).position.x -= adjust_distance
+		list_to_pop.pop_at(id - 2 if parent_name in ['Gauche', 'Droite']  else id - 1)
+		if parent_name == 'Gauche':
+			for i in range(0, id):
+				if not (parent.get_child(i) is Position2D):
+					parent.get_child(i).position.x += adjust_distance
+		else:
+			for i in range(id, parent.get_child_count()):
+				parent.get_child(i).position.x -= adjust_distance
 
 func regle_supp_domino_handle(index):
 	_propagate_event_regle($"%PanelRegles".get_child(index))
@@ -241,7 +293,6 @@ func regle_supprimer_handle(index):
 	$"%PanelRegles".remove_child($"%PanelRegles".get_child(index))
 	for i in range(index, $"%PanelRegles".get_child_count()):
 		$"%PanelRegles".get_child(i).position.y -= 60
-
 
 # --------- Helper functions ---------
 func regle_activer_handle(index):
@@ -279,10 +330,21 @@ func ajouter_a_regle(instance):
 			regle.cote_droit.append(Global.get_color(instance.filename))
 	elif regle.gauche:
 		if sous_regle[1].get_child_count() - 2 < max_nb_domino_par_cote_regle :
-			instance.position = sous_regle[1].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[1].get_child_count() - 2))
-			instance.scale = Vector2(0.15,0.15)
-			sous_regle[1].add_child(instance)
-			regle.cote_gauche.append(Global.get_color(instance.filename))
+			if sous_regle[1].get_child_count() == 2:
+				instance.position = sous_regle[1].get_children()[1].position + (Vector2.LEFT * 10 * (sous_regle[1].get_child_count() - 2))
+				instance.scale = Vector2(0.15,0.15)
+				sous_regle[1].add_child(instance)
+				regle.cote_gauche.append(Global.get_color(instance.filename))
+			else :
+				# décaler tous les dominos vers la gauche
+				for child in sous_regle[1].get_children():
+					if not (child is Position2D):
+						child.position += Vector2.LEFT * 10
+				# ajouter l'instance
+				instance.position = sous_regle[1].get_children()[1].position
+				instance.scale = Vector2(0.15, 0.15)
+				sous_regle[1].add_child(instance)
+				regle.cote_gauche.append(Global.get_color(instance.filename))
 
 func _propagate_event(event,node):
 	var mouse_pos = get_local_mouse_position()
@@ -327,8 +389,6 @@ func supprimer_tout():
 	for child in $"%PanelRegles".get_children():
 		if not (child is Position2D):
 			$"%PanelRegles".remove_child(child)
-
-
 
 func _on_Menu_pressed():
 	var error = get_tree().change_scene("res://Scenes/Menus/MainMenu.tscn")

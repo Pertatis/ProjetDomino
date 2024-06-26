@@ -67,7 +67,13 @@ func creer_niveau():
 				instance.position = sous_regle[1].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[1].get_child_count() - 2))
 				instance.scale = Vector2(0.15,0.15)
 				sous_regle[1].add_child(instance)
-
+				
+		var awkward = sous_regle[1].get_child_count() - 3
+		print(awkward)
+		for child in sous_regle[1].get_children():
+			if (not (child is Position2D)) and (not (child is Area2D)):
+				child.position += Vector2.LEFT * 10 * awkward
+		
 		#cote droit
 		for domino in regle[1]:
 			instance = Global.get_domino(null,domino)
@@ -308,7 +314,7 @@ func ligne_historique_handle(index):
 	for _i in range(historique.size() - index + 1):
 		historique.pop_front()
 		
-	$"%HistoriqueFond".rect_min_size = Vector2(720,0)
+	$"%HistoriqueFond".rect_min_size = Vector2(680,0)
 	compteur_historique = 1
 	print('------------------')
 	print('------------------')
