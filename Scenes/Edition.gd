@@ -207,53 +207,6 @@ func _on_BCharger_pressed():
 	
 	$LoadMenu.popup_centered()
 	
-	
-	if test != null:
-		var instance
-		supprimer_tout()
-		#Ajoute la base
-		for domino in test["Base"]:
-			instance = Global.get_domino(self,domino)
-			instance.position = $"%BasePoint".position + (Vector2.RIGHT * distance_domino * ($"%PanelBase".get_child_count() - 1))
-			$"%PanelBase".add_child(instance)
-			base_dominos.append(Global.get_color(instance.filename))
-
-		#Ajoute l'objectif
-		for domino in test["Obj"]:
-			instance = Global.get_domino(self,domino)
-			instance.position = $"%ObjectifPoint".position + (Vector2.RIGHT * distance_domino * ($"%PanelObjectif".get_child_count() - 1))
-			$"%PanelObjectif".add_child(instance)
-			objectif_dominos.append(Global.get_color(instance.filename))
-		
-		#Ajoute les regles
-		
-		# Chaque regle
-		for regle in test["Reg"]:
-			#Instancie la scène de la regle (signaux + position)
-			var instance_regle = regle_inst.instance()
-			instance_regle.position = $"%ReglePoint".position + (Vector2.DOWN * 60 * ($"%PanelRegles".get_child_count() - 1))
-			instance_regle.connect("regle_activer",self,"regle_activer_handle")
-			instance_regle.connect("regle_supprimer",self,"regle_supprimer_handle")
-			instance_regle.connect("regle_supp_domino",self,"regle_supp_domino_handle")
-			#recupère les enfants de la scene pour avoir coté droit et gauche
-			var sous_regle = instance_regle.get_children()[0].get_children()
-			#cote gauche
-			for domino in regle[0]:
-				instance = Global.get_domino(self,domino)
-				instance.position = sous_regle[1].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[1].get_child_count() - 2))
-				instance.scale = Vector2(0.15,0.15)
-				sous_regle[1].add_child(instance)
-				instance_regle.cote_gauche.append(Global.get_color(instance.filename))
-			#cote droit
-			for domino in regle[1]:
-				instance = Global.get_domino(self,domino)
-				instance.position = sous_regle[3].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[3].get_child_count() - 2))
-				instance.scale = Vector2(0.15,0.15)
-				sous_regle[3].add_child(instance)
-				instance_regle.cote_droit.append(Global.get_color(instance.filename))
-
-			$"%PanelRegles".add_child(instance_regle)
-
 # --------- Signal handler delete domino ---------
 func supp_domino_handle(id, parent):
 	var child_to_remove = parent.get_child(id)

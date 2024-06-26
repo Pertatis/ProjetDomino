@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Scenes/Domino/DominoPalette/DominoPaletteVert.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Domino/DominoPalette/DominoPaletteRouge.tscn" type="PackedScene" id=2]
@@ -71,12 +71,12 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[sub_resource type="StyleBoxFlat" id=9]
+[sub_resource type="StyleBoxFlat" id=15]
 bg_color = Color( 0.0901961, 0.466667, 1, 1 )
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [sub_resource type="DynamicFontData" id=14]
 font_path = "res://font.ttf"
@@ -250,17 +250,19 @@ icon = ExtResource( 6 )
 icon_align = 1
 
 [node name="LoadMenu" parent="." instance=ExtResource( 13 )]
+visible = true
 margin_left = 223.104
 margin_top = 162.0
 margin_right = 232.064
 margin_bottom = 162.0
 
 [node name="PopupDialog" type="PopupDialog" parent="."]
+visible = true
 margin_left = 228.0
 margin_top = 162.0
 margin_right = 708.0
 margin_bottom = 382.0
-custom_styles/panel = SubResource( 9 )
+custom_styles/panel = SubResource( 15 )
 popup_exclusive = true
 
 [node name="TextEdit" type="TextEdit" parent="PopupDialog"]
