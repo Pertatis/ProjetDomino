@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Scenes/Domino/DominoPalette/DominoPaletteVert.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Domino/DominoPalette/DominoPaletteRouge.tscn" type="PackedScene" id=2]
@@ -11,6 +11,8 @@
 [ext_resource path="res://Graphics/Enregistrer.svg" type="Texture" id=9]
 [ext_resource path="res://Graphics/Televerser.svg" type="Texture" id=10]
 [ext_resource path="res://Graphics/Plus.svg" type="Texture" id=11]
+[ext_resource path="res://font.ttf" type="DynamicFontData" id=12]
+[ext_resource path="res://Scenes/LoadMenu.tscn" type="PackedScene" id=13]
 
 [sub_resource type="StyleBoxFlat" id=7]
 bg_color = Color( 0.117647, 0.176471, 0.905882, 1 )
@@ -67,6 +69,36 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
+[sub_resource type="StyleBoxFlat" id=9]
+bg_color = Color( 0.0901961, 0.466667, 1, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="DynamicFontData" id=14]
+font_path = "res://font.ttf"
+
+[sub_resource type="DynamicFont" id=11]
+font_data = SubResource( 14 )
+
+[sub_resource type="StyleBoxFlat" id=10]
+bg_color = Color( 1, 1, 1, 1 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="DynamicFont" id=12]
+size = 30
+use_filter = true
+font_data = ExtResource( 12 )
+
+[sub_resource type="DynamicFont" id=13]
+size = 30
+use_filter = true
+font_data = ExtResource( 12 )
+
 [node name="Fond" type="Node2D"]
 script = ExtResource( 7 )
 __meta__ = {
@@ -90,10 +122,10 @@ color = Color( 0, 0.345098, 0.996078, 1 )
 
 [node name="PanelObjectif" type="ColorRect" parent="PanelFond"]
 unique_name_in_owner = true
-margin_left = 50.0
+margin_left = 47.0
 margin_top = 185.0
 margin_right = 672.0
-margin_bottom = 297.0
+margin_bottom = 294.0
 rect_pivot_offset = Vector2( 172, 41 )
 mouse_filter = 1
 
@@ -103,10 +135,10 @@ position = Vector2( 30, 55 )
 
 [node name="PanelRegles" type="ColorRect" parent="PanelFond"]
 unique_name_in_owner = true
-margin_left = 688.0
-margin_top = -81.0
-margin_right = 908.0
-margin_bottom = 410.0
+margin_left = 675.0
+margin_top = -73.0
+margin_right = 895.0
+margin_bottom = 418.0
 mouse_filter = 1
 
 [node name="ReglePoint" type="Position2D" parent="PanelFond/PanelRegles"]
@@ -142,9 +174,9 @@ scale = Vector2( 1, 1 )
 
 [node name="PanelBase" type="ColorRect" parent="PanelFond"]
 unique_name_in_owner = true
-margin_left = 50.0
+margin_left = 47.0
 margin_top = 33.0
-margin_right = 675.0
+margin_right = 672.0
 margin_bottom = 142.0
 rect_pivot_offset = Vector2( 172, 41 )
 mouse_filter = 1
@@ -214,6 +246,60 @@ custom_styles/normal = SubResource( 8 )
 icon = ExtResource( 6 )
 icon_align = 1
 
+[node name="LoadMenu" parent="." instance=ExtResource( 13 )]
+margin_left = 223.104
+margin_top = 162.0
+margin_right = 232.064
+margin_bottom = 162.0
+
+[node name="PopupDialog" type="PopupDialog" parent="."]
+margin_left = 228.0
+margin_top = 162.0
+margin_right = 708.0
+margin_bottom = 382.0
+custom_styles/panel = SubResource( 9 )
+popup_exclusive = true
+
+[node name="TextEdit" type="TextEdit" parent="PopupDialog"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -154.5
+margin_top = 77.0
+margin_right = 154.5
+margin_bottom = 129.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_readonly = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 11 )
+custom_styles/normal = SubResource( 10 )
+
+[node name="Label" type="Label" parent="PopupDialog"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -161.5
+margin_top = 38.0
+margin_right = 161.5
+margin_bottom = 77.0
+custom_fonts/font = SubResource( 12 )
+text = "Nommez votre niveau:"
+
+[node name="Confirm" type="ToolButton" parent="PopupDialog"]
+margin_left = 249.0
+margin_top = 143.0
+margin_right = 406.0
+margin_bottom = 216.0
+custom_colors/font_color = Color( 0.00784314, 1, 0, 1 )
+custom_fonts/font = SubResource( 13 )
+text = "Confirmer"
+
+[node name="Undo" type="ToolButton" parent="PopupDialog"]
+margin_left = 88.0
+margin_top = 143.0
+margin_right = 219.0
+margin_bottom = 216.0
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+custom_fonts/font = SubResource( 13 )
+text = "Annuler"
+
 [connection signal="base_activer" from="." to="." method="_on_Fond_base_activer"]
 [connection signal="gui_input" from="PanelFond/PanelObjectif" to="." method="_on_PanelObjectif_gui_input"]
 [connection signal="click_domino_bleu" from="PanelFond/PanelPalette/DominoPaletteBleu" to="." method="_on_DominoPaletteBleu_click_domino_bleu"]
@@ -228,3 +314,6 @@ icon_align = 1
 [connection signal="pressed" from="BCharger" to="." method="_on_BCharger_pressed"]
 [connection signal="pressed" from="BJouer" to="." method="_on_BJouer_pressed"]
 [connection signal="pressed" from="Menu" to="." method="_on_Menu_pressed"]
+[connection signal="niveau_selectionne" from="LoadMenu" to="." method="_on_LoadMenu_niveau_selectionne"]
+[connection signal="pressed" from="PopupDialog/Confirm" to="." method="_on_Confirm_pressed"]
+[connection signal="pressed" from="PopupDialog/Undo" to="." method="_on_Undo_pressed"]

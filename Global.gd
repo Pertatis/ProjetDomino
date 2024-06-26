@@ -1,5 +1,8 @@
 extends Node
 
+const SAVE_DIR = "user://saves/"
+const SAVE_EXTENSION = ".save"
+
 var domino_blue:PackedScene = preload("res://Scenes/Domino/DominoPalette/DominoPaletteBleu.tscn")
 var domino_red:PackedScene = preload("res://Scenes/Domino/DominoPalette/DominoPaletteRouge.tscn")
 var domino_green:PackedScene = preload("res://Scenes/Domino/DominoPalette/DominoPaletteVert.tscn")
@@ -15,9 +18,56 @@ var current_level:Dictionary
 var level1:Dictionary
 var level2:Dictionary
 
+var save_nbr: int = 0
+# Liste pour stocker les noms de fichiers
+var save_files = []
+
 func _ready():
+	
+	count_saves()
+	list_saves()
 	make_level1()
 	make_level2()
+
+func list_saves():
+	save_files = []
+	
+	var dir = Directory.new()
+	
+	if dir.open(SAVE_DIR) == OK:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		
+		while file_name != "":
+			if dir.current_is_dir() == false and file_name.ends_with(SAVE_EXTENSION):
+				save_files.append(file_name.rsplit(".save")[0])
+
+			file_name = dir.get_next()
+		dir.list_dir_end()
+	else:
+		print("Failed to open save directory")
+	
+	# Afficher les fichiers de sauvegarde
+#	for save_file in save_files:
+#		print(save_file)
+
+func load_game(file_name):
+	var file_path = SAVE_DIR + file_name + SAVE_EXTENSION
+	var file = File.new()
+	var err = file.open(file_path, File.READ)
+	if err == OK:
+		var save_data = file.get_var()
+		file.close()
+		print("Level loaded from slot", save_data)
+		# Tu peux ajouter du code ici pour utiliser les données de sauvegarde
+		return save_data
+	else:
+		print("Failed to load level:", err)
+		print("File path:", file_path)
+		
+		for level in levels_created:
+			if level["Name"] == file_name:
+				return level
 
 func get_color(filename):
 	if "Bleu" in filename:
@@ -117,6 +167,9 @@ func make_level1():
 	level1["Base"]=one.duplicate()
 	level1["Obj"]=two.duplicate()
 	level1["Reg"]=regles.duplicate()
+	level1["Name"] = "Level 1"
+	
+	levels_created.append(level1.duplicate()) 
 	
 	return level1
 	
@@ -153,6 +206,8 @@ func make_level2():
 	level2["Base"]=one.duplicate()
 	level2["Obj"]=two.duplicate()
 	level2["Reg"]=regles.duplicate()
+	level2["Name"] = "Level 2"
+	levels_created.append(level2.duplicate())
 	
 	return level2
 	
@@ -162,3 +217,17 @@ func remove_whitespace(arr):
 		if item.strip_edges() != "":
 			new_arr.append(item)
 	return new_arr
+
+
+func count_saves():
+	var dir = Directory.new()
+	if dir.open(SAVE_DIR) == OK:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if file_name.ends_with(SAVE_EXTENSION):
+				save_nbr += 1
+			file_name = dir.get_next()
+		dir.list_dir_end()
+	else:
+		print("Failed to open save directory")

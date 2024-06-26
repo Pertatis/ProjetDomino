@@ -2,14 +2,13 @@ extends Control
 
 
 func _ready():
-	pass
+	Global.current_level = {}
 
 
 
 func _on_Resolution_pressed():
-	var error = get_tree().change_scene("res://Scenes/Resolution.tscn")
-	if error != OK :
-			print("Failed to change scene", error)
+	
+	$LoadMenu.popup_centered()
 
 
 func _on_Edition_pressed():
@@ -20,3 +19,14 @@ func _on_Edition_pressed():
 
 func _on_Quitter_pressed():
 	get_tree().quit()
+
+
+func _on_LoadMenu_niveau_selectionne(nom):
+	Global.current_level = Global.load_game(nom)
+	
+	$LoadMenu.hide()
+	
+	var error = get_tree().change_scene("res://Scenes/Resolution.tscn")
+	print(OS.get_user_data_dir())
+	if error != OK :
+			print("Failed to change scene", error)

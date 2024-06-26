@@ -18,6 +18,10 @@ const max_nb_regles = 8
 const max_nb_domino_par_cote_regle = 4
 const distance_domino = 47
 
+const MAX_SAVES = 10
+const SAVE_DIR = "user://saves/"
+const SAVE_EXTENSION = ".save"
+
 # --------- Variables ---------
 var regle_select:int = -1
 var base:bool = false
@@ -27,14 +31,16 @@ var test
 var base_dominos:Array
 var objectif_dominos:Array
 
+
 # --------- Select base ---------
 func _ready():
+	$LoadMenu.hide()
 	base = true
 	$"%PanelBase".color = Color.gainsboro
 	if not Global.current_level.empty():
 		# TEMPORAIRE NE DOIT PAS FAIRE CA
 		test = Global.current_level
-		_on_BCharger_pressed()
+		remplir_niveau()
 
 # --------- Signal handlers palette ---------
 func _on_DominoPaletteBleu_click_domino_bleu():
@@ -192,69 +198,15 @@ func _on_BJouer_pressed():
 # --------- Signal handler save level ---------
 # sauvegarde dans save, test, et rajoute au niveaux créés
 func _on_BSauvegarder_pressed():
-	test = {}
-	var temp:Array
-	var regles:Array = []
-	var save = {}
-	save["Base"] = base_dominos.duplicate()
-	save["Obj"] = objectif_dominos.duplicate()
-	for child in $"%PanelRegles".get_children():
-		if not (child is Position2D):
-			temp = []
-			temp.append(child.cote_gauche)
-			temp.append(child.cote_droit)
-			regles.append(temp)
-	save["Reg"] = regles.duplicate()
-	test = save.duplicate()
-	Global.levels_created.append(save)
+	$PopupDialog/TextEdit.text = ''
+	$PopupDialog.popup_centered()
 
 # charge un niveau depuis la variable test actuellement, doit charger depuis une save ou une 
 func _on_BCharger_pressed():
-	if test != null:
-		var instance
-		supprimer_tout()
-		#Ajoute la base
-		for domino in test["Base"]:
-			instance = Global.get_domino(self,domino)
-			instance.position = $"%BasePoint".position + (Vector2.RIGHT * distance_domino * ($"%PanelBase".get_child_count() - 1))
-			$"%PanelBase".add_child(instance)
-			base_dominos.append(Global.get_color(instance.filename))
-
-		#Ajoute l'objectif
-		for domino in test["Obj"]:
-			instance = Global.get_domino(self,domino)
-			instance.position = $"%ObjectifPoint".position + (Vector2.RIGHT * distance_domino * ($"%PanelObjectif".get_child_count() - 1))
-			$"%PanelObjectif".add_child(instance)
-			objectif_dominos.append(Global.get_color(instance.filename))
-		
-		#Ajoute les regles
-		
-		# Chaque regle
-		for regle in test["Reg"]:
-			#Instancie la scène de la regle (signaux + position)
-			var instance_regle = regle_inst.instance()
-			instance_regle.position = $"%ReglePoint".position + (Vector2.DOWN * 60 * ($"%PanelRegles".get_child_count() - 1))
-			instance_regle.connect("regle_activer",self,"regle_activer_handle")
-			instance_regle.connect("regle_supprimer",self,"regle_supprimer_handle")
-			instance_regle.connect("regle_supp_domino",self,"regle_supp_domino_handle")
-			#recupère les enfants de la scene pour avoir coté droit et gauche
-			var sous_regle = instance_regle.get_children()[0].get_children()
-			#cote gauche
-			for domino in regle[0]:
-				instance = Global.get_domino(self,domino)
-				instance.position = sous_regle[1].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[1].get_child_count() - 2))
-				instance.scale = Vector2(0.15,0.15)
-				sous_regle[1].add_child(instance)
-				instance_regle.cote_gauche.append(Global.get_color(instance.filename))
-			#cote droit
-			for domino in regle[1]:
-				instance = Global.get_domino(self,domino)
-				instance.position = sous_regle[3].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[3].get_child_count() - 2))
-				instance.scale = Vector2(0.15,0.15)
-				sous_regle[3].add_child(instance)
-				instance_regle.cote_droit.append(Global.get_color(instance.filename))
-
-			$"%PanelRegles".add_child(instance_regle)
+	
+	$LoadMenu.popup_centered()
+	
+	
 # --------- Signal handler delete domino ---------
 func supp_domino_handle(id, parent):
 	var child_to_remove = parent.get_child(id)
@@ -382,3 +334,118 @@ func _on_Menu_pressed():
 	var error = get_tree().change_scene("res://Scenes/Menus/MainMenu.tscn")
 	if error != OK :
 			print("Failed to change scene", error)
+
+func save_game(save):
+	# Ensure the save directory exists
+	var dir = Directory.new()
+	if not dir.dir_exists(SAVE_DIR):
+		var err = dir.make_dir_recursive(SAVE_DIR)
+		if err != OK:
+			print("Failed to create save directory:", err)
+			return
+
+	if Global.save_nbr <= MAX_SAVES:
+		var file_path = SAVE_DIR + save["Name"] + SAVE_EXTENSION
+		var file = File.new()
+		var err = file.open(file_path, File.WRITE)
+		if err == OK:
+			file.store_var(save)
+			file.close()
+			print("Level saved to slot", save)
+		else:
+			print("Failed to save level:", err)
+			print("File path:", file_path)
+	else:
+		print("Maximum number of saves reached")
+
+
+
+func _on_Confirm_pressed():
+	
+	$PopupDialog.hide()
+	
+	test = {}
+	var temp:Array
+	var regles:Array = []
+	var save = {}
+	if base_dominos.empty() and objectif_dominos.empty():
+		return
+	save["Name"] = $PopupDialog/TextEdit.text 
+	save["Base"] = base_dominos.duplicate()
+	save["Obj"] = objectif_dominos.duplicate()
+	for child in $"%PanelRegles".get_children():
+		if not (child is Position2D):
+			temp = []
+			temp.append(child.cote_gauche)
+			temp.append(child.cote_droit)
+			regles.append(temp)
+	
+	save["Reg"] = regles.duplicate()
+	test = save.duplicate()
+	
+	save_game(save)
+	
+	print(save)
+	
+#	Global.levels_created.append(save)
+	Global.list_saves()
+	$LoadMenu.draw_levels()
+
+func _on_Undo_pressed():
+	$PopupDialog.hide()
+
+
+func _on_LoadMenu_niveau_selectionne(nom):
+	$LoadMenu.draw_levels()
+	test = Global.load_game(nom)
+	
+	if test != null:
+		remplir_niveau()
+		$LoadMenu.hide()
+func remplir_niveau():
+		var instance
+		supprimer_tout()
+		#Ajoute la base
+		for domino in test["Base"]:
+			instance = Global.get_domino(self,domino)
+			instance.position = $"%BasePoint".position + (Vector2.RIGHT * distance_domino * ($"%PanelBase".get_child_count() - 1))
+			$"%PanelBase".add_child(instance)
+			base_dominos.append(Global.get_color(instance.filename))
+
+		#Ajoute l'objectif
+		for domino in test["Obj"]:
+			instance = Global.get_domino(self,domino)
+			instance.position = $"%ObjectifPoint".position + (Vector2.RIGHT * distance_domino * ($"%PanelObjectif".get_child_count() - 1))
+			$"%PanelObjectif".add_child(instance)
+			objectif_dominos.append(Global.get_color(instance.filename))
+		
+		#Ajoute les regles
+		
+		# Chaque regle
+		for regle in test["Reg"]:
+			#Instancie la scène de la regle (signaux + position)
+			var instance_regle = regle_inst.instance()
+			instance_regle.position = $"%ReglePoint".position + (Vector2.DOWN * 60 * ($"%PanelRegles".get_child_count() - 1))
+			instance_regle.connect("regle_activer",self,"regle_activer_handle")
+			instance_regle.connect("regle_supprimer",self,"regle_supprimer_handle")
+			instance_regle.connect("regle_supp_domino",self,"regle_supp_domino_handle")
+			#recupère les enfants de la scene pour avoir coté droit et gauche
+			var sous_regle = instance_regle.get_children()[0].get_children()
+			#cote gauche
+			for domino in regle[0]:
+				if instance != null:
+					instance = Global.get_domino(self,domino)
+					instance.position = sous_regle[1].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[1].get_child_count() - 2))
+					instance.scale = Vector2(0.15,0.15)
+					sous_regle[1].add_child(instance)
+					instance_regle.cote_gauche.append(Global.get_color(instance.filename))
+			#cote droit
+			for domino in regle[1]:
+				instance = Global.get_domino(self,domino)
+				if instance != null:
+					instance.position = sous_regle[3].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[3].get_child_count() - 2))
+					instance.scale = Vector2(0.15,0.15)
+					sous_regle[3].add_child(instance)
+					instance_regle.cote_droit.append(Global.get_color(instance.filename))
+
+			$"%PanelRegles".add_child(instance_regle)

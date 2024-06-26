@@ -21,7 +21,7 @@ var selected_dominos:Array
 var selected_dominos_type:Array
 
 func _ready():
-	test = Global.level2
+	test = Global.current_level
 	creer_niveau()
 
 func creer_niveau():

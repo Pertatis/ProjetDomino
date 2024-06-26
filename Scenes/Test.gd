@@ -22,18 +22,16 @@ var selected_dominos_type:Array
 
 func _ready():
 	test = Global.current_level
-	print(Global.current_level)
 	creer_niveau()
 
 func creer_niveau():
+	print(test)
 	base = test["Base"].duplicate()
 	objectif = test["Obj"].duplicate()
 	regles = test["Reg"].duplicate()
 	var instance
 	supprimer_tout()
 	historique.clear()
-	selected_dominos.clear()
-	selected_dominos_type.clear()
 	compteur_historique = 0
 	#Ajoute la base
 	for domino in test["Base"]:
@@ -166,7 +164,7 @@ func click_on_regle(id):
 	var before_removing_base = base.duplicate()
 	if regle.selected:
 		if (regle_actuelle[0] != [''] or regle_actuelle[1] != ['']) and \
-		 (selected_dominos_type == regle_actuelle[0] or selected_dominos_type == regle_actuelle[1]) :
+		 (selected_dominos_type == regle_actuelle[0] or selected_dominos_type == regle_actuelle[1]):
 			
 			#Verifie si le nombre de dominos maximum n'est pas dépassé
 			if not si_nombre_domino_max(regle_actuelle):
@@ -338,6 +336,7 @@ func ligne_historique_handle(index):
 		$"%HistoriqueFond".add_child(instance_hist)
 		
 		$"%HistoriqueFond".rect_min_size += Vector2(0, 60)
+	
 	compteur_historique -= 1
 	print(historique)
 		
@@ -350,7 +349,6 @@ func ajouter_rond_historique(array,inst_historique):
 		instance_rond.position = position2d.position + (Vector2.RIGHT * 35 * (position2d.get_parent().get_child_count() - 1))
 #		print(instance_rond.position)
 		position2d.get_parent().add_child(instance_rond)
-
 
 func _on_Editer_pressed():
 	var error = get_tree().change_scene("res://Scenes/Edition.tscn")
