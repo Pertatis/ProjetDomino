@@ -23,12 +23,7 @@ func get_rect(where):
 	var sprite = get_children()[1]
 	var size = Vector2()
 	if sprite.texture:
-		size = sprite.texture.get_size() * sprite.scale
+		size = sprite.texture.get_size() * sprite.scale * 0.8 + Vector2(-12, 10)
 		if where != null:
 			size = size * 0.18
-		# -------- TO FIX AND APPLY FOR ALL DOMINOS: Find the correct vector size --------
-#		print("original size : ", sprite.texture.get_size())
-#		print("height : ", sprite.texture.get_height())
-#		print("width : ", sprite.texture.get_width())
-#		print("size after scale : ", size)
-		return Rect2(global_position - size / 2, size)
+		return Rect2(global_position - Vector2(2,2)- (size/1.25) / 2 , size / 1.18)

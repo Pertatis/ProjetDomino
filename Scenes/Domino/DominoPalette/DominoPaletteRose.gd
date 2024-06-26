@@ -19,10 +19,10 @@ func input(event):
 	_on_DominoPaletteRose_input_event(null,event,null)
 
 func get_rect(where):
-	var sprite = get_children()[1]  # Adjust the path to your Sprite node
+	var sprite = get_children()[1]
 	var size = Vector2()
 	if sprite.texture:
-		size = sprite.texture.get_size() * sprite.scale
+		size = sprite.texture.get_size() * sprite.scale * 0.8 + Vector2(-12, 10)
 		if where != null:
 			size = size * 0.18
-	return Rect2(global_position - size / 2, size)
+		return Rect2(global_position - Vector2(2,2)- (size/1.25) / 2 , size / 1.18)

@@ -279,9 +279,14 @@ func supp_domino_handle(id, parent):
 		adjust_distance = distance_domino
 
 	if list_to_pop:
-		list_to_pop.pop_at(id - 2 if parent_name in ['Gauche', 'Droite'] else id - 1)
-		for i in range(id, parent.get_child_count()):
-			parent.get_child(i).position.x -= adjust_distance
+		list_to_pop.pop_at(id - 2 if parent_name in ['Gauche', 'Droite']  else id - 1)
+		if parent_name == 'Gauche':
+			for i in range(0, id):
+				if not (parent.get_child(i) is Position2D):
+					parent.get_child(i).position.x += adjust_distance
+		else:
+			for i in range(id, parent.get_child_count()):
+				parent.get_child(i).position.x -= adjust_distance
 
 func regle_supp_domino_handle(index):
 	_propagate_event_regle($"%PanelRegles".get_child(index))
@@ -328,10 +333,21 @@ func ajouter_a_regle(instance):
 			regle.cote_droit.append(Global.get_color(instance.filename))
 	elif regle.gauche:
 		if sous_regle[1].get_child_count() - 2 < max_nb_domino_par_cote_regle :
-			instance.position = sous_regle[1].get_children()[1].position + (Vector2.RIGHT * 10 * (sous_regle[1].get_child_count() - 2))
-			instance.scale = Vector2(0.15,0.15)
-			sous_regle[1].add_child(instance)
-			regle.cote_gauche.append(Global.get_color(instance.filename))
+			if sous_regle[1].get_child_count() == 2:
+				instance.position = sous_regle[1].get_children()[1].position + (Vector2.LEFT * 10 * (sous_regle[1].get_child_count() - 2))
+				instance.scale = Vector2(0.15,0.15)
+				sous_regle[1].add_child(instance)
+				regle.cote_gauche.append(Global.get_color(instance.filename))
+			else :
+				# décaler tous les dominos vers la gauche
+				for child in sous_regle[1].get_children():
+					if not (child is Position2D):
+						child.position += Vector2.LEFT * 10
+				# ajouter l'instance
+				instance.position = sous_regle[1].get_children()[1].position
+				instance.scale = Vector2(0.15, 0.15)
+				sous_regle[1].add_child(instance)
+				regle.cote_gauche.append(Global.get_color(instance.filename))
 
 func _propagate_event(event,node):
 	var mouse_pos = get_local_mouse_position()

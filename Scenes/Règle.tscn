@@ -50,7 +50,7 @@ position = Vector2( 36.5, 10 )
 shape = SubResource( 2 )
 
 [node name="GauchePoint" type="Position2D" parent="ColorRect/Gauche"]
-position = Vector2( 6.5, 10 )
+position = Vector2( 66, 10 )
 
 [node name="Flèche" type="Sprite" parent="ColorRect"]
 position = Vector2( 166, 30 )
