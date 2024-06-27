@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
+[ext_resource path="res://cross-svgrepo-com.svg" type="Texture" id=1]
 [ext_resource path="res://Scenes/LoadMenu.gd" type="Script" id=2]
 
 [sub_resource type="StyleBoxFlat" id=4]
@@ -11,10 +12,13 @@ corner_radius_bottom_left = 5
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.0901961, 0.466667, 1, 1 )
+border_color = Color( 0.0392157, 0.0235294, 0.215686, 1 )
 corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
+shadow_color = Color( 0.0313726, 0.027451, 0.207843, 0.6 )
+shadow_size = 5
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.0901961, 0.466667, 1, 1 )
@@ -23,19 +27,26 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[sub_resource type="StyleBoxFlat" id=3]
-bg_color = Color( 0.956863, 0.333333, 0.333333, 1 )
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.00784314, 0.0470588, 0.215686, 1 )
 corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.956863, 0.333333, 0.333333, 1 )
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
 [node name="LoadMenu" type="PopupDialog"]
 anchor_left = 0.009
-anchor_right = 0.469
+anchor_right = 0.437
 anchor_bottom = 0.367
 margin_left = -9.216
-margin_right = -0.256012
+margin_right = -0.0160217
 margin_bottom = -0.200012
 rect_min_size = Vector2( 480, 220 )
 custom_styles/panel = SubResource( 4 )
@@ -61,16 +72,27 @@ color = Color( 0.0901961, 0.466667, 1, 1 )
 
 [node name="Position2D" type="Position2D" parent="Panel/ScrollContainer/ColorRect"]
 unique_name_in_owner = true
-position = Vector2( 20, 40 )
+position = Vector2( 20, 41 )
 
-[node name="TextureButton" type="Button" parent="Panel"]
-margin_left = 6.0
+[node name="Panel" type="Panel" parent="Panel"]
+margin_left = 429.316
+margin_right = 469.316
+margin_bottom = 40.0
+custom_styles/panel = SubResource( 5 )
+
+[node name="TextureButton" type="Button" parent="Panel/Panel"]
+margin_left = 5.0
 margin_top = 5.0
-margin_right = 56.0
-margin_bottom = 25.0
-rect_min_size = Vector2( 60, 25 )
+margin_right = 35.0
+margin_bottom = 35.0
+rect_min_size = Vector2( 25, 25 )
 custom_styles/hover = SubResource( 3 )
 custom_styles/pressed = SubResource( 3 )
 custom_styles/normal = SubResource( 3 )
 
-[connection signal="pressed" from="Panel/TextureButton" to="." method="_on_TextureButton_pressed"]
+[node name="Sprite" type="Sprite" parent="Panel/Panel"]
+position = Vector2( 20, 20 )
+scale = Vector2( 0.414063, 0.414063 )
+texture = ExtResource( 1 )
+
+[connection signal="pressed" from="Panel/Panel/TextureButton" to="." method="_on_TextureButton_pressed"]

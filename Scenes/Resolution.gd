@@ -324,7 +324,9 @@ func ligne_historique_handle(index):
 	print('------------------')
 	
 	#redessiner tout l'historique
-	for element in historique:
+	var dummy_historique = historique.duplicate()
+	dummy_historique.invert()
+	for element in dummy_historique:
 		print(element)
 		var instance_hist = historique_inst.instance()
 	

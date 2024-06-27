@@ -20,6 +20,7 @@ func draw_levels():
 		made_levels.append(level["Name"])
 	var all_levels = made_levels + Global.save_files
 	print(all_levels)
+	
 	for level in all_levels:
 		var inst = niveau_instance.instance()
 		inst.connect("niveau_click",self,"niveau_click_handle")
@@ -41,9 +42,6 @@ func _on_TextureButton_pressed():
 	
 func niveau_click_handle(nom):
 	emit_signal("niveau_selectionne",nom)
-	
-	
-	
 	
 
 func niveau_supp_handle(nom):
