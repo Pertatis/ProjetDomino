@@ -161,7 +161,7 @@ func make_level1():
 	regles.append(temp)
 	temp = []
 	temp.append(Array(['Y','Y']))
-	temp.append(Array(['Y']))
+	temp.append(Array(['']))
 	
 	regles.append(temp)
 	level1["Base"]=one.duplicate()

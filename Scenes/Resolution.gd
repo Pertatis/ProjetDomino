@@ -72,7 +72,6 @@ func creer_niveau():
 		
 		# dont ask me how this works
 		var awkward = sous_regle[1].get_child_count() - 3
-		print(awkward)
 		for child in sous_regle[1].get_children():
 			if (not (child is Position2D)) and (not (child is Area2D)):
 				child.position += Vector2.LEFT * 10 * awkward

@@ -169,7 +169,7 @@ func _on_Fond_base_activer(index_regle):
 			continue
 		if child.name.find("Regle") >= 0:
 			remove_focus_regle(child)
-
+			
 # --------- Signal handler play level ---------
 # met tous les dominos dans current_level et change de scene
 func _on_BJouer_pressed():
@@ -183,8 +183,16 @@ func _on_BJouer_pressed():
 			(child.cote_droit.size() <= 1 and child.cote_gauche.size() == 0):
 				continue
 			temp = []
+			if child.cote_gauche.empty():
+				child.cote_gauche = ['']
+			
 			temp.append(child.cote_gauche)
+
+			if child.cote_droit.empty():
+				child.cote_droit = ['']
+			
 			temp.append(child.cote_droit)
+
 			regles.append(temp)
 	if regles:
 		Global.current_level["Reg"] = regles.duplicate()
@@ -386,11 +394,21 @@ func _on_Confirm_pressed():
 	save["Name"] = $PopupDialog/TextEdit.text 
 	save["Base"] = base_dominos.duplicate()
 	save["Obj"] = objectif_dominos.duplicate()
+	
 	for child in $"%PanelRegles".get_children():
 		if not (child is Position2D):
 			temp = []
+			
+			if child.cote_gauche.empty():
+				child.cote_gauche = ['']
+			
 			temp.append(child.cote_gauche)
+
+			if child.cote_droit.empty():
+				child.cote_droit = ['']
+			
 			temp.append(child.cote_droit)
+
 			regles.append(temp)
 	
 	save["Reg"] = regles.duplicate()
@@ -452,6 +470,12 @@ func remplir_niveau():
 					instance.scale = Vector2(0.15,0.15)
 					sous_regle[1].add_child(instance)
 					instance_regle.cote_gauche.append(Global.get_color(instance.filename))
+			
+			var awkward = sous_regle[1].get_child_count() - 3
+			for child in sous_regle[1].get_children():
+				if (not (child is Position2D)) and (not (child is Area2D)):
+					child.position += Vector2.LEFT * 10 * awkward
+			
 			#cote droit
 			for domino in regle[1]:
 				instance = Global.get_domino(self,domino)
